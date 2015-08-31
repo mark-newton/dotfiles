@@ -81,6 +81,10 @@ case $HN in
     HN="yhd-prod"
     HOSTCOL=$RED
     ;;
+  ip-172-31-6-3)
+    HN="admin-prod"
+    HOSTCOL=$RED
+    ;;
 esac
 
 export "PS1=[$UIDCOL\u$GRAY@$HOSTCOL$HN$NOCOLOR]$GRAY\w"'$(git branch &>/dev/null;\

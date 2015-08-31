@@ -107,6 +107,10 @@ function! LastMod()
 endfun
 autocmd BufWrite *   ks|call LastMod()|'s
 
+"*** php filetypes
+filetype on
+au BufNewFile,BufRead *.ihtml set filetype=php
+
 "*** folding
 let perl_fold=1
 let perl_nofold_packages=1
