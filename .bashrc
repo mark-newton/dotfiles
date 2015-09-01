@@ -25,7 +25,7 @@ YELLOW="\[\033[0;33m\]"
 BLUE="\[\033[0;34m\]"
 PURPLE="\[\033[0;35m\]"
 CYAN="\[\033[0;36m\]"
-WHITE="\[\033[0;37m\]"
+OWHITE="\[\033[0;37m\]"
 LBLACK="\[\033[0;90m\]"
 LRED="\[\033[0;91m\]"
 LGREEN="\[\033[0;92m\]"
@@ -33,14 +33,13 @@ LYELLOW="\[\033[0;93m\]"
 LBLUE="\[\033[0;94m\]"
 LPURPLE="\[\033[0;95m\]"
 LCYAN="\[\033[0;96m\]"
+WHITE="\[\033[0;97m\]"
 
 GRAY="\[\033[0;90m\]"
 GREEN="\[\033[38;5;34m\]"
 ORANGE="\[\033[38;5;208m\]"
 RED="\[\033[38;5;160m\]"
-
 NOCOLOR="\[\033[0m\]"
-ORANGE=$LRED
 
 HN=`echo $HOSTNAME | cut -f1 -d "."`
 if (( $UID == 0 )); then
@@ -56,6 +55,10 @@ case $HN in
   twp-marco)
     HN="local"
     HOSTCOL=$GREEN
+    ;;
+  twp1)
+    HN="twpair"
+    HOSTCOL=$RED
     ;;
   vps13664)
     HN="ch-vps"
