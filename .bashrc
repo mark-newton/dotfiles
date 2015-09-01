@@ -57,29 +57,35 @@ case $HN in
     HN="local"
     HOSTCOL=$GREEN
     ;;
-  vmxshpdb)
-    HN="shopping-devdb"
-    HOSTCOL=$GREEN
-    ;;
-  vmxshpdev)
-    HN="shopping-dev"
-    HOSTCOL=$GREEN
-    ;;
-  vmxshpstaging)
-    HN="shopping-staging"
-    HOSTCOL=$ORANGE
+  vps13664)
+    HN="ch-vps"
+    HOSTCOL=$RED
     ;;
   vmv15928)
-    HN="shopping-prod"
-    HOSTCOL=$RED
+    HN="shp-web24"
+    HOSTCOL=$ORANGE
     ;;
   vmx15702)
     HN="shoply"
     HOSTCOL=$RED
     ;;
-  ip-172-31-0-34)
-    HN="yhd-prod"
+  ip-172-31-6-3)
+    HN="shp-admin"
     HOSTCOL=$RED
+    ;;
+  ip-172-31-4-146)
+    HN="shp-staging"
+    HOSTCOL=$ORANGE
+    ;;
+  ip-172-31-0-34)
+    HN="shp-yhd"
+    HOSTCOL=$RED
+    ;;
+esac
+case $HOSTNAME in
+  staging.shoply.com.au)
+    HN="curata-staging"
+    HOSTCOL=$ORANGE
     ;;
 esac
 

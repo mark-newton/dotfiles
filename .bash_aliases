@@ -10,12 +10,11 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
 alias rm="rm -i"
 alias mv="mv -i"
 alias dux="du -h --max-depth=1"
 alias findx="find . -type f | xargs -e grep $@"
-alias chmod644='find . -type f -not -perm 0644 -print -exec chmod 644 {} \;'
+alias chmod644='find . -type f -not -perm 0644 -not -name '*.sh' -not -name '*.pl' -print -exec chmod 644 {} \;'
 alias chmod755='find . -type d -not -perm -755 -print -exec chmod 755 {} \;'
 alias chownwww='find . -not -user www-data -print -exec chown www-data:www-data {} \;'
 alias ll='ls -alF'
@@ -42,3 +41,5 @@ alias fname="find . -type f -name $1"
 alias fdname="find . -type d -name $1"
 alias fstr="find . -type f | xargs -e grep -lis $0"
 alias md5="echo -n '$0' | md5sum"
+
+alias sudos="sudo -s -E"
