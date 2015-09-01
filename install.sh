@@ -8,7 +8,7 @@ NOCOLOR="\e[0m"
 read -p "Do you need to git pull latest? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  printf '%-40s' "Git pull latest:"
+  printf "Git pull latest:\n"
   git pull origin master
   printf "${GREEN}OK${NOCOLOR}\n"
 fi
@@ -40,7 +40,6 @@ printf "${GREEN}OK${NOCOLOR}\n"
 read -p "Do you need to fix permissions? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  printf '%-40s' "Fixing perms:"
   $BIN_DIR/fixperms.sh -p$HOME -v
   printf "${GREEN}OK${NOCOLOR}\n"
 fi

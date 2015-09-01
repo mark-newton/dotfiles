@@ -1,7 +1,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Fix directory and file permissions
-# @modified 01-Sep-2015
+# @modified 02-Sep-2015
 # ----------------------------------------------------------------------------
 
 PDIR="755"
@@ -75,7 +75,7 @@ while getopts "p:o:vh" OPTION; do
   esac
 done
 
-echo "Running fix permissions for $DIR_PATH"
+echo "Running fix permissions for $DIR_PATH:"
 cd $DIR_PATH
 
 echo Resetting ownership to $OWNER
