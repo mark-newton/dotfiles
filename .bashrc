@@ -81,6 +81,10 @@ case $HN in
     HN="shp-yhd"
     HOSTCOL=$RED
     ;;
+  ip-172-31-6-3)
+    HN="admin-prod"
+    HOSTCOL=$RED
+    ;;
 esac
 case $HOSTNAME in
   staging.shoply.com.au)
