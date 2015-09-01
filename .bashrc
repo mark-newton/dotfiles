@@ -83,6 +83,10 @@ case $HN in
     ;;
 esac
 case $HOSTNAME in
+  srv1.clickheal.com)
+    HN="ch-ads"
+    HOSTCOL=$RED
+    ;;
   staging.shoply.com.au)
     HN="curata-staging"
     HOSTCOL=$ORANGE
