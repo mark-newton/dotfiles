@@ -140,7 +140,8 @@ inoremap <expr><tab> InsertTabWrapper()
 inoremap <expr><s-tab> pumvisible()?"\<c-p>":"\<c-d>"
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+set completeopt=longest,menuone
 
 "*** indent guides
 let g:indent_guides_enable_on_vim_startup = 0

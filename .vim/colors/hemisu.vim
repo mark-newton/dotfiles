@@ -23,6 +23,7 @@ let s:black=           { "gui": "#000000", "cterm": "16"  }
 let s:white=           { "gui": "#FFFFFF", "cterm": "231" }
 let s:almostWhite=     { "gui": "#EEEEEE", "cterm": "255" }
 let s:almostBlack=     { "gui": "#111111", "cterm": "234" }
+let s:lightBlack=      { "gui": "#222222", "cterm": "236" }
 let s:middleDarkGrey=  { "gui": "#777777", "cterm": "241" }
 let s:middleLightGrey= { "gui": "#999999", "cterm": "246" }
 let s:lightGrey=       { "gui": "#BBBBBB", "cterm": "249" }
@@ -103,7 +104,7 @@ endfunction
 if version >= 700
 	call s:h("CursorLine",  { "bg": s:faint })
 	call s:h("MatchParen",  { "fg": s:accent1, "bg": s:faint, "gui": "bold" })
-	call s:h("Pmenu",       { "bg": s:faint })
+	call s:h("Pmenu",       { "bg": s:lightBlack })
 	call s:h("PmenuThumb",  { "bg": s:norm })
 	call s:h("PmenuSBar",   { "bg": s:subtle })
 	call s:h("PmenuSel",    { "bg": s:faintBlue })
