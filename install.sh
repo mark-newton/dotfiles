@@ -35,18 +35,15 @@ rsync \
 printf '%-40s' "Updated dotfiles:"
 printf "${HILITE}OK${NC}\n"
 
+cd
+
 read -p "Do you need to fix permissions? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  $BIN_DIR/fixperms.sh -p~ -v
+  fixperms.sh -v
   printf '%-40s' "Fixed perms:"
   printf "${HILITE}OK${NC}\n"
 fi
-
-cd
-source .bashrc;
-printf '%-40s' "Reran bashrc:"
-printf "${HILITE}OK${NC}\n"
 
 if [[ ! -f "$GITUSER_FILE" ]] ; then
   printf "Creating git config user settings...\n"
