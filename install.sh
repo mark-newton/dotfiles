@@ -1,45 +1,61 @@
 #!/usr/bin/env bash
-DOTFILES="$HOME/.dotfiles"
-BACKUP_DIR="$DOTFILES/backups"
-BIN_DIR="$HOME/bin"
-GREEN="\e[38;5;34m"
-NOCOLOR="\e[0m"
+BACKUP_DIR="backups"
+GITUSER_FILE=".gitconfig.user"
+HILITE="\e[38;5;34m"
+NC="\e[0m"
+
+cd "$(dirname "${BASH_SOURCE}")";
 
 read -p "Do you need to git pull latest? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  printf "Git pull latest:\n"
   git pull origin master
-  printf "${GREEN}OK${NOCOLOR}\n"
+  printf '%-40s' "Git pulled latest:"
+  printf "${HILITE}OK${NC}\n"
 fi
 
-printf '%-40s' "Backup existing dotfiles:"
 [ ! -d "$BACKUP_DIR" ] && mkdir "$BACKUP_DIR"
-cp -p $HOME/.bashrc $BACKUP_DIR/.
-cp -p $HOME/.bash_aliases $BACKUP_DIR/.
-cp -p $HOME/.vimrc $BACKUP_DIR/.
-cp -pR $HOME/.vim $BACKUP_DIR/.
-printf "${GREEN}OK${NOCOLOR}\n"
+cp -p ~/.bashrc $BACKUP_DIR/.
+cp -p ~/.bash_aliases $BACKUP_DIR/.
+cp -p ~/.gitconfig $BACKUP_DIR/.
+cp -p ~/.vimrc $BACKUP_DIR/.
+cp -pR ~/.vim $BACKUP_DIR/.
+printf '%-40s' "Backed up existing dotfiles:"
+printf "${HILITE}OK${NC}\n"
 
-printf '%-40s' "Backup/create bin:"
-if [ -d "$BIN_DIR" ] ; then
-  cp -pR $BIN_DIR $BACKUP_DIR/.
-else
-  mkdir $BIN_DIR
-fi
-printf "${GREEN}OK${NOCOLOR}\n"
-
-printf '%-40s' "Updating dotfiles:"
-cp -p $DOTFILES/.bashrc $HOME/.
-cp -p $DOTFILES/.bash_aliases $HOME/.
-cp -p $DOTFILES/.vimrc $HOME/.
-cp -pR $DOTFILES/.vim $HOME/.
-cp -p $DOTFILES/fixperms.sh $BIN_DIR/.
-printf "${GREEN}OK${NOCOLOR}\n"
+rsync \
+  --exclude ".0" \
+  --exclude ".DS_Store" \
+  --exclude ".git/" \
+  --exclude ".gitignore" \
+  --exclude ".swp" \
+  --exclude "backups" \
+  --exclude "install.sh" \
+  -avh --no-perms . ~;
+printf '%-40s' "Updated dotfiles:"
+printf "${HILITE}OK${NC}\n"
 
 read -p "Do you need to fix permissions? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  $BIN_DIR/fixperms.sh -p$HOME -v
-  printf "${GREEN}OK${NOCOLOR}\n"
+  $BIN_DIR/fixperms.sh -p~ -v
+  printf '%-40s' "Fixed perms:"
+  printf "${HILITE}OK${NC}\n"
 fi
+
+cd
+source .bashrc;
+printf '%-40s' "Reran bashrc:"
+printf "${HILITE}OK${NC}\n"
+
+if [[ ! -f "$GITUSER_FILE" ]] ; then
+  printf "Creating git config user settings...\n"
+  printf "Enter git config author name: "
+  read gitname
+  printf "Enter git config author email: "
+  read gitemail
+  printf "[user]\n  name = $gitname\n  email = $gitemail\n" > "$GITUSER_FILE"
+  printf '%-40s' "Git user config file created:"
+  printf "${HILITE}OK${NC}\n"
+fi
+
