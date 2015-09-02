@@ -20,6 +20,8 @@ highlight DiffDelete cterm=bold ctermfg=234 ctermbg=9
 highlight DiffChange cterm=bold ctermfg=189 ctermbg=60
 highlight DiffText   cterm=bold ctermfg=234 ctermbg=12
 
+"*** general
+filetype indent plugin on
 set encoding=utf-8
 set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
@@ -27,8 +29,7 @@ set term=xterm-256color
 set termencoding=utf-8
 set updatetime=1000
 
-"*** general
-"set cursorline      "higlight current line
+set nocursorline    "don't higlight current line
 set nobackup        "auto backup of file to ~filename
 set nocp            "not vi compatible (recommended)
 set notitle         "show file name in title
@@ -53,9 +54,10 @@ set sta             "smarttab - indent tab uses sw spaces
 set sts=2           "softtabstop - number of space to insert for tab
 set et              "expandtab - expand tab to space in insert mode
 set ai              "autoindent - auto indent of new line
-set si              "smartindent - clever ai
+set nosi            "no smartindent - clever ai
 set cin             "cindent - specific c code indenting
 set pt=<F4>         "pastetoggle - when on disables ai for pasting
+":inoremap # X<BS>#
 
 "*** search options
 set ws              "wrapscan - wrap to top
@@ -108,7 +110,6 @@ endfun
 autocmd BufWrite *   ks|call LastMod()|'s
 
 "*** php filetypes
-filetype on
 au BufNewFile,BufRead *.ihtml set filetype=php
 
 "*** folding

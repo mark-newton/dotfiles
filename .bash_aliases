@@ -42,4 +42,4 @@ alias fdname="find . -type d -name $1"
 alias fstr="find . -type f | xargs -e grep -lis $0"
 alias md5="echo -n '$0' | md5sum"
 
-alias sudos="sudo -s -E"
+alias sudo="sudo -sE"
