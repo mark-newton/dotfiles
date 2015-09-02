@@ -156,7 +156,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#777777 ctermbg=235
 set ls=2            "status line (2=always on)
 set statusline=%<%f%h%m%r%=%b\ 0x%B\ \ %l,%c%V\ %P
 set ttimeoutlen=50
-let g:airline_theme = 'powerlineish'
+let g:airline_theme = 'badwolf'
 let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts=1
 if !exists('g:airline_powerline_fonts')
