@@ -17,24 +17,19 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
   printf "${HILITE}OK${NC}\n"
 fi
 
+BACKUP_DIR=$(pwd)/$BACKUP_DIR
 [ ! -d "$BACKUP_DIR" ] && mkdir "$BACKUP_DIR"
-cp -p ~/.bashrc $BACKUP_DIR/.
-cp -p ~/.bash_aliases $BACKUP_DIR/.
-cp -p ~/.gitconfig $BACKUP_DIR/.
-cp -p ~/.vimrc $BACKUP_DIR/.
-cp -pR ~/.vim $BACKUP_DIR/.
-printf '%-40s' "Backed up existing dotfiles:"
-printf "${HILITE}OK${NC}\n"
 
+printf "Rsyncing dotfiles...\n"
 rsync \
-  --exclude ".0" \
+  --exclude "*.0" \
   --exclude ".DS_Store" \
   --exclude ".git/" \
   --exclude ".gitignore" \
-  --exclude ".swp" \
+  --exclude "*.swp" \
   --exclude "backups" \
   --exclude "install.sh" \
-  -avh . ~;
+  -abh --backup-dir=$BACKUP_DIR --out-format='%n%L' . ~;
 printf '%-40s' "Updated dotfiles:"
 printf "${HILITE}OK${NC}\n"
 
