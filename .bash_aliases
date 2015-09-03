@@ -41,10 +41,11 @@ alias fname="find . -type f -name $1"
 alias fdname="find . -type d -name $1"
 alias fstr="find . -type f | xargs -e grep -lis $0"
 alias md5="echo -n '$0' | md5sum"
+alias sudo="sudo -sE"
 
 alias gl="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(yellow)%d%Creset %Cgreen(%cr)%Creset' --abbrev-commit --date=relative"
 alias gs="git status -sb"
 alias gd="git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 alias ga="git add -A"
 
-alias sudo="sudo -sE"
+alias dotfiles="~/.dotfiles/install.sh && source ~/.bashrc"

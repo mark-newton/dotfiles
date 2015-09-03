@@ -12,6 +12,9 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
   git pull origin master
   printf '%-40s' "Git pulled latest:"
   printf "${HILITE}OK${NC}\n"
+  ./bin/fixperms.sh
+  printf '%-40s' "Fixed permissions:"
+  printf "${HILITE}OK${NC}\n"
 fi
 
 [ ! -d "$BACKUP_DIR" ] && mkdir "$BACKUP_DIR"
@@ -31,19 +34,11 @@ rsync \
   --exclude ".swp" \
   --exclude "backups" \
   --exclude "install.sh" \
-  -avh --no-perms . ~;
+  -avh . ~;
 printf '%-40s' "Updated dotfiles:"
 printf "${HILITE}OK${NC}\n"
 
 cd
-
-read -p "Do you need to fix permissions? " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]] ; then
-  fixperms.sh -v
-  printf '%-40s' "Fixed perms:"
-  printf "${HILITE}OK${NC}\n"
-fi
 
 if [[ ! -f "$GITUSER_FILE" ]] ; then
   printf "Creating git config user settings...\n"
