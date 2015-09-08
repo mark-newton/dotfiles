@@ -53,7 +53,11 @@ case $HN in
     HOSTCOL=$GREEN
     ;;
   twp1)
-    HN="twpair"
+    HN="twp-web24"
+    HOSTCOL=$RED
+    ;;
+  ip-172-31-15-30)
+    HN="twp-aws"
     HOSTCOL=$RED
     ;;
   vmx15500)
