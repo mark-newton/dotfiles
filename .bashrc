@@ -56,6 +56,14 @@ case $HN in
     HN="twpair"
     HOSTCOL=$RED
     ;;
+  vmx15500)
+    HN="businessweb"
+    HOSTCOL=$RED
+    ;;
+  vmx15591)
+    HN="dlhost"
+    HOSTCOL=$RED
+    ;;
   vps13664)
     HN="ch-vps"
     HOSTCOL=$RED
