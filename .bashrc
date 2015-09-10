@@ -60,6 +60,10 @@ case $HN in
     HN="twp-aws"
     HOSTCOL=$RED
     ;;
+  ip-172-31-8-197)
+    HN="buda-ftp"
+    HOSTCOL=$RED
+    ;;
   vmx15500)
     HN="businessweb"
     HOSTCOL=$RED
