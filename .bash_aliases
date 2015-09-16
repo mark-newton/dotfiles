@@ -10,8 +10,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-alias rm="rm -i"
-alias mv="mv -i"
+alias ..="cd .."
+alias ...="cd ../.."
 alias dux="du -h --max-depth=1"
 alias findx="find . -type f | xargs -e grep $@"
 alias chmod644='find . -type f -not -perm 0644 -not -name '*.sh' -not -name '*.pl' -print -exec chmod 644 {} \;'
@@ -24,6 +24,8 @@ alias df="df -h"
 alias vi=vim
 alias findi='find . | grep -i'
 alias calc='bc -l'
+alias findbig="find . -type f -exec ls -s {} \; | sort -n -r | head -5"
+alias hf='history | grep $1'
 grepr() {
   find . -exec grep -Fli $1 {} \;
 }

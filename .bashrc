@@ -12,6 +12,9 @@ fi
 if [ -f $HOME/.bash_aliases ];  then
   . $HOME/.bash_aliases
 fi
+if [ -f $HOME/.bash_aliases.user ];  then
+  . $HOME/.bash_aliases.user
+fi
 
 # PS1 Constants
 BLACK="\[\033[0;30m\]"
@@ -63,6 +66,10 @@ case $HN in
   vmx15591)
     HN="dlhost"
     HOSTCOL=$RED
+    ;;
+  ip-172-31-6-102)
+    HN="mentor"
+    HOSTCOL=$ORANGE
     ;;
   vps13664)
     HN="ch-vps"
