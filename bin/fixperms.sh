@@ -1,7 +1,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Fix directory and file permissions
-# @modified 02-Sep-2015
+# @modified 17-Sep-2015
 # ----------------------------------------------------------------------------
 
 PDIR="755"
@@ -11,6 +11,7 @@ PEXE="755"
 DIR_PATH=$(pwd)
 OWNER=$(whoami)
 [[ "$OWNER" == "root" ]] && OWNER="www-data"
+GROUP=$OWNER
 
 function usage()
 {
@@ -18,18 +19,19 @@ cat <<EOF
 Usage:  $0 [OPTIONS]
 
 This script resets permissions in the nominated directory path:
-- Resets ownership to nominated owner where current owner different
+- Resets ownership to nominated owner.group where current ownership different
 - Resets directory permissions to $PDIR if not $PDIR
 - Resets file permissions to $PFILE if not $PFILE
 - Resets executables to $PEXE (after $PFILE change)
 
 Assumptions:
 - Permissions $PDIR for directories and $PFILE for files
-- Executables hardcoded in list (mage, *.sh, *.pl)
+- Executables hardcoded in list (mage, *.sh, *.pl, *.cgi)
 
 OPTIONS:
   -p  Path (defaults to current directory)
   -o  Owner (defaults to $OWNER)
+  -g  Group (defaults to $GROUP)
   -v  Verbose output
   -h  Show this message
 
@@ -43,13 +45,16 @@ function error()
 }
 
 PRINT=""
-while getopts "p:o:vh" OPTION; do
+while getopts "p:o:g:vh" OPTION; do
   case $OPTION in
     p)
       DIR_PATH=$OPTARG
       ;;
     o)
       OWNER=$OPTARG
+      ;;
+    g)
+      GROUP=$OPTARG
       ;;
     v)
       PRINT="-print"
@@ -78,16 +83,17 @@ done
 echo "Running fix permissions for $DIR_PATH:"
 cd $DIR_PATH
 
-echo Resetting ownership to $OWNER
-find . ! -user $OWNER $PRINT -exec chown $OWNER:$OWNER {} \;
+echo Resetting ownership to $OWNER:$GROUP
+find . ! -user $OWNER ! -name '.' $PRINT -exec chown -h $OWNER {} \;
+find . ! -group $GROUP ! -name '.' $PRINT -exec chgrp -h $GROUP {} \;
 
 echo Resetting directories to $PDIR
 find . -type d ! -perm $PDIR $PRINT -exec chmod $PDIR {} \;
 
 echo Resetting files to $PFILE
-find . -type f ! -name 'mage' ! -name '*.sh' ! -name '*.pl' ! -name 'id_rsa' ! -path '*/var/cache/*' ! -path '*/var/session/*' ! -perm $PFILE $PRINT -exec chmod $PFILE {} \;
+find . -type f ! -name 'mage' ! -name '*.sh' ! -name '*.pl' ! -name '*.cgi' ! -name 'id_rsa' ! -path '*/var/cache/*' ! -path '*/var/session/*' ! -perm $PFILE $PRINT -exec chmod $PFILE {} \;
 
 echo Resetting executables back to $PEXE
-find . -type f \( -name 'mage' -or -name '*.sh' -or -name '*.pl' \) ! -perm $PEXE $PRINT -exec chmod $PEXE {} \;
+find . -type f \( -name 'mage' -or -name '*.sh' -or -name '*.pl' -or -name '*.cgi' \) ! -perm $PEXE $PRINT -exec chmod $PEXE {} \;
 
 exit;
