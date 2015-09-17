@@ -187,3 +187,8 @@ nnoremap <silent> <leader>ge :Gedit<CR>
 nnoremap <silent> <leader>gi :Git add -p %<CR>
 nnoremap <silent> <leader>gg :SignifyToggle<CR>
 
+" vimrc.local
+if filereadable(".vimrc.local")
+  so .vimrc.local
+endif
+
