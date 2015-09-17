@@ -91,9 +91,9 @@ echo Resetting directories to $PDIR
 find . -type d ! -perm $PDIR $PRINT -exec chmod $PDIR {} \;
 
 echo Resetting files to $PFILE
-find . -type f ! -name 'mage' ! -name '*.sh' ! -name '*.pl' ! -name '*.cgi' ! -name 'id_rsa' ! -path '*/var/cache/*' ! -path '*/var/session/*' ! -perm $PFILE $PRINT -exec chmod $PFILE {} \;
+find . -type f ! -name 'mage' ! -name '*.sh' ! -name '*.pl' ! -name '*.cgi' ! -name 'id_rsa' ! -path '*/bin/*' ! -path '*/var/cache/*' ! -path '*/var/session/*' ! -perm $PFILE $PRINT -exec chmod $PFILE {} \;
 
 echo Resetting executables back to $PEXE
-find . -type f \( -name 'mage' -or -name '*.sh' -or -name '*.pl' -or -name '*.cgi' \) ! -perm $PEXE $PRINT -exec chmod $PEXE {} \;
+find . -type f \( -name 'mage' -or -name '*.sh' -or -name '*.pl' -or -name '*.cgi' -or -path '*/bin/*' \) ! -perm $PEXE $PRINT -exec chmod $PEXE {} \;
 
 exit;
