@@ -50,78 +50,9 @@ else
   HOSTCOL=$BLUE
   UIDCSR=">"
 fi
-case $HN in
-  twp-marco)
-    HN="local"
-    HOSTCOL=$GREEN
-    ;;
-  twp1)
-    HN="twp-web24"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-15-30)
-    HN="twp-aws"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-7-22)
-    HN="tasty"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-12-207)
-    HN="buda"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-8-197)
-    HN="buda-ftp"
-    HOSTCOL=$RED
-    ;;
-  vmx15500)
-    HN="businessweb"
-    HOSTCOL=$RED
-    ;;
-  vmx15591)
-    HN="dlhost"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-6-102)
-    HN="mentor"
-    HOSTCOL=$ORANGE
-    ;;
-  vps13664)
-    HN="ch-vps"
-    HOSTCOL=$RED
-    ;;
-  vmv15928)
-    HN="shp-web24"
-    HOSTCOL=$ORANGE
-    ;;
-  vmx15702)
-    HN="shoply"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-6-3)
-    HN="shp-admin"
-    HOSTCOL=$RED
-    ;;
-  ip-172-31-4-146)
-    HN="shp-staging"
-    HOSTCOL=$ORANGE
-    ;;
-  ip-172-31-0-34)
-    HN="shp-yhd"
-    HOSTCOL=$RED
-    ;;
-esac
-case $HOSTNAME in
-  srv1.clickheal.com)
-    HN="ch-ads"
-    HOSTCOL=$RED
-    ;;
-  staging.shoply.com.au)
-    HN="curata-staging"
-    HOSTCOL=$ORANGE
-    ;;
-esac
+if [ -f $HOME/.bash_host ];  then
+  . $HOME/.bash_host
+fi
 
 export "PS1=[$UIDCOL\u$GRAY@$HOSTCOL$HN$NOCOLOR]$GRAY\w"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \

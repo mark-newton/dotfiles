@@ -49,5 +49,7 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(y
 alias gs="git status -sb"
 alias gd="git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 alias ga="git add -A"
+alias gp="git pull origin master"
+alias gc="git commit -m"
 
 alias dotfiles="~/.dotfiles/install.sh && source ~/.bashrc"
