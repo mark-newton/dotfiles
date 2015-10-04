@@ -21,7 +21,6 @@ highlight DiffChange cterm=bold ctermfg=189 ctermbg=60
 highlight DiffText   cterm=bold ctermfg=234 ctermbg=12
 
 "*** general
-filetype indent plugin on
 set encoding=utf-8
 set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
@@ -54,10 +53,9 @@ set sta             "smarttab - indent tab uses sw spaces
 set sts=2           "softtabstop - number of space to insert for tab
 set et              "expandtab - expand tab to space in insert mode
 set ai              "autoindent - auto indent of new line
-set nosi            "no smartindent - clever ai
+set si              "smartindent - clever ai
 set cin             "cindent - specific c code indenting
 set pt=<F4>         "pastetoggle - when on disables ai for pasting
-":inoremap # X<BS>#
 
 "*** search options
 set ws              "wrapscan - wrap to top
@@ -110,6 +108,7 @@ endfun
 autocmd BufWrite *   ks|call LastMod()|'s
 
 "*** php filetypes
+filetype on
 au BufNewFile,BufRead *.ihtml set filetype=php
 
 "*** folding
@@ -141,7 +140,7 @@ inoremap <expr><tab> InsertTabWrapper()
 inoremap <expr><s-tab> pumvisible()?"\<c-p>":"\<c-d>"
 autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
 autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
 set completeopt=longest,menuone
 
 "*** indent guides
