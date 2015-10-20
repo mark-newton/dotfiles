@@ -116,7 +116,7 @@ let perl_fold=1
 let perl_nofold_packages=1
 let php_folding=1
 noremap <space> za
-let g:DisableAutoPHPFolding = 1  "disable PIV folding
+"let g:DisableAutoPHPFolding = 1  "disable PIV folding    **** WHEN UNCOMMENTED THIS MAKES PHP EDITING SLOW ON BIG FILES ****
 
 "*** syntastic (syntax checking)
 let g:syntastic_check_on_open = 1
