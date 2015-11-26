@@ -6,7 +6,11 @@ case "$TERM" in
     bind '"\e[B"':history-search-forward
   ;;
 esac
-if [ -f ~/bin/git-prompt.sh ]; then
+if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
+  . /etc/bash_completion
+elif [ -f /etc/bash_completion.d/git ]; then
+  . /etc/bash_completion.d/git
+elif [ -f ~/bin/git-prompt.sh ]; then
   . ~/bin/git-prompt.sh
 fi
 if [ -f $HOME/.bash_aliases ];  then
