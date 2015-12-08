@@ -9,7 +9,7 @@ if has("gui_running")
   set nu
   set go-=r
 else
-  colorscheme hemisu
+  colorscheme monochrome
   set mouse=n
   set nonu
 endif
