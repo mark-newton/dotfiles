@@ -87,7 +87,7 @@ endfunc
 map <f8> :call ToggleWinLayout()<cr>
 
 "*** commenting
-let b:did_ftplugin = 1
+"let b:did_ftplugin = 1      **** WHEN UNCOMMENTED THIS SEEMS TO INTEFERE WITH PHP CLASS SYNTAX AND WORDWRAP ****
 map ,# :s/^/#/<CR>:nohlsearch<CR>
 map ,/ :s/^/\/\//<CR>:nohlsearch<CR>
 map ," :s/^/\"/<CR>:nohlsearch<CR>
