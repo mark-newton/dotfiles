@@ -53,3 +53,11 @@ alias gp="git pull origin master"
 alias gc="git commit -m"
 
 alias dotfiles="~/.dotfiles/install.sh && source ~/.bashrc"
+
+alias ssh-twp="ssh marco@g1.twistedpair.com.au"
+alias ssh-pi="ssh -p1127 marco@office.twistedpair.com.au"
+alias ssh-mep="ssh marco@enrolments.mentor.edu.au"
+alias ssh-crm="ssh marco@crm.mentor.edu.au"
+alias ssh-ts="ssh -p1127 marco@tasty.com.au"
+alias ssh-vb="ssh -p1127 marco@buda.com.au"
+alias ssh-sb="ssh -p1127 marco@steelbuilders.com.au"
