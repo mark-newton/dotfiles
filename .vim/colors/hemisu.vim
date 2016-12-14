@@ -19,7 +19,7 @@ let g:colors_name="hemisu"
 "}}}
 " The Colors -----------------------------------------------{{{
 " Define reusable colors
-let s:none=           { "gui": "NONE", "cterm": "none"  }
+let s:none=            { "gui": "NONE",    "cterm": "none"}
 let s:black=           { "gui": "#000000", "cterm": "16"  }
 let s:white=           { "gui": "#FFFFFF", "cterm": "231" }
 let s:almostWhite=     { "gui": "#EEEEEE", "cterm": "255" }

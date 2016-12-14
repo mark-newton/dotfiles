@@ -8,8 +8,8 @@ case "$TERM" in
 esac
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
-elif [ -f /etc/bash_completion.d/git ]; then
-  . /etc/bash_completion.d/git
+#elif [ -f /etc/bash_completion.d/git ]; then
+#  . /etc/bash_completion.d/git
 elif [ -f ~/bin/git-prompt.sh ]; then
   . ~/bin/git-prompt.sh
 fi
@@ -58,6 +58,7 @@ if [ -f $HOME/.bash_host ];  then
   . $HOME/.bash_host
 fi
 
+# Set prompt
 export "PS1=[$UIDCOL\u$GRAY@$HOSTCOL$HN$NOCOLOR]$GRAY\w"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
@@ -76,3 +77,8 @@ export LSCOLORS=
 export CLICOLOR=1
 export VISUAL=vim
 export EDITOR=vim
+
+# Set window/tab title (ssh only)
+if [ -t 0 ];then
+  echo -ne "\033]0;"$HN"\007"
+fi
