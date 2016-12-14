@@ -71,12 +71,14 @@ else \
   echo "'$NOCOLOR$UIDCSR' "; \
 fi)'
 
-# Set window/tab title
-echo -ne "\033]0;"$HN"\007"
-
 export PROMPT_DIRTRIM=3
 export LS_COLORS=
 export LSCOLORS=
 export CLICOLOR=1
 export VISUAL=vim
 export EDITOR=vim
+
+# Set window/tab title (ssh only)
+if [ -t 0 ];then
+  echo -ne "\033]0;"$HN"\007"
+fi
