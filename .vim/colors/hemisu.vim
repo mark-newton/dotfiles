@@ -19,6 +19,7 @@ let g:colors_name="hemisu"
 "}}}
 " The Colors -----------------------------------------------{{{
 " Define reusable colors
+let s:none=            { "gui": "none",    "cterm": "none"  }
 let s:black=           { "gui": "#000000", "cterm": "16"  }
 let s:white=           { "gui": "#FFFFFF", "cterm": "231" }
 let s:almostWhite=     { "gui": "#EEEEEE", "cterm": "255" }
@@ -50,12 +51,12 @@ let s:lightTan=        { "gui": "#ECE1C8", "cterm": "230" }
 " Assign to semantic categories based on background color
 if &background=="dark"
 	" Dark theme
-	let s:bg=s:almostBlack
+	let s:bg=s:none
 	let s:norm=s:almostWhite
 	let s:comment=s:middleDarkGrey
 	let s:dimmed=s:middleLightGrey
 	let s:subtle=s:darkGrey
-	let s:faint=s:almostBlack
+	let s:faint=s:none
 	let s:accent1=s:middleLightBlue
 	let s:accent2=s:middleLightGreen
 	let s:accent3=s:lightGreen
