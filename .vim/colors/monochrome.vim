@@ -15,19 +15,23 @@ endif
 
 let g:colors_name = 'monochrome'
 
+let s:fgt = '125'
+let s:fg = '144'
+let s:fgk = '252'
+
 " These commands are generated, see bin/generate.rb.
-hi Normal guifg=LightGray ctermfg=252 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
+hi Normal guifg=LightGray ctermfg=248 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
 hi Cursor guifg=Black ctermfg=16 guibg=LightGray ctermbg=252 gui=NONE cterm=NONE term=NONE
 hi CursorLine guifg=LightGray ctermfg=NONE guibg=#202020 ctermbg=none gui=NONE cterm=NONE term=NONE
 hi CursorLineNr guifg=White ctermfg=15 guibg=Black ctermbg=none gui=bold cterm=bold term=bold
 hi FoldColumn guifg=DarkGray ctermfg=248 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
 hi Folded guifg=LightGray ctermfg=252 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
 hi LineNr guifg=DarkGray ctermfg=248 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
-hi Statement guifg=White ctermfg=15 guibg=Black ctermbg=none gui=bold cterm=bold term=bold
+hi Statement guifg=White ctermfg=252 guibg=Black ctermbg=none gui=bold cterm=bold term=bold
 hi PreProc guifg=White ctermfg=15 guibg=Black ctermbg=none gui=bold cterm=bold term=bold
-hi String guifg=#778899 ctermfg=67 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
+hi String guifg=#778899 ctermfg=159 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
 hi Comment guifg=#737373 ctermfg=243 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
-hi Constant guifg=LightGray ctermfg=252 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
+hi Constant guifg=LightGray ctermfg=248 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
 hi Type guifg=White ctermfg=15 guibg=Black ctermbg=none gui=bold cterm=bold term=bold
 hi Function guifg=White ctermfg=15 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE
 hi Identifier guifg=LightGray ctermfg=252 guibg=Black ctermbg=none gui=NONE cterm=NONE term=NONE

@@ -1,6 +1,7 @@
 
 "*** colorscheme
 syntax on
+set t_Co=256
 set bg=dark
 if has("gui_running")
   colorscheme hemisu
@@ -9,7 +10,7 @@ if has("gui_running")
   set nu
   set go-=r
 else
-  colorscheme hemisu
+  colorscheme monochrome
   set mouse=n
   set nonu
 endif
@@ -22,7 +23,6 @@ highlight DiffText   cterm=bold ctermfg=234 ctermbg=12
 
 "*** general
 set encoding=utf-8
-set t_Co=256
 set fillchars+=stl:\ ,stlnc:\
 set term=xterm-256color
 set termencoding=utf-8
@@ -71,7 +71,7 @@ set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
 "*** windows
 nmap <f2> :below new<cr>
 nmap <f3> :clo<cr>
-"map <f5> :SVNVimDiff<cr>
+"map <f5> :sort<cr>
 map <f7> <C-W>w
 "map <f10> <C-W>+
 let g:hwin=1
@@ -155,7 +155,7 @@ autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#777777 ctermbg=235
 set ls=2            "status line (2=always on)
 set statusline=%<%f%h%m%r%=%b\ 0x%B\ \ %l,%c%V\ %P
 set ttimeoutlen=50
-let g:airline_theme = 'badwolf'
+let g:airline_theme = 'molokai'
 let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts=1
 if !exists('g:airline_powerline_fonts')
