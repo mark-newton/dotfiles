@@ -6,6 +6,7 @@ case "$TERM" in
     bind '"\e[B"':history-search-forward
   ;;
 esac
+
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 #elif [ -f /etc/bash_completion.d/git ]; then
@@ -82,3 +83,6 @@ export EDITOR=vim
 if [ -t 0 ];then
   echo -ne "\033]0;"$HN"\007"
 fi
+
+# tmux
+source ~/bin/tat.sh

@@ -21,7 +21,7 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias df="df -h"
-alias vi=vim
+alias vi=nvim
 alias findi='find . | grep -i'
 alias calc='bc -l'
 alias findbig="find . -type f -exec ls -s {} \; | sort -n -r | head -5"
@@ -54,10 +54,7 @@ alias gc="git commit -m"
 
 alias dotfiles="~/.dotfiles/install.sh && source ~/.bashrc"
 
-alias ssh-twp="ssh marco@g1.twistedpair.com.au"
-alias ssh-pi="ssh -p1127 marco@office.twistedpair.com.au"
-alias ssh-mep="ssh marco@enrolments.mentor.edu.au"
-alias ssh-crm="ssh marco@crm.mentor.edu.au"
-alias ssh-ts="ssh -p1127 marco@tasty.com.au"
-alias ssh-vb="ssh -p1127 marco@buda.com.au"
-alias ssh-sb="ssh -p1127 marco@steelbuilders.com.au"
+alias tn="tmux new -s"
+alias ta="tmux a -t"
+alias tl="tmux ls"
+alias tk="tmux kill-session -t"
