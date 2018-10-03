@@ -35,6 +35,15 @@ map <f8> :call ToggleWinLayout()<cr>
 map <f9> :set list! list? <CR>
 map <f10> :call ToggleNumbers()<cr>
 
+"*** commenting
+map ,# :s/^/#/<CR>:nohlsearch<CR>
+map ,/ :s/^/\/\//<CR>:nohlsearch<CR>
+map ," :s/^/\"/<CR>:nohlsearch<CR>
+map ,- :s/^/--/<CR>:nohlsearch<CR>
+map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
+map <f5> :s/^/\/\//<CR>:nohlsearch<CR>
+map <f6> :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
+
 "*** folding
 let php_folding=1
 set foldnestmax=1
@@ -91,3 +100,6 @@ function! LastMod()
 endfun
 autocmd BufWrite *   ks|call LastMod()|'s
 
+"*** Others
+set autoindent
+set smartindent
