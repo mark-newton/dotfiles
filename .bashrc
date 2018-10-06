@@ -1,7 +1,7 @@
 # .bashrc
 
 case "$TERM" in
-  xterm*|rxvt*)
+  xterm*|rxvt*|screen*)
     bind '"\e[A"':history-search-backward
     bind '"\e[B"':history-search-forward
   ;;
