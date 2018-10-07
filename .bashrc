@@ -83,6 +83,3 @@ export EDITOR=vim
 if [ -t 0 ];then
   echo -ne "\033]0;"$HN"\007"
 fi
-
-# tmux
-source ~/bin/tat.sh

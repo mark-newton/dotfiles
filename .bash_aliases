@@ -51,6 +51,7 @@ alias gd="git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-w
 alias ga="git add -A"
 alias gp="git pull origin master"
 alias gc="git commit -m"
+alias gmd="git merge --no-ff develop"
 
 alias dotfiles="~/.dotfiles/install.sh && source ~/.bashrc"
 
