@@ -26,6 +26,7 @@ func! ToggleNumbers()
     endif
 endfunc
 
+"*** key bindings
 nnoremap <f1> K
 nmap <f2> :below new<cr>
 nmap <f3> :clo<cr>
@@ -34,6 +35,7 @@ map <f7> <C-W>w
 map <f8> :call ToggleWinLayout()<cr>
 map <f9> :set list! list? <CR>
 map <f10> :call ToggleNumbers()<cr>
+map <C-n> :NERDTreeToggle<CR>
 
 "*** commenting
 map ,# :s/^/#/<CR>:nohlsearch<CR>
@@ -70,7 +72,7 @@ let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
 nnoremap <silent> <leader>qa :SyntasticCheck<CR>
 
-"*** omni auto-complete
+"*** omni auto-complete with tab
 function! InsertTabWrapper()
   if pumvisible()
     return "\<c-n>"
@@ -101,5 +103,11 @@ endfun
 autocmd BufWrite *   ks|call LastMod()|'s
 
 "*** Others
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set softtabstop=4
+set expandtab
 set autoindent
 set smartindent
+set cin
