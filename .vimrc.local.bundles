@@ -1,0 +1,8 @@
+" PHP Plugins
+Plug 'StanAngeloff/php.vim'
+Plug 'shawncplus/phpcomplete.vim'
+Plug 'ervandew/supertab'
+
+autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
+set completeopt=longest,menuone
+let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
