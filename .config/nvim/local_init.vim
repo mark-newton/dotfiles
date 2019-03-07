@@ -1,8 +1,24 @@
 set termguicolors
 set background=dark
 let ayucolor="mirage"
-colorscheme ayu
+"colorscheme ayu
+colorscheme monochrome
 
+"*** Settings
+set list
+set listchars=tab:▷⋅,trail:⋅,nbsp:⋅
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set autoindent
+set smartindent
+set cin
+set backupdir=~/Backups/vim
+let g:indentLine_enabled = 0
+
+
+"*** function to toggle windows layout between horiz & vert
 let g:hwin=1
 func! ToggleWinLayout()
     if (g:hwin)
@@ -14,6 +30,7 @@ func! ToggleWinLayout()
     endif
 endfunc
 
+"*** function to toggle line numbers
 let g:dnum=0
 set nonumber
 func! ToggleNumbers()
@@ -33,7 +50,8 @@ nmap <f3> :clo<cr>
 set pt=<F4>
 map <f7> <C-W>w
 map <f8> :call ToggleWinLayout()<cr>
-map <f9> :set list! list? <CR>
+"map <f9> :set list! list? <CR>
+map <f9> :IndentLinesToggle<CR>
 map <f10> :call ToggleNumbers()<cr>
 map <C-n> :NERDTreeToggle<CR>
 
@@ -46,50 +64,58 @@ map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 map <f5> :s/^/\/\//<CR>:nohlsearch<CR>
 map <f6> :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 
+"*** php filetypes
+filetype on
+au BufNewFile,BufRead *.ihtml set filetype=php
+autocmd FileType php set kp=:help
+
 "*** folding
-let php_folding=1
+let php_folding=0
 set foldnestmax=1
 noremap <space> za
+set nofoldenable  "*** disable folding on load - use zi command to toggle
+au FileType php setl nofen
 
 "*** status line
-set ls=2            "status line (2=always on)
-let g:airline#extensions#tabline#enabled = 0
-set statusline=%<%f%h%m%r%=%b\ 0x%B\ \ %l,%c%V\ %P
+set statusline=%<%f%h%m%r%=%b\ 0x%B\ \ %l,%c%V\ %P " legacy statusline - not used if airline active
 set ttimeoutlen=50
-let g:airline_theme = 'monochrome'
+set ls=2            "status line (2=always on)
+
+"*** airline
+let g:airline#extensions#tabline#enabled = 0
 let g:airline_exclude_preview = 1
-let g:airline_powerline_fonts = 0
-let g:airline_left_sep=''  " Slightly fancier than '>'
-let g:airline_right_sep='' " Slightly fancier than '<'
+let g:airline_powerline_fonts = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline_theme = 'nord'
+let g:airline#extensions#branch#format = 'CustomBranchName'
+function! CustomBranchName(name)
+    if a:name == 'master'
+        call airline#parts#define_accent('file', 'red')
+        return 'MASTER'
+    else
+        return a:name
+    endif
+endfunction
 
 "*** gitgutter
 set updatetime=100
 set signcolumn=yes
 
 "*** syntastic (syntax checking)
-let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_open = 0
 let g:syntastic_check_on_wq = 1
 let g:syntastic_aggregate_errors = 1
+let g:syntastic_mode_map = {
+    \ "mode": "passive",
+    \ "active_filetypes": ['php','python'],
+    \ "passive_filetypes": ['html'] }
 nnoremap <silent> <leader>qa :SyntasticCheck<CR>
 
-"*** omni auto-complete with tab
-function! InsertTabWrapper()
-  if pumvisible()
-    return "\<c-n>"
-  endif
-  let col = col('.') - 1
-  if !col || getline('.')[col - 1] !~ '\k'
-    return "\<tab>"
-  else
-    return "\<c-x>\<c-o>"
-  endif
-endfunction
-inoremap <expr><tab> InsertTabWrapper()
-inoremap <expr><s-tab> pumvisible()?"\<c-p>":"\<c-d>"
-autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
-autocmd InsertLeave * if pumvisible() == 0|pclose|endif
-autocmd FileType php set omnifunc=phpcomplete#CompletePHP
-set completeopt=longest,menuone
+"*** vim-surround
+nmap ss ysiw
+nmap sl yss
+vmap s S
 
 "*** Search the first 20 lines for 'modified' and update with current date
 function! LastMod()
@@ -101,13 +127,3 @@ function! LastMod()
   exe "1," . l . "g/modified /s/modified .*/modified " . strftime("%d-%b-%Y")
 endfun
 autocmd BufWrite *   ks|call LastMod()|'s
-
-"*** Others
-set tabstop=4
-set shiftwidth=4
-set smarttab
-set softtabstop=4
-set expandtab
-set autoindent
-set smartindent
-set cin

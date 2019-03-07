@@ -69,7 +69,7 @@ endif
 
 if v:version >= 704
   "" Snippets
-  "Plug 'SirVer/ultisnips'
+  Plug 'SirVer/ultisnips'
 endif
 
 Plug 'honza/vim-snippets'
@@ -509,7 +509,7 @@ let python_highlight_all = 1
 
 "*****************************************************************************
 "*****************************************************************************
-
+"
 "" Include user's local vim config
 if filereadable(expand("~/.config/nvim/local_init.vim"))
   source ~/.config/nvim/local_init.vim
@@ -547,8 +547,10 @@ else
 
   " powerline symbols
   let g:airline_left_sep = ''
+  let g:airline_left_sep = ''
   let g:airline_left_alt_sep = ''
   let g:airline_right_sep = ''
+  let g:airline_right_sep = ''
   let g:airline_right_alt_sep = ''
   let g:airline_symbols.branch = ''
   let g:airline_symbols.readonly = ''
