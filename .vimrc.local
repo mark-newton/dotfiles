@@ -14,9 +14,9 @@ augroup MyColors
                       \ | hi GitGutterAdd   guibg=NONE
                       \ | hi LineNr         guibg=NONE
                       \ | hi NonText        guibg=NONE
-                      \ | hi Pmenu          guibg=#1e242f guifg=NONE gui=NONE
+                      \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
                       \ | hi PmenuSel       guifg=#1e242f gui=NONE
-                      \ | hi Search         guibg=#47959a guifg=#263238 gui=NONE
+                      \ | hi Search         guibg=#47959a guifg=#1e242f gui=NONE
                       \ | hi SignColumn     guibg=NONE
                       \ | hi VertSplit      guibg=NONE
 augroup END
@@ -111,7 +111,7 @@ let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme = 'archery'
+let g:airline_theme = 'nord'
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#format = 'CustomBranchName'
 function! CustomBranchName(name)

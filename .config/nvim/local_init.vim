@@ -1,8 +1,29 @@
 set termguicolors
 set background=dark
-let ayucolor="mirage"
-"colorscheme ayu
-colorscheme monochrome
+
+augroup MyColors
+    autocmd!
+    autocmd ColorScheme * hi Normal         guibg=NONE
+                      \ | hi ColorColumn    guibg=NONE
+                      \ | hi CursorColumn   guibg=NONE
+                      \ | hi FoldColumn     guibg=NONE
+                      \ | hi Folded         guibg=NONE
+                      \ | hi GitGutterAdd   guibg=NONE
+                      \ | hi LineNr         guibg=NONE
+                      \ | hi NonText        guibg=NONE
+                      \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
+                      \ | hi PmenuSel       guifg=#1e242f gui=NONE
+                      \ | hi Search         guibg=#47959a guifg=#1e242f gui=NONE
+                      \ | hi SignColumn     guibg=NONE
+                      \ | hi VertSplit      guibg=NONE
+augroup END
+colorscheme azure
+
+"*** vimdiff colour overrides
+hi DiffAdd    cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
+hi DiffDelete cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gui=NONE
+hi DiffChange cterm=bold ctermbg=189 ctermbg=60  guifg=#1E242F guibg=#689ACA gui=NONE
+hi DiffText   cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=NONE
 
 "*** Settings
 set list
@@ -14,9 +35,9 @@ set expandtab
 set autoindent
 set smartindent
 set cin
+set noshowmode
 set backupdir=~/Backups/vim
 let g:indentLine_enabled = 0
-
 
 "*** function to toggle windows layout between horiz & vert
 let g:hwin=1
@@ -88,14 +109,15 @@ let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
 let g:airline_theme = 'nord'
+let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#format = 'CustomBranchName'
 function! CustomBranchName(name)
+    let g:airline_section_b = airline#section#create(['branch'])
     if a:name == 'master'
-        call airline#parts#define_accent('file', 'red')
-        return 'MASTER'
-    else
-        return a:name
+        call airline#parts#define_accent('master', 'red')
+        let g:airline_section_b = airline#section#create([g:airline_symbols.branch. ' ', 'master'])
     endif
+    return a:name
 endfunction
 
 "*** gitgutter
