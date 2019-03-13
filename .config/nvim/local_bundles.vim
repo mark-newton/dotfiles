@@ -7,11 +7,13 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 let g:deoplete#enable_at_startup = 1
-"let g:deoplete#sources = {}
-"let g:deoplete#sources.php = ['omni', 'buffer']
+let g:deoplete#sources = {}
+let g:deoplete#sources.php = ['omni', 'buffer']
 
-" colorscheme
+" colorschemes
 Plug 'arcticicestudio/nord-vim'
+Plug 'Badacadabra/vim-archery'
+Plug 'rainglow/vim'
 
 " PHP Plugins
 Plug 'StanAngeloff/php.vim'

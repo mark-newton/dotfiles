@@ -1,0 +1,37 @@
+
+#!/bin/bash
+# ----------------------------------------------------------------------------
+# Reset dark mode by app
+# @modified 24-Jan-2019
+# ----------------------------------------------------------------------------
+
+appname=$1
+darkmode=$2
+
+# If no appname, show help
+if [ -z $appname ]; then
+    echo "Usage: reset-dm [appname] [darkmode:0/1]"
+    echo "Example: reset-dm Notes 0"
+    exit 0
+fi
+
+if [ -z $darkmode]; then
+    darkmode=0
+fi
+
+# Get bundle name for app
+bundle=`osascript -e 'id of app "'"$appname"'"'`
+if [ -z $bundle ]; then
+    echo "No bundle found for $appname"
+    exit 0
+fi
+echo "Found bundle $bundle matching $appname."
+
+# Turn on/off darkmode
+if [ "$darkmode" = "0" ]; then
+    defaults write $bundle NSRequiresAquaSystemAppearance -bool yes
+    echo "Dark mode turned off for $appname. You may need to restart app for changes to take effect."
+else
+    defaults delete $bundle NSRequiresAquaSystemAppearance
+    echo "Dark mode reset for $appname. You may need to restart app for changes to take effect."
+fi
