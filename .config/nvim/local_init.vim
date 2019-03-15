@@ -8,7 +8,7 @@ augroup MyColors
                       \ | hi CursorColumn   guibg=NONE
                       \ | hi FoldColumn     guibg=NONE
                       \ | hi Folded         guibg=NONE
-                      \ | hi GitGutterAdd   guibg=NONE
+                      \ | hi GitGutterAdd   guibg=NONE guifg=#47959a
                       \ | hi LineNr         guibg=NONE
                       \ | hi NonText        guibg=NONE
                       \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
@@ -146,6 +146,6 @@ function! LastMod()
   else
     let l = line("$")
   endif
-  exe "1," . l . "g/modified /s/modified .*/modified " . strftime("%d-%b-%Y")
+  exe "1," . l . "g/modified 15-Mar-2019
 endfun
 autocmd BufWrite *   ks|call LastMod()|'s

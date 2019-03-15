@@ -14,6 +14,7 @@ let g:deoplete#sources.php = ['omni', 'buffer']
 Plug 'arcticicestudio/nord-vim'
 Plug 'Badacadabra/vim-archery'
 Plug 'rainglow/vim'
+Plug 'chriskempson/base16-vim'
 
 " PHP Plugins
 Plug 'StanAngeloff/php.vim'
