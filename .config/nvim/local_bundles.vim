@@ -15,6 +15,7 @@ Plug 'arcticicestudio/nord-vim'
 Plug 'Badacadabra/vim-archery'
 Plug 'rainglow/vim'
 Plug 'chriskempson/base16-vim'
+Plug 'tudurom/bleh.vim'
 
 " PHP Plugins
 Plug 'StanAngeloff/php.vim'
