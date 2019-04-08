@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 BACKUP_DIR="backups"
 GITUSER_FILE=".gitconfig.user"
-BASHHOST_FILE=".bash_host"
+HOST_FILE=".host"
 HILITE="\e[38;5;34m"
 NC="\e[0m"
 
@@ -36,15 +36,15 @@ printf "${HILITE}OK${NC}\n"
 
 cd
 
-if [[ ! -f "$BASHHOST_FILE" ]] ; then
-  printf "Creating bash host settings...\n"
+if [[ ! -f "$HOST_FILE" ]] ; then
+  printf "Creating host settings...\n"
   printf "Enter hostname for prompt: "
   read phost
   printf "Avail colours: RED/GREEN/YELLOW/BLUE/PURPLE/CYAN/OWHITE/L*/GRAY/ORANGE\n"
   printf "Enter host colour for prompt: "
   read pcol
-  printf "HN=\"${phost}\"\nHOSTCOL=\$${pcol}\n" > "$BASHHOST_FILE"
-  printf '%-40s' "Bash host file created:"
+  printf "HN=\"${phost}\"\nHOSTCOL=\$${pcol}\n" > "$HOST_FILE"
+  printf '%-40s' "Host file created:"
   printf "${HILITE}OK${NC}\n"
 fi
 
@@ -58,4 +58,3 @@ if [[ ! -f "$GITUSER_FILE" ]] ; then
   printf '%-40s' "Git user config file created:"
   printf "${HILITE}OK${NC}\n"
 fi
-

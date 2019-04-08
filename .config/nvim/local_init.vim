@@ -8,16 +8,16 @@ augroup MyColors
                       \ | hi CursorColumn   guibg=NONE
                       \ | hi FoldColumn     guibg=NONE
                       \ | hi Folded         guibg=NONE
-                      \ | hi GitGutterAdd   guibg=NONE guifg=#47959a
                       \ | hi LineNr         guibg=NONE
                       \ | hi NonText        guibg=NONE
-                      \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
-                      \ | hi PmenuSel       guifg=#1e242f gui=NONE
-                      \ | hi Search         guibg=#47959a guifg=#1e242f gui=NONE
                       \ | hi SignColumn     guibg=NONE
                       \ | hi VertSplit      guibg=NONE
+                      \ | hi GitGutterAdd   guibg=NONE guifg=#5fd7a7
+                      \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
+                      \ | hi PmenuSel       guifg=#1e242f gui=NONE
+"                      \ | hi Search         guibg=#47959a guifg=#1e242f gui=NONE
 augroup END
-colorscheme azure
+colorscheme paramount
 
 "*** vimdiff colour overrides
 hi DiffAdd    cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
@@ -36,8 +36,12 @@ set autoindent
 set smartindent
 set cin
 set noshowmode
-set backupdir=~/Backups/vim
+set backupdir=/tmp
 let g:indentLine_enabled = 0
+
+"*** Settings by filetype
+autocmd FileType coffee setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType php setlocal shiftwidth=4 softtabstop=4 expandtab
 
 "*** function to toggle windows layout between horiz & vert
 let g:hwin=1
@@ -108,7 +112,7 @@ let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme = 'nord'
+let g:airline_theme = 'monochrome'
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#format = 'CustomBranchName'
 function! CustomBranchName(name)
@@ -132,6 +136,7 @@ let g:syntastic_mode_map = {
     \ "mode": "passive",
     \ "active_filetypes": ['php','python'],
     \ "passive_filetypes": ['html'] }
+let g:syntastic_python_pylint_post_args="--max-line-length=180"
 nnoremap <silent> <leader>qa :SyntasticCheck<CR>
 
 "*** vim-surround
@@ -146,6 +151,6 @@ function! LastMod()
   else
     let l = line("$")
   endif
-  exe "1," . l . "g/modified 15-Mar-2019
+  exe "1," . l . "g/modified /s/modified .*/modified " . strftime("%d-%b-%Y")
 endfun
 autocmd BufWrite *   ks|call LastMod()|'s

@@ -14,6 +14,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 elif [ -f ~/bin/git-prompt.sh ]; then
   . ~/bin/git-prompt.sh
 fi
+if [ -f $HOME/.aliases ];  then
+  . $HOME/.aliases
+fi
 if [ -f $HOME/.bash_aliases ];  then
   . $HOME/.bash_aliases
 fi
@@ -55,8 +58,8 @@ else
   HOSTCOL=$BLUE
   UIDCSR=">"
 fi
-if [ -f $HOME/.bash_host ];  then
-  . $HOME/.bash_host
+if [ -f $HOME/.host ];  then
+  . $HOME/.host
 fi
 
 # Set prompt
