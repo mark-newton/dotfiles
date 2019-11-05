@@ -40,7 +40,7 @@ if [[ ! -f "$HOST_FILE" ]] ; then
   printf "Creating host settings...\n"
   printf "Enter hostname for prompt: "
   read phost
-  printf "Avail colours: RED/GREEN/YELLOW/BLUE/PURPLE/CYAN/OWHITE/L*/GRAY/ORANGE\n"
+  printf "Avail colours: RED/GREEN/YELLOW/BLUE/PURPLE/CYAN/OWHITE/L*/GRAY/BRED/BGREEN/BORANGE\n"
   printf "Enter host colour for prompt: "
   read pcol
   printf "HN=\"${phost}\"\nHOSTCOL=\$${pcol}\n" > "$HOST_FILE"

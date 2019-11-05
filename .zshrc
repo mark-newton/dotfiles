@@ -25,3 +25,6 @@ fi
 export SSH_KEY_PATH="~/.ssh/rsa_id"
 source ~/.aliases
 source ~/.host
+
+# Set directory colours
+test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
