@@ -12,10 +12,10 @@ let g:deoplete#sources.php = ['omni', 'buffer']
 
 " colorschemes
 Plug 'arcticicestudio/nord-vim'
-Plug 'Badacadabra/vim-archery'
 Plug 'rainglow/vim'
 Plug 'chriskempson/base16-vim'
-Plug 'tudurom/bleh.vim'
+Plug 'atelierbram/Base2Tone-vim'
+Plug 'davidcelis/vim-ariake-dark'
 
 " PHP Plugins
 Plug 'StanAngeloff/php.vim'

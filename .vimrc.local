@@ -16,11 +16,13 @@ augroup MyColors
                       \ | hi SignColumn     guibg=NONE
                       \ | hi VertSplit      guibg=NONE
                       \ | hi GitGutterAdd   guibg=NONE guifg=#5fd7a7
-                      \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
-                      \ | hi PmenuSel       guifg=#1e242f gui=NONE
+                      \ | hi EndOfBuffer    guibg=NONE ctermbg=NONE
+                      \ | hi Search         guibg=#313343
+"                      \ | hi Pmenu          guibg=#508aaa guifg=#1e242f gui=NONE
+"                      \ | hi PmenuSel       guifg=#1e242f gui=NONE
 "                      \ | hi Search         guibg=#47959a guifg=#1e242f gui=NONE
 augroup END
-colorscheme paramount
+colorscheme Ariake-Dark
 
 "*** vimdiff colour overrides
 hi DiffAdd    cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
@@ -92,10 +94,11 @@ map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 map <f5> :s/^/\/\//<CR>:nohlsearch<CR>
 map <f6> :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
 
-"*** php filetypes
+"*** filetypes
 filetype on
 au BufNewFile,BufRead *.ihtml set filetype=php
 autocmd FileType php set kp=:help
+au BufNewFile,BufRead *.volt set filetype=html
 
 "*** folding
 let php_folding=0
@@ -147,13 +150,13 @@ nmap ss ysiw
 nmap sl yss
 vmap s S
 
-"*** Search the first 20 lines for 'modified' and update with current date
+"*** Search the first 20 lines for '@modified' and update with current date
 function! LastMod()
   if line("$") > 20
     let l = 20
   else
     let l = line("$")
   endif
-  exe "1," . l . "g/modified /s/modified .*/modified " . strftime("%d-%b-%Y")
+  exe "1," . l . "g/@modified /s/@modified .*/@modified " . strftime("%d-%b-%Y")
 endfun
 autocmd BufWrite *   ks|call LastMod()|'s

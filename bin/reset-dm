@@ -2,7 +2,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Reset dark mode by app
-# @modified 24-Jan-2019
+# @modified 26-May-2020
 # ----------------------------------------------------------------------------
 
 appname=$1
@@ -15,7 +15,7 @@ if [ -z $appname ]; then
     exit 0
 fi
 
-if [ -z $darkmode]; then
+if [ -z $darkmode ]; then
     darkmode=0
 fi
 
