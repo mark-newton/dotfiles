@@ -1,4 +1,5 @@
 # .bashrc
+export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 case "$TERM" in
   xterm*|rxvt*|screen*)
@@ -7,6 +8,10 @@ case "$TERM" in
   ;;
 esac
 
+if [ -f $HOME/.fzf.bash ];  then
+  . $HOME/.fzf.bash
+fi
+
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
   . /etc/bash_completion
 #elif [ -f /etc/bash_completion.d/git ]; then
@@ -14,6 +19,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 elif [ -f ~/bin/git-prompt.sh ]; then
   . ~/bin/git-prompt.sh
 fi
+
 if [ -f $HOME/.aliases ];  then
   . $HOME/.aliases
 fi

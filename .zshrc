@@ -14,17 +14,15 @@ plugins=(git colorize pip python brew osx zsh-autosuggestions osx-dev)
 
 source $ZSH/oh-my-zsh.sh
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
 # User configuration
 export MANPATH="/usr/local/man:$MANPATH"
 export LANG=en_US.UTF-8
-if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vim'
-else
-  export EDITOR='mvim'
-fi
+export EDITOR='vim'
 export SSH_KEY_PATH="~/.ssh/rsa_id"
-source ~/.aliases
-source ~/.host
+[ -f ~/.aliases ] && source ~/.aliases
+[ -f ~/.host ] && source ~/.host
 
 # Set directory colours
 test -r "~/.dir_colors" && eval $(dircolors ~/.dir_colors)
