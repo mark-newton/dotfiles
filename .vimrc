@@ -239,13 +239,15 @@ augroup MyColors
     autocmd ColorScheme * hi VertSplit      guibg=NONE
     autocmd ColorScheme * hi GitGutterAdd   guibg=NONE guifg=#5fd7a7
     autocmd ColorScheme * hi EndOfBuffer    guibg=NONE ctermbg=NONE
-    autocmd ColorScheme * hi Search         guibg=#313343
     autocmd ColorScheme * hi DiffAdd        cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
     autocmd ColorScheme * hi DiffDelete     cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gui=NONE
     autocmd ColorScheme * hi DiffChange     cterm=bold ctermbg=189 ctermbg=60  guifg=#1E242F guibg=#689ACA gui=NONE
     autocmd ColorScheme * hi DiffText       cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=NONE
 augroup END
 colorscheme ariake-dark
+hi! Search ctermbg=59 guibg=#313343
+hi! Pmenu ctermbg=59 guibg=#313343
+hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
 
 " Settings by filetype
 filetype on
@@ -395,7 +397,7 @@ endfun
 autocmd BufWrite *   ks|call LastMod()|'s
 
 " Give more space for displaying messages.
-set cmdheight=2
+"set cmdheight=2
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
