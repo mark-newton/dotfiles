@@ -1,7 +1,6 @@
 syntax on
 set termguicolors
 set background=dark
-"set colorcolumn=100
 colorscheme ariake-dark
 
 " No background overrides
@@ -19,6 +18,11 @@ hi! EndOfBuffer guibg=NONE ctermbg=NONE
 " Git gutter
 hi! GitGutterAdd guibg=NONE guifg=#5fd7a7
 
+" Floaterm
+hi! Floaterm guibg=NONE ctermbg=NONE
+hi! FloatermNC guibg=NONE ctermbg=NONE
+hi! FloatermBorder guifg=#C179DB guibg=NONE ctermbg=NONE
+
 " Vimdiff
 hi! DiffAdd cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
 hi! DiffDelete cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gui=NONE
@@ -29,3 +33,4 @@ hi! DiffText cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=
 hi! Search ctermbg=59 guibg=#313343
 hi! Pmenu ctermbg=59 guibg=#313343
 hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
+hi! Todo guifg=#dda2f6 guibg=NONE gui=BOLD

@@ -71,6 +71,9 @@ set modelines=10
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
+" Mappings
+let mapleader = ","
+
 " Plugins
 call plug#begin(expand('~/.config/nvim/plugged'))
 Plug 'ConradIrwin/vim-bracketed-paste'
@@ -93,85 +96,22 @@ Plug 'tpope/vim-surround'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'vim-scripts/CSApprox'
-Plug 'vim-scripts/grep.vim'
 Plug 'vim-utils/vim-man'
+Plug 'voldikss/vim-floaterm'
 call plug#end()
 
 " Source plugin configs
 source $HOME/.config/nvim/init_plug_airline.vim
 source $HOME/.config/nvim/init_plug_coc.vim
+source $HOME/.config/nvim/init_plug_floaterm.vim
+source $HOME/.config/nvim/init_plug_fugitive.vim
+source $HOME/.config/nvim/init_plug_fzf.vim
+source $HOME/.config/nvim/init_plug_gitgutter.vim
+source $HOME/.config/nvim/init_plug_surround.vim
 source $HOME/.config/nvim/init_plug_whichkey.vim
 
 " Colours
-source $HOME/.config/nvim/init_colours.vim
-
-" Plugin: fugitive
-if exists("*fugitive#statusline")
-    set statusline+=%{fugitive#statusline()}
-endif
-
-" Plugin: php man
-"let g:php_manual_online_search_shortcut = '<S-F1>'
-
-" Plugin: tab complete
-"autocmd FileType php setlocal omnifunc=phpcomplete#CompletePHP
-"set completeopt=longest,menuone
-"let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-
-" Plugin: gitgutter
-set updatetime=100
-set signcolumn=yes
-
-" Plugin: syntastic (syntax checking)
-"let g:syntastic_check_on_open = 0
-"let g:syntastic_check_on_wq = 1
-"let g:syntastic_aggregate_errors = 1
-"let g:syntastic_mode_map = {
-"    \ "mode": "passive",
-"    \ "active_filetypes": ['php','python'],
-"    \ "passive_filetypes": ['html'] }
-"let g:syntastic_python_pylint_post_args="--max-line-length=180"
-"nnoremap <silent> <leader>qa :SyntasticCheck<CR>
-
-" Plugin: vim-surround
-nmap sw ysiw
-nmap sl yss
-vmap s S
-
-" Plugin: airline
-
-" Plugin: grep
-nnoremap <silent> <leader>f :Rgrep<CR>
-let Grep_Default_Options = '-IR'
-let Grep_Skip_Files = '*.log *.db'
-let Grep_Skip_Dirs = '.git node_modules'
-
-"" Plugin: fzf.vim
-"set wildmode=list:longest,list:full
-"set wildignore+=*.o,*.obj,.git,*.rbc,*.pyc,__pycache__
-"let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
-"if executable('ag')
-"    let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-"    set grepprg=ag\ --nogroup\ --nocolor
-"endif
-"if executable('rg')
-"    let g:rg_derive_root='true'
-"    let $FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*"'
-"    set grepprg=rg\ --vimgrep
-"    command! -bang -nargs=* Find call fzf#vim#grep('rg --column --line-number --no-heading --fixed-strings --ignore-case --hidden --follow --glob "!.git/*" --color "always" '.shellescape(<q-args>).'| tr -d "\017"', 1, <bang>0)
-"endif
-"cnoremap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
-"nnoremap <silent> <leader>b :Buffers<CR>
-"nnoremap <silent> <leader>e :FZF -m<CR>
-
-" Plugin: syntastic
-"let g:syntastic_always_populate_loc_list=1
-"let g:syntastic_error_symbol='✗'
-"let g:syntastic_warning_symbol='⚠'
-"let g:syntastic_style_error_symbol = '✗'
-"let g:syntastic_style_warning_symbol = '⚠'
-"let g:syntastic_auto_loc_list=1
-"let g:syntastic_aggregate_errors = 1
+source $HOME/.config/nvim/init_colour_ariake.vim
 
 " Settings by filetype
 filetype on
@@ -218,9 +158,6 @@ cnoreabbrev W w
 cnoreabbrev Q q
 cnoreabbrev Qall qall
 
-" Mappings
-let mapleader = ","
-
 " Mappings: function keys (legacy)
 nnoremap <f1> K
 nmap <f2> :below new<cr>
@@ -242,7 +179,7 @@ nmap <leader>ln :call ToggleNumbers()<cr>
 " Mappings: general
 map <C-n> :30Lex<CR>
 nnoremap <leader>. :lcd %:p:h<CR>
-noremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+"noremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader><space> :noh<cr>
 nnoremap <leader>u :UndotreeShow<CR>
 imap ` <Esc>
@@ -318,4 +255,4 @@ function! LastMod()
     endif
     exe "1," . l . "g/@modified /s/@modified .*/@modified " . strftime("%d-%b-%Y")
 endfun
-autocmd BufWrite *   ks|call LastMod()|'s
+autocmd BufWrite * ks|call LastMod()|'s
