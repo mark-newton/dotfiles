@@ -228,7 +228,7 @@ set background=dark
 "set colorcolumn=100
 augroup MyColors
     autocmd!
-    autocmd ColorScheme * hi Normal         guibg=NONE
+    autocmd ColorScheme * hi Normal         guibg=#181922
     autocmd ColorScheme * hi ColorColumn    ctermbg=0 guibg=NONE
     autocmd ColorScheme * hi CursorColumn   guibg=NONE
     autocmd ColorScheme * hi FoldColumn     guibg=NONE
