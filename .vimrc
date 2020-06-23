@@ -69,6 +69,7 @@ nnoremap N Nzzzv
 
 " Plugins
 call plug#begin(expand('~/.vim/plugged'))
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -86,7 +87,6 @@ else
     Plug 'junegunn/fzf.vim'
 endif
 Plug 'arnaud-lb/vim-php-namespace'
-Plug 'davidcelis/vim-ariake-dark'
 Plug 'StanAngeloff/php.vim'
 Plug 'shawncplus/phpcomplete.vim'
 Plug 'rayburgemeestre/phpfolding.vim'
@@ -141,7 +141,7 @@ let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme = 'monochrome'
+let g:airline_theme = 'minimalist'
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#branch#format = 'CustomBranchName'
 function! CustomBranchName(name)
@@ -225,29 +225,26 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
-"set colorcolumn=100
-augroup MyColors
-    autocmd!
-    autocmd ColorScheme * hi Normal         guibg=#181922
-    autocmd ColorScheme * hi ColorColumn    ctermbg=0 guibg=NONE
-    autocmd ColorScheme * hi CursorColumn   guibg=NONE
-    autocmd ColorScheme * hi FoldColumn     guibg=NONE
-    autocmd ColorScheme * hi Folded         guibg=NONE
-    autocmd ColorScheme * hi LineNr         guibg=NONE
-    autocmd ColorScheme * hi NonText        guibg=NONE
-    autocmd ColorScheme * hi SignColumn     guibg=NONE
-    autocmd ColorScheme * hi VertSplit      guibg=NONE
-    autocmd ColorScheme * hi GitGutterAdd   guibg=NONE guifg=#5fd7a7
-    autocmd ColorScheme * hi EndOfBuffer    guibg=NONE ctermbg=NONE
-    autocmd ColorScheme * hi DiffAdd        cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
-    autocmd ColorScheme * hi DiffDelete     cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gui=NONE
-    autocmd ColorScheme * hi DiffChange     cterm=bold ctermbg=189 ctermbg=60  guifg=#1E242F guibg=#689ACA gui=NONE
-    autocmd ColorScheme * hi DiffText       cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=NONE
-augroup END
-colorscheme ariake-dark
-hi! Search ctermbg=59 guibg=#313343
-hi! Pmenu ctermbg=59 guibg=#313343
-hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
+colorscheme yitzchok-contrast
+hi! Normal guibg=NONE
+hi! ColorColumn ctermbg=0 guibg=NONE
+hi! CursorColumn guibg=NONE
+hi! FoldColumn guibg=NONE
+hi! Folded guibg=NONE
+hi! LineNr guibg=NONE
+hi! NonText guibg=NONE
+hi! SignColumn guibg=NONE
+hi! VertSplit guibg=NONE
+hi! EndOfBuffer guibg=NONE ctermbg=NONE
+hi! GitGutterAdd guibg=NONE guifg=#5fd7a7
+hi! DiffAdd cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
+hi! DiffDelete cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gui=NONE
+hi! DiffChange cterm=bold ctermbg=189 ctermbg=60  guifg=#1E242F guibg=#689ACA gui=NONE
+hi! DiffText cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=NONE
+"hi! Search ctermbg=59 guibg=#313343
+"hi! Pmenu ctermbg=59 guibg=#313343
+"hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
+hi! Todo guifg=#E7BE45 guibg=NONE gui=BOLD
 
 " Settings by filetype
 filetype on

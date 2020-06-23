@@ -62,7 +62,7 @@ if (( $UID == 0 )); then
 else
   UIDCOL=$GRAY
   HOSTCOL=$BLUE
-  UIDCSR=$GREEN$'\u279C'
+  UIDCSR=$WHITE$'\u279C'
 fi
 if [ -f $HOME/.host ];  then
   . $HOME/.host
@@ -83,7 +83,7 @@ git_branch() {
      echo -e "\033[33m"
   fi
 }
-export "PS1=$PURPLE\t$NOCOLOR [$UIDCOL\u$GRAY@$HOSTCOL$HN$NOCOLOR $CYAN\w$NOCOLOR"'$(git branch &>/dev/null;\
+export "PS1=$LYELLOW\t$NOCOLOR [$UIDCOL\u$GRAY@$HOSTCOL$HN$NOCOLOR $CYAN\w$NOCOLOR"'$(git branch &>/dev/null;\
 if [ $? -eq 0 ]; then \
   echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
   if [ "$?" -eq "0" ]; then \

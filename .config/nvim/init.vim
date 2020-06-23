@@ -111,7 +111,7 @@ source $HOME/.config/nvim/init_plug_surround.vim
 source $HOME/.config/nvim/init_plug_whichkey.vim
 
 " Colours
-source $HOME/.config/nvim/init_colour_ariake.vim
+source $HOME/.config/nvim/init_colour_yitzchok.vim
 
 " Settings by filetype
 filetype on

@@ -33,36 +33,35 @@ font:
   use_thin_strokes: true
 draw_bold_text_with_bright_colors: true
 
+# Colors (Hardcore)
 colors:
-  primary:
-    background: '#181922'
-    foreground: '#DCDCDC'
-  selection:
-    text: '#C0C5CE'
-    background: '#505B65'
-  normal:
-    black:   '#282A35'
-    red:     '#EF8198'
-    green:   '#66DDCD'
-    yellow:  '#EFA276'
-    blue:    '#889AF1'
-    magenta: '#C179DB'
-    cyan:    '#80E6F2'
-    white:   '#DCDCDC'
   bright:
-    black:   '#66737D'
-    red:     '#EF8198'
-    green:   '#66DDCD'
-    yellow:  '#EFA276'
-    blue:    '#889AF1'
-    magenta: '#C179DB'
-    cyan:    '#80E6F2'
-    white:   '#FFFFFF'
-
-visual_bell:
-  animation: EaseOutExpo
-  duration: 0
-  color: '#FFFFFF'
+    black: '#505354'
+    blue: '#66d9ef'
+    cyan: '#a3babf'
+    green: '#beed5f'
+    magenta: '#9e6ffe'
+    red: '#ff669d'
+    white: '#f8f8f2'
+    yellow: '#e6db74'
+  cursor:
+    cursor: '#bbbbbb'
+    text: '#ffffff'
+  normal:
+    black: '#1b1d1e'
+    blue: '#66d9ef'
+    cyan: '#5e7175'
+    green: '#a6e22e'
+    magenta: '#9e6ffe'
+    red: '#f92672'
+    white: '#ccccc6'
+    yellow: '#fd971f'
+  primary:
+    background: '#14181D'
+    foreground: '#ccccc6'
+  selection:
+    background: '#453b39'
+    text: '#b6bbc0'
 
 background_opacity: 1.0
 
