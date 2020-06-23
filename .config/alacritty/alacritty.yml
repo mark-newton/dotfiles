@@ -26,42 +26,43 @@ font:
   size: 12.0
   offset:
     x: 0
-    y: 5
+    y: 7
   glyph_offset:
     x: 0
-    y: 5
+    y: 7
   use_thin_strokes: true
 draw_bold_text_with_bright_colors: true
 
 # Colors (Hardcore)
+# Colors (Molokai)
+# Colors (Dracula)
+
+# Colors (Aenami)
 colors:
-  bright:
-    black: '#505354'
-    blue: '#66d9ef'
-    cyan: '#a3babf'
-    green: '#beed5f'
-    magenta: '#9e6ffe'
-    red: '#ff669d'
-    white: '#f8f8f2'
-    yellow: '#e6db74'
-  cursor:
-    cursor: '#bbbbbb'
-    text: '#ffffff'
-  normal:
-    black: '#1b1d1e'
-    blue: '#66d9ef'
-    cyan: '#5e7175'
-    green: '#a6e22e'
-    magenta: '#9e6ffe'
-    red: '#f92672'
-    white: '#ccccc6'
-    yellow: '#fd971f'
   primary:
     background: '#14181D'
-    foreground: '#ccccc6'
+    foreground: '#DCDCDC'
   selection:
-    background: '#453b39'
-    text: '#b6bbc0'
+    text: '#C0C5CE'
+    background: '#505B65'
+  normal:
+    black:   '#282A35'
+    red:     '#EF8198'
+    green:   '#66DDCD'
+    yellow:  '#EFA276'
+    blue:    '#889AF1'
+    magenta: '#C179DB'
+    cyan:    '#80E6F2'
+    white:   '#DCDCDC'
+  bright:
+    black:   '#66737D'
+    red:     '#EF8198'
+    green:   '#66DDCD'
+    yellow:  '#EFA276'
+    blue:    '#889AF1'
+    magenta: '#C179DB'
+    cyan:    '#80E6F2'
+    white:   '#FFFFFF'
 
 background_opacity: 1.0
 
