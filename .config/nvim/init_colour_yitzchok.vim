@@ -7,13 +7,12 @@ colorscheme yitzchok-contrast
 hi! Normal guibg=NONE
 hi! ColorColumn ctermbg=0 guibg=NONE
 hi! CursorColumn guibg=NONE
+hi! EndOfBuffer guibg=NONE
 hi! FoldColumn guibg=NONE
 hi! Folded guibg=NONE
 hi! LineNr guibg=NONE
 hi! NonText guibg=NONE
 hi! SignColumn guibg=NONE
-hi! VertSplit guibg=NONE
-hi! EndOfBuffer guibg=NONE ctermbg=NONE
 
 " Git gutter
 hi! GitGutterAdd guibg=NONE guifg=#5fd7a7

@@ -24,6 +24,7 @@ hi! DiffText cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=
 "hi! Pmenu ctermbg=59 guibg=#313343
 "hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
 hi! Todo guifg=#E7BE45 guibg=NONE gui=BOLD
+hi! Type guifg=#E6EAEF
 
 "*** Settings
 set list
@@ -78,7 +79,22 @@ map <f8> :call ToggleWinLayout()<cr>
 "map <f9> :set list! list? <CR>
 map <f9> :IndentLinesToggle<CR>
 map <f10> :call ToggleNumbers()<cr>
-map <C-n> :NERDTreeToggle<CR>
+
+" Mappings: function key replacements
+nmap <leader>ws :below new<cr>
+nmap <leader>c :clo<cr>
+nmap <leader>ww <C-w>w
+nmap <leader>wl :call ToggleWinLayout()<cr>
+nmap <leader>li :set list! list? <cr>
+nmap <leader>ln :call ToggleNumbers()<cr>
+
+" Mappings: general
+map <C-n> :30Lex<CR>
+nnoremap <leader>. :lcd %:p:h<CR>
+"noremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
+nnoremap <silent> <leader><space> :noh<cr>
+nnoremap <leader>u :UndotreeShow<CR>
+imap ii <Esc>
 
 "*** commenting
 map ,# :s/^/#/<CR>:nohlsearch<CR>

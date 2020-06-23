@@ -81,7 +81,6 @@ Plug 'StanAngeloff/php.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'airblade/vim-rooter'
 Plug 'arnaud-lb/vim-php-namespace'
-Plug 'bronson/vim-trailing-whitespace'
 Plug 'davidcelis/vim-ariake-dark'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -182,7 +181,7 @@ nnoremap <leader>. :lcd %:p:h<CR>
 "noremap <leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 nnoremap <silent> <leader><space> :noh<cr>
 nnoremap <leader>u :UndotreeShow<CR>
-imap ` <Esc>
+imap ii <Esc>
 
 " Mappings: commenting
 map <leader># :s/^/#/<CR>:nohlsearch<CR>

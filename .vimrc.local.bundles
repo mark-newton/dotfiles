@@ -23,3 +23,4 @@ Plug 'tpope/vim-surround'
 
 " Disable plugins - not needed / performance
 Plug 'gorodinskiy/vim-coloresque',{'on':[]}
+Plug 'bronson/vim-trailing-whitespace',{'on':[]}
