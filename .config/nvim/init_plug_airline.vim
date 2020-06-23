@@ -7,17 +7,8 @@ let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme = 'onedark'
+let g:airline_theme = 'minimalist'
 let g:airline#extensions#hunks#enabled=0
-let g:airline#extensions#branch#format = 'CustomBranchName'
-function! CustomBranchName(name)
-    let g:airline_section_b = airline#section#create(['branch'])
-    if a:name == 'master'
-        call airline#parts#define_accent('master', 'red')
-        let g:airline_section_b = airline#section#create([g:airline_symbols.branch. ' ', 'master'])
-    endif
-    return a:name
-endfunction
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}
 endif
