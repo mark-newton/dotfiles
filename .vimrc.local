@@ -8,6 +8,7 @@ colorscheme yitzchok-contrast
 hi! Normal guibg=#14181D
 hi! ColorColumn ctermbg=0 guibg=NONE
 hi! CursorColumn guibg=NONE
+hi! CursorLine term=bold cterm=bold
 hi! FoldColumn guibg=NONE
 hi! Folded guibg=NONE
 hi! LineNr guibg=NONE
@@ -39,6 +40,7 @@ set cin
 set noshowmode
 set backupdir=/tmp
 let g:indentLine_enabled = 0
+set cursorline
 
 "*** Settings by filetype
 autocmd FileType coffee setlocal shiftwidth=2 softtabstop=2 expandtab

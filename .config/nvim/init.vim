@@ -70,6 +70,7 @@ set modeline
 set modelines=10
 nnoremap n nzzzv
 nnoremap N Nzzzv
+set cursorline
 
 " Mappings
 let mapleader = ","
@@ -87,6 +88,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'liuchengxu/vim-which-key'
 Plug 'mbbill/undotree'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'rainglow/vim'
 Plug 'rayburgemeestre/phpfolding.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-commentary'
