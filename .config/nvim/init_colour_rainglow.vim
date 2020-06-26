@@ -1,7 +1,7 @@
 syntax on
 set termguicolors
 set background=dark
-colorscheme yitzchok-contrast
+colorscheme codecourse-contrast
 
 " No background overrides
 hi! Normal guibg=NONE
@@ -13,6 +13,7 @@ hi! Folded guibg=NONE
 hi! LineNr guibg=NONE
 hi! NonText guibg=NONE
 hi! SignColumn guibg=NONE
+hi! VertSplit guibg=NONE
 
 " Git gutter
 hi! GitGutterAdd guibg=NONE guifg=#5fd7a7
@@ -28,8 +29,8 @@ hi! DiffDelete cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gu
 hi! DiffChange cterm=bold ctermbg=189 ctermbg=60  guifg=#1E242F guibg=#689ACA gui=NONE
 hi! DiffText cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=NONE
 
-" Yitzchok overrides
+" Rainglow overrides
 "hi! Search ctermbg=59 guibg=#313343
 "hi! Pmenu ctermbg=59 guibg=#313343
 "hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
-hi! Todo guifg=#E7BE45 guibg=NONE gui=BOLD
+hi! Todo guifg=#5DCDFD guibg=NONE gui=BOLD

@@ -4,7 +4,7 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
-colorscheme yitzchok-contrast
+colorscheme codecourse-contrast
 hi! Normal guibg=#14181D
 hi! ColorColumn ctermbg=0 guibg=NONE
 hi! CursorColumn guibg=NONE
@@ -24,8 +24,8 @@ hi! DiffText cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=
 "hi! Search ctermbg=59 guibg=#313343
 "hi! Pmenu ctermbg=59 guibg=#313343
 "hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
-hi! Todo guifg=#E7BE45 guibg=NONE gui=BOLD
-hi! Type guifg=#E6EAEF
+hi! Todo guifg=#5DCDFD guibg=NONE gui=BOLD
+hi! Type guifg=#5DCDFD
 
 "*** Settings
 set list
@@ -40,7 +40,6 @@ set cin
 set noshowmode
 set backupdir=/tmp
 let g:indentLine_enabled = 0
-set cursorline
 
 "*** Settings by filetype
 autocmd FileType coffee setlocal shiftwidth=2 softtabstop=2 expandtab

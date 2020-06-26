@@ -70,7 +70,6 @@ set modeline
 set modelines=10
 nnoremap n nzzzv
 nnoremap N Nzzzv
-set cursorline
 
 " Mappings
 let mapleader = ","
@@ -112,7 +111,7 @@ source $HOME/.config/nvim/init_plug_surround.vim
 source $HOME/.config/nvim/init_plug_whichkey.vim
 
 " Colours
-source $HOME/.config/nvim/init_colour_yitzchok.vim
+source $HOME/.config/nvim/init_colour_rainglow.vim
 
 " Settings by filetype
 filetype on
