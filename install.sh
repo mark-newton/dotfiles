@@ -13,7 +13,7 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
   git pull origin master
   printf '%-40s' "Git pulled latest:"
   printf "${HILITE}OK${NC}\n"
-  ./bin/fixperms.sh
+  fixperms
   printf '%-40s' "Fixed permissions:"
   printf "${HILITE}OK${NC}\n"
 fi
