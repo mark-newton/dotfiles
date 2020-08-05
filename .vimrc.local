@@ -4,28 +4,8 @@ let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
-colorscheme codecourse-contrast
+colorscheme codecourse
 hi! Normal guibg=#14181D
-hi! ColorColumn ctermbg=0 guibg=NONE
-hi! CursorColumn guibg=NONE
-hi! CursorLine term=bold cterm=bold
-hi! FoldColumn guibg=NONE
-hi! Folded guibg=NONE
-hi! LineNr guibg=NONE
-hi! NonText guibg=NONE
-hi! SignColumn guibg=NONE
-hi! VertSplit guibg=NONE
-hi! EndOfBuffer guibg=NONE ctermbg=NONE
-hi! GitGutterAdd guibg=NONE guifg=#5fd7a7
-hi! DiffAdd cterm=bold ctermfg=193 ctermbg=65  guifg=#1E242F guibg=#9CC696 gui=NONE
-hi! DiffDelete cterm=bold ctermfg=234 ctermbg=9   guifg=#1E242F guibg=#E86169 gui=NONE
-hi! DiffChange cterm=bold ctermbg=189 ctermbg=60  guifg=#1E242F guibg=#689ACA gui=NONE
-hi! DiffText cterm=bold ctermfg=234 ctermbg=12  guifg=#1E242F guibg=#F8C76B gui=NONE
-"hi! Search ctermbg=59 guibg=#313343
-"hi! Pmenu ctermbg=59 guibg=#313343
-"hi! PmenuSel ctermfg=16 ctermbg=122 cterm=NONE guifg=#1f212a guibg=#9aefea gui=NONE
-hi! Todo guifg=#5DCDFD guibg=NONE gui=BOLD
-hi! Type guifg=#5DCDFD
 
 "*** Settings
 set list
@@ -41,9 +21,43 @@ set noshowmode
 set backupdir=/tmp
 let g:indentLine_enabled = 0
 
-"*** Settings by filetype
-autocmd FileType coffee setlocal shiftwidth=2 softtabstop=2 expandtab
-autocmd FileType php setlocal shiftwidth=4 softtabstop=4 expandtab
+" Speed improvements
+set redrawtime=5000
+syntax sync minlines=200
+syntax sync maxlines=500
+set synmaxcol=200
+set nocursorline
+set nocursorcolumn
+
+" Wincent settings
+scriptencoding utf-8
+let s:middot='·'
+let s:raquo='»'
+let s:small_l='ℓ'
+function! WincentFoldtext() abort
+  let l:lines='[' . (v:foldend - v:foldstart + 1) . s:small_l . ']'
+  let l:first=substitute(getline(v:foldstart), '\v *', '', '')
+  let l:dashes=substitute(v:folddashes, '-', s:middot, 'g')
+  return s:raquo . s:middot . s:middot . l:lines . l:dashes . ': ' . l:first
+endfunction
+set diffopt+=foldcolumn:0             " don't show fold column in diff view
+set fillchars+=vert:\
+if has('folding')
+  if has('windows')
+    set fillchars=diff:∙               " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
+    set fillchars+=fold:·              " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
+    set fillchars+=vert:┃              " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+  endif
+  if has('nvim-0.3.1')
+    set fillchars+=eob:\              " suppress ~ at EndOfBuffer
+  endif
+  set foldmethod=manual               " default foldmethod - override in filetype settings
+  set foldlevel=1
+  set foldlevelstart=1
+  set foldnestmax=2
+  set foldtext=WincentFoldtext()
+  set nofoldenable
+endif
 
 "*** function to toggle windows layout between horiz & vert
 let g:hwin=1
@@ -75,6 +89,7 @@ nnoremap <f1> K
 nmap <f2> :below new<cr>
 nmap <f3> :clo<cr>
 set pt=<F4>
+vmap <f5> gc
 map <f7> <C-W>w
 map <f8> :call ToggleWinLayout()<cr>
 "map <f9> :set list! list? <CR>
@@ -88,6 +103,10 @@ nmap <leader>ww <C-w>w
 nmap <leader>wl :call ToggleWinLayout()<cr>
 nmap <leader>li :set list! list? <cr>
 nmap <leader>ln :call ToggleNumbers()<cr>
+nmap <leader>wh :below new<cr>
+nmap <leader>wv :below vnew<cr>
+nmap <M-b> <C-w>W
+nmap <M-f> <C-w>w
 
 " Mappings: general
 map <C-n> :30Lex<CR>
@@ -98,26 +117,47 @@ nnoremap <leader>u :UndotreeShow<CR>
 imap ii <Esc>
 
 "*** commenting
-map ,# :s/^/#/<CR>:nohlsearch<CR>
-map ,/ :s/^/\/\//<CR>:nohlsearch<CR>
-map ," :s/^/\"/<CR>:nohlsearch<CR>
-map ,- :s/^/--/<CR>:nohlsearch<CR>
-map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
-map <f5> :s/^/\/\//<CR>:nohlsearch<CR>
-map <f6> :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
+" map ,# :s/^/#/<CR>:nohlsearch<CR>
+" map ,/ :s/^/\/\//<CR>:nohlsearch<CR>
+" map ," :s/^/\"/<CR>:nohlsearch<CR>
+" map ,- :s/^/--/<CR>:nohlsearch<CR>
+" map ,c :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
+" map <f5> :s/^/\/\//<CR>:nohlsearch<CR>
+" map <f6> :s/^\/\/\\|^--\\|^> \\|^[#"%!;]//<CR>:nohlsearch<CR>
+
+" Mappings: splits
+noremap <leader>h :<C-u>split<CR>
+noremap <leader>v :<C-u>vsplit<CR>
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>w
+noremap <C-h> <C-w>W
+nnoremap <leader>+ :vertical resize +5<CR>
+nnoremap <leader>- :vertical resize -5<CR>
 
 "*** filetypes
 filetype on
 au BufNewFile,BufRead *.ihtml set filetype=php
 autocmd FileType php set kp=:help
 au BufNewFile,BufRead *.volt set filetype=html
+autocmd FileType coffee setlocal shiftwidth=2 softtabstop=2 expandtab
+autocmd FileType php setlocal shiftwidth=4 softtabstop=4 expandtab foldmethod=indent
 
 "*** folding
-let php_folding=0
-set foldnestmax=1
-noremap <space> za
-set nofoldenable  "*** disable folding on load - use zi command to toggle
-au FileType php setl nofen
+" let php_folding=0
+" set foldnestmax=1
+" noremap <space> za
+" set nofoldenable  "*** disable folding on load - use zi command to toggle
+" au FileType php setl nofen
+let g:foldstate=0
+func! DoFold()
+  if (!g:foldstate)
+    let g:foldstate=1
+    set foldenable
+    nmap <space> za
+  endif
+endfunc
+nmap <silent> <space> :call DoFold()<cr>
 
 "*** status line
 set statusline=%<%f%h%m%r%=%b\ 0x%B\ \ %l,%c%V\ %P " legacy statusline - not used if airline active
@@ -153,13 +193,17 @@ nmap ss ysiw
 nmap sl yss
 vmap s S
 
-"*** Search the first 20 lines for '@modified' and update with current date
+"*** On save, search the first 20 lines for '@modified' and update with current date
 function! LastMod()
   if line("$") > 20
     let l = 20
   else
     let l = line("$")
   endif
-  exe "1," . l . "g/@modified /s/@modified .*/@modified " . strftime("%d-%b-%Y")
+  call cursor(1, 1)
+  if search("@modified", 'W', l) > 0
+    exe "1," . l . "g/@modified /s/@modified .*/@modified " . strftime("%d-%b-%Y")
+  endif
 endfun
-autocmd BufWrite *   ks|call LastMod()|'s
+autocmd BufWrite * ks|call LastMod()|'s
+map <leader>mod :call LastMod()<cr>

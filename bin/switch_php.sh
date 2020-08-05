@@ -1,7 +1,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Switch between php versions including icu4c reinstall
-# @modified 11-Jun-2020
+# @modified 05-Aug-2020
 # ----------------------------------------------------------------------------
 
 php_version="7.4"
@@ -95,10 +95,14 @@ if [[ " ${php_array[*]} " == *"$php_version"* ]]; then
         for i in ${php_installed_array[@]}; do
             brew unlink $i
         done
-        brew link --force "$php_version"
+        brew link --force $php_version
 
-        echo " - relink php symlink"
-        symlink=`ls -l php_version | cut -f14 -d' '`
+        echo " - pwd: "
+        pwd
+        ls -al php
+        echo " - extracting symlink via cmd: ls -l $php_version | tr -s ' ' | cut -f11 -d' '"
+        symlink=`ls -l $php_version | tr -s ' ' | cut -f11 -d' '`
+        echo " - relink php symlink to $symlink"
         rm php
         ln -s $symlink php
 

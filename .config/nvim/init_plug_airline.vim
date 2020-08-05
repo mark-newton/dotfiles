@@ -3,11 +3,12 @@ let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tagbar#enabled = 1
 let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 0
+let g:airline_highlighting_cache = 1
 let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme = 'minimalist'
+let g:airline_theme = 'monor'
 let g:airline#extensions#hunks#enabled=0
 if !exists('g:airline_symbols')
   let g:airline_symbols = {}

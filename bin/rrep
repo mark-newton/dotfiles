@@ -1,0 +1,19 @@
+#!/bin/bash
+# ----------------------------------------------------------------------------
+# Recursive search and replace
+# @modified 14-Jun-2020
+# ----------------------------------------------------------------------------
+
+str_from=$1
+str_to=$2
+
+if [ -z $str_from ]; then
+    echo "Usage: rrep str_from str_to"
+    exit 0
+fi
+if [ -z $str_to ]; then
+    echo "Usage: rrep str_from str_to"
+    exit 0
+fi
+
+find . -type f  -exec sed -i '' s/$str_from/$str_to/g {} +

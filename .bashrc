@@ -54,46 +54,37 @@ BORANGE="\[\033[38;5;208m\]"
 BRED="\[\033[38;5;160m\]"
 NOCOLOR="\[\033[0m\]"
 
+TICK=$'\u2713'
+CROSS=$'\u2717'
+DOT=$'\u25CF'
+RANGLE=$'\u276F'
+RARROW=$'\u279C'
+
 HN=`echo $HOSTNAME | cut -f1 -d "."`
 if (( $UID == 0 )); then
   UIDCOL=$RED
   HOSTCOL=$RED
-  UIDCSR=$RED$'\u279C'
+  UIDNAME=$UIDCOL\\u@
+  UIDCSR=$RED$RANGLE$RANGLE
 else
   UIDCOL=$GRAY
   HOSTCOL=$BLUE
-  UIDCSR=$WHITE$'\u279C'
+  UIDNAME="$UIDCOL"
+  UIDCSR=$WHITE$RANGLE
 fi
 if [ -f $HOME/.host ];  then
   . $HOME/.host
 fi
 
 # Set prompt
-TICK=$'\u2713'
-CROSS=$'\u2717'
-git_branch() {
-  branch=$(__git_ps1 2> /dev/null)
-  if [ "$branch" = " (master)" ]; then
-     echo -e "\033[31m"
- elif [ "$branch" = " (develop)" ]; then
-     echo -e "\033[32m"
-  elif [ "$branch" = "" ]; then
-     echo -e ""
-  else
-     echo -e "\033[33m"
-  fi
-}
-export "PS1=$CYAN\t$NOCOLOR [$UIDCOL\u$GRAY@$HOSTCOL$HN$NOCOLOR $CYAN\w$NOCOLOR"'$(git branch &>/dev/null;\
-if [ $? -eq 0 ]; then \
-  echo "$(echo `git status` | grep "nothing to commit" > /dev/null 2>&1; \
-  if [ "$?" -eq "0" ]; then \
-    echo ""`git_branch`$(__git_ps1 " %s '$GREEN$TICK'"); \
-  else \
-    echo ""`git_branch`$(__git_ps1 " %s '$RED$CROSS'"); \
-  fi)'$NOCOLOR'] '$UIDCSR$NOCOLOR' "; \
-else \
-  echo "'$NOCOLOR'] '$UIDCSR$NOCOLOR' "; \
-fi)'
+export PS1="$GRAY\t $UIDNAME$HOSTCOL$HN:$BLUE\w $UIDCSR $NOCOLOR"
+if [ -f $HOME/.bash-git-prompt/gitprompt.sh ];  then
+  GIT_PROMPT_ONLY_IN_REPO=1
+  GIT_PROMPT_SHOW_CHANGED_FILES_COUNT=0
+  GIT_PROMPT_FETCH_REMOTE_STATUS=0
+  GIT_PROMPT_THEME=Single_line_Custom
+  source ~/.bash-git-prompt/gitprompt.sh
+fi
 
 export PROMPT_DIRTRIM=2
 export LS_COLORS=
