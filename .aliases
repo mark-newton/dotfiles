@@ -6,6 +6,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias df="df -h"
 alias vi=vim
+alias vdiff="vimdiff"
 alias findi='find . | grep -i'
 alias calc='bc -l'
 alias hf='history | grep $1'

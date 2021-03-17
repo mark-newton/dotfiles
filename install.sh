@@ -58,7 +58,7 @@ if [[ ! -f "$GITUSER_FILE" ]] ; then
   read -p "Are you running neovim? " -n 1 -r
   echo
   if [[ $REPLY =~ ^[Yy]$ ]] ; then
-    printf "[difftool]\n  prompt = false\n[diff]\n  tool = nvimdiff\n[difftool \"nvimdiff\"]\n  cmd = \"nvim -d \\\\\"\$LOCAL\\\\\" \\\\\"\$REMOTE\\\\\"\"\n" >> "$GITUSER_FILE"
+    printf "[merge]\n  tool = vimdiff\n[mergetool]\n  prompt = true\n[mergetool "vimdiff"]\n  cmd = nvim -d \$LOCAL \$REMOTE \$MERGED -c '\$wincmd w' -c 'wincmd J'\n[difftool]\n  prompt = true\n[diff]\n  tool = vimdiff\n" >> "$GITUSER_FILE"
   fi
   printf '%-40s' "Git user config file created:"
   printf "${HILITE}OK${NC}\n"
