@@ -1,15 +1,15 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Switch between php versions including icu4c reinstall
-# @modified 05-Aug-2020
+# @modified 14-Mar-2021
 # ----------------------------------------------------------------------------
 
 php_version="7.4"
 brew_prefix=$(brew --prefix)
 php_opt_dir="${brew_prefix}/opt"
 
-brew_array=("5.6","7.0","7.1","7.2","7.3","7.4")
-php_array=("php@5.6" "php@7.0" "php@7.1" "php@7.2" "php@7.3" "php@7.4")
+brew_array=("5.6","7.0","7.1","7.2","7.3","7.4","8.0")
+php_array=("php@5.6" "php@7.0" "php@7.1" "php@7.2" "php@7.3" "php@7.4" "php@8.0")
 
 function usage()
 {
@@ -91,20 +91,22 @@ if [[ " ${php_array[*]} " == *"$php_version"* ]]; then
     # Check that the requested version is installed
     if [[ " ${php_installed_array[*]} " == *"$php_version"* ]]; then
         printf "OK\n"
-        echo " - relink to brew $php_version"
-        for i in ${php_installed_array[@]}; do
-            brew unlink $i
-        done
-        brew link --force $php_version
 
-        echo " - pwd: "
-        pwd
-        ls -al php
-        echo " - extracting symlink via cmd: ls -l $php_version | tr -s ' ' | cut -f11 -d' '"
         symlink=`ls -l $php_version | tr -s ' ' | cut -f11 -d' '`
         echo " - relink php symlink to $symlink"
         rm php
         ln -s $symlink php
+
+        echo " - relink to brew $php_version"
+        for i in ${php_installed_array[@]}; do
+            brew unlink $i
+        done
+        brew link --force --overwrite $php_version
+
+        if [[ "$php_version" == "php@7.5" ]]; then
+            echo " - switch php to 7.4.7"
+            brew switch php 7.4.7
+        fi
 
         echo " - restart php service"
         brew services start $php_version
@@ -115,7 +117,10 @@ else
     echo "Unknown version of PHP. PHP Switcher can only handle arguments of:" ${brew_array[@]}
 fi
 
+lsof -Pni4 | grep LISTEN | grep php
 ps auwx | grep php
+ls -al /usr/local/bin/php*
+ls -al /usr/local/opt/php*
 php -v
 echo " - finished"
 

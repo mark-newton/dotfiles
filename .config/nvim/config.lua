@@ -1,0 +1,32 @@
+-- General mappings
+require('plugins')
+require('keymappings')
+require('settings')
+-- require('colorscheme')
+
+-- Plugins
+require('nv-compe')
+require('nv-colorizer')
+require('nv-nvimtree')
+-- require('nv-treesitter')
+require('nv-galaxyline')
+require('nv-gitsigns')
+require('nv-nvim-autopairs')
+require('nv-neogit')
+require('nv-kommentary')
+require('nv-quickscope')
+-- require('nv-rnvimr')
+require('nv-startify')
+require('nv-telescope')
+require('nv-floaterm')
+require('nv-closetag')
+require('nv-lspkind')
+require('nv-hop')
+
+-- LSP
+require('lsp')
+require('utils')
+require('lsp.lua-ls')
+require('lsp.bash-ls')
+require('lsp.js-ts-ls')
+require('lsp.php-ls')

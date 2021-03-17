@@ -55,6 +55,11 @@ if [[ ! -f "$GITUSER_FILE" ]] ; then
   printf "Enter git config author email: "
   read gitemail
   printf "[user]\n  name = $gitname\n  email = $gitemail\n" > "$GITUSER_FILE"
+  read -p "Are you running neovim? " -n 1 -r
+  echo
+  if [[ $REPLY =~ ^[Yy]$ ]] ; then
+    printf "[difftool]\n  prompt = false\n[diff]\n  tool = nvimdiff\n[difftool \"nvimdiff\"]\n  cmd = \"nvim -d \\\\\"\$LOCAL\\\\\" \\\\\"\$REMOTE\\\\\"\"\n" >> "$GITUSER_FILE"
+  fi
   printf '%-40s' "Git user config file created:"
   printf "${HILITE}OK${NC}\n"
 fi

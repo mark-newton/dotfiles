@@ -93,3 +93,15 @@ hi xmlEndTag         guifg=#569cd6 guibg=NONE gui=NONE
 "# Extras 
 "########################################
 hi SignColumn ctermfg=NONE guibg=NONE
+hi GitSignsAdd guifg=#5fd7a7
+hi GitSignsChange guifg=#d7ba7d
+hi GitSignsDelete guifg=#d16969
+hi Floaterm guibg=#161B1F ctermbg=NONE
+hi LspDiagnosticsError guifg=#d16969
+hi LspDiagnosticsWarning guifg=#d7ba7d
+hi LspDiagnosticsHint guifg=#569cd6
+hi LspDiagnosticsInformation guifg=#a3bfd1
+hi LspDiagnosticsVirtualTextError guifg=#999999
+hi LspDiagnosticsVirtualTextWarning guifg=#999999
+hi LspDiagnosticsVirtualTextHint guifg=#999999
+hi LspDiagnosticsVirtualTextInformation guifg=#999999

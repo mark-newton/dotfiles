@@ -10,14 +10,6 @@ endif
 set background=dark
 color codecourse
 
-" Git gutter
-hi! GitGutterAdd guibg=NONE guifg=#5fd7a7
-
-" Signify
-hi! SignifySignAdd guifg=#5fd7a7 guibg=NONE gui=NONE
-hi! SignifySignDelete guifg=#d16969 guibg=NONE gui=NONE
-hi! SignifySignChange guifg=#d7ba7d guibg=NONE gui=NONE
-
 " Floaterm
 hi! Floaterm guibg=#161B1F ctermbg=NONE
 "hi! FloatermNC guibg=NONE ctermbg=NONE
