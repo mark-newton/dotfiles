@@ -84,4 +84,6 @@ vim.cmd([[
     nnoremap <leader>+ :vertical resize +5<CR>
     nnoremap <leader>- :vertical resize -5<CR>
     nnoremap <leader>t :FloatermNew<CR>
+    nnoremap <leader>g :FloatermNew lazygit<CR>
+    nnoremap <leader>f :Telescope find_files<CR>
 ]])

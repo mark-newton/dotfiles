@@ -1,32 +1,38 @@
+" Set override folder
+set rtp+=$HOME/.config/nvim/overrides
+
+" General
+set list
+set listchars=tab:▷⋅,trail:⋅,nbsp:⋅
+set tabstop=4
+set shiftwidth=4
+set smarttab
+set expandtab
+set autoindent
+set smartindent
+set cin
+set noshowmode
+set cursorline
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set backspace=indent,eol,start
+
+" Legacy vimscript
+source $HOME/.config/nvim/vimscript/init_colours.vim
+" source $HOME/.config/nvim/vimscript/init_whichkey.vim
+
 " Most of the config is now in lua
 luafile $HOME/.config/nvim/config.lua
 
-" Legacy vimscript
-source $HOME/.config/nvim/init_colours.vim
-
 " Wincent settings
 scriptencoding utf-8
-let s:middot='·'
-let s:raquo='»'
-let s:small_l='ℓ'
-function! WincentFoldtext() abort
-  let l:lines='[' . (v:foldend - v:foldstart + 1) . s:small_l . ']'
-  let l:first=substitute(getline(v:foldstart), '\v *', '', '')
-  let l:dashes=substitute(v:folddashes, '-', s:middot, 'g')
-  return s:raquo . s:middot . s:middot . l:lines . l:dashes . ': ' . l:first
-endfunction
 set diffopt+=foldcolumn:0             " don't show fold column in diff view
-set fillchars+=vert:\
-if !has('nvim')
-  " Sync with corresponding nvim :highlight commands in ~/.vim/plugin/autocmds.vim:
-  set highlight+=@:Conceal            " ~/@ at end of window, 'showbreak'
-  set highlight+=D:Conceal            " override DiffDelete
-  set highlight+=N:FoldColumn         " make current line number stand out a little
-  set highlight+=c:LineNr             " blend vertical separators with line numbers
-endif
-if v:version > 703 || v:version == 703 && has('patch541')
-  set formatoptions+=j                " remove comment leader when joining comment lines
-endif
+set fillchars=diff:∙                  " BULLET OPERATOR (U+2219, UTF-8: E2 88 99)
+set fillchars+=fold:·                 " MIDDLE DOT (U+00B7, UTF-8: C2 B7)
+set fillchars+=vert:┃                 " BOX DRAWINGS HEAVY VERTICAL (U+2503, UTF-8: E2 94 83)
+set formatoptions+=j                  " remove comment leader when joining comment lines
 set list                              " show whitespace
 set listchars=nbsp:⦸                  " CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
 set listchars+=tab:▷┅                 " WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7)
@@ -57,13 +63,49 @@ func! ToggleWinLayout()
   endif
 endfunc
 
-" PHP folding
-let php_folding=1
+" Folding (using treesitter)
+let s:middot='·'
+let s:raquo='»'
+let s:small_l='ℓ'
+function! GetSpaces(foldLevel)
+    if &expandtab == 1
+        " Indenting with spaces
+        let str = repeat(" ", a:foldLevel / (&shiftwidth + 1) - 1)
+        return str
+    elseif &expandtab == 0
+        " Indenting with tabs
+        return repeat(" ", indent(v:foldstart) - (indent(v:foldstart) / &shiftwidth))
+    endif
+endfunction
+function! CustomFoldText() abort
+    let l:lines='[' . (v:foldend - v:foldstart + 1) . ' lines' . ']'
+    let startLineText = getline(v:foldstart)
+    let endLineText = trim(getline(v:foldend))
+    let indentation = GetSpaces(foldlevel("."))
+    let spaces = repeat(" ", 400)
+    let str = indentation . startLineText . " " . s:middot . s:middot . l:lines . s:middot . s:middot . " " . endLineText . spaces
+    return str
+endfunction
+function! WincentFoldtext() abort
+  let l:lines='[' . (v:foldend - v:foldstart + 1) . s:small_l . ']'
+  let l:first=substitute(getline(v:foldstart), '\v *', '', '')
+  let l:dashes=substitute(v:folddashes, '-', s:middot, 'g')
+  return s:raquo . s:middot . s:middot . l:lines . l:dashes . ': ' . l:first
+endfunction
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
+autocmd FileType php set foldmethod=expr foldexpr=nvim_treesitter#foldexpr() "PHP Folding only
+set foldlevel=1
+set foldlevelstart=1
 set foldnestmax=2
+set foldtext=CustomFoldText()
 nmap <space> za
+nmap <leader>o zR
 
 " Function to toggle line numbers
-let g:dnum=0
+set number
+set relativenumber
+let g:dnum=1
 func! ToggleNumbers()
   if (g:dnum)
     set number! relativenumber!

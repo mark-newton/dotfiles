@@ -6,7 +6,7 @@ require('telescope').load_extension('media_files')
 require('telescope').setup {
     defaults = {
         vimgrep_arguments = {'rg', '--no-heading', '--with-filename', '--line-number', '--column', '--smart-case'},
-        prompt_position = "top",
+        prompt_position = "bottom",
         prompt_prefix = " ",
         selection_caret = " ",
         entry_prefix = "  ",
@@ -53,6 +53,7 @@ require('telescope').setup {
                 -- ["<CR>"] = actions.select_default + actions.center + my_cool_custom_action,
             },
             n = {
+                ["<esc>"] = actions.close,
                 ["<C-j>"] = actions.move_selection_next,
                 ["<C-k>"] = actions.move_selection_previous
                 -- ["<esc>"] = actions.close,
