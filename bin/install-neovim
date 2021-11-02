@@ -4,6 +4,11 @@
 # @modified 02-Nov-2021
 # ----------------------------------------------------------------------------
 
+doBrew="false"
+doDev="false"
+doRel="false"
+doLvim="false"
+
 function usage() {
 cat <<EOF
 Usage:  $0 [OPTIONS]
@@ -25,51 +30,26 @@ function error() {
     [[ ! "$2" == "noexit" ]] && exit 1
 }
 
-doCopy="true"
 while getopts "abdrlh" OPTION; do
     case $OPTION in
         a)
-            brew update
-            brew upgrade
-            brew cleanup
-            brew doctor
-            cd ~
-            sudo rm -r neovim
-            git clone https://github.com/neovim/neovim
-            cd neovim
-            sudo make CMAKE_BUILD_TYPE=Release install
-            cd ~
-            sudo rm -r neovim
-            bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/rolling/utils/installer/install.sh)
-            if [ ! -f ~/bin/lvim ]; then
-                ln -s ~/.local/bin/lvim ~/bin/lvim
-                echo "Added symlink to lvim"
-            fi
+            doBrew="true"
+            doDev="true"
+            doLvim="true"
             ;;
         b)
-            brew update
-            brew upgrade
-            brew cleanup
-            brew doctor
+            doBrew="true"
             ;;
         d)
-            cd ~
-            sudo rm -r neovim
-            git clone https://github.com/neovim/neovim
-            cd neovim
-            sudo make CMAKE_BUILD_TYPE=Release install
-            cd ~
-            sudo rm -r neovim
+            doDev="true"
+            doRel="false"
             ;;
         r)
-            bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/rolling/utils/installer/install-neovim-from-release)
+            doDev="false"
+            doRel="true"
             ;;
         l)
-            bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/rolling/utils/installer/install.sh)
-            if [ ! -f ~/bin/lvim ]; then
-                ln -s ~/.local/bin/lvim ~/bin/lvim
-                echo "Added symlink to lvim"
-            fi
+            doLvim="true"
             ;;
         h)
             usage
@@ -92,4 +72,35 @@ while getopts "abdrlh" OPTION; do
             ;;
     esac
 done
+
+[[ "${doBrew}" == "true" ]] && {
+    echo "Updating Brew:"
+    brew update
+    brew upgrade
+    brew cleanup
+    brew doctor
+}
+[[ "${doDev}" == "true" ]] && {
+    echo "Installing Neovim from dev (compile):"
+    cd ~
+    sudo rm -r neovim
+    git clone https://github.com/neovim/neovim
+    cd neovim
+    sudo make CMAKE_BUILD_TYPE=Release install
+    cd ~
+    sudo rm -r neovim
+}
+[[ "${doRel}" == "true" ]] && {
+    echo "Installing Neovim from release:"
+    bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/rolling/utils/installer/install-neovim-from-release)
+}
+[[ "${doLvim}" == "true" ]] && {
+    echo "Installing Lunarvim:"
+    bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/rolling/utils/installer/install.sh)
+    if [ ! -f ~/bin/lvim ]; then
+        ln -s ~/.local/bin/lvim ~/bin/lvim
+        echo "Added symlink to lvim"
+    fi
+}
+
 echo Install complete
