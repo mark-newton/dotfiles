@@ -1,0 +1,95 @@
+#!/bin/bash
+# ----------------------------------------------------------------------------
+# Install latest neovim/lunarvim
+# @modified 02-Nov-2021
+# ----------------------------------------------------------------------------
+
+function usage() {
+cat <<EOF
+Usage:  $0 [OPTIONS]
+
+This script installs latest neovim and/or lunarvim config
+
+OPTIONS:
+  -d  Neovim dev
+  -r  Neovim release
+  -l  Lunarvim
+  -b  Brew updates
+  -a  All (dev)
+
+EOF
+}
+
+function error() {
+    echo -e "Error: $1"
+    [[ ! "$2" == "noexit" ]] && exit 1
+}
+
+doCopy="true"
+while getopts "abdrlh" OPTION; do
+    case $OPTION in
+        a)
+            brew update
+            brew upgrade
+            brew cleanup
+            brew doctor
+            cd ~
+            sudo rm -r neovim
+            git clone https://github.com/neovim/neovim
+            cd neovim
+            sudo make CMAKE_BUILD_TYPE=Release install
+            cd ~
+            sudo rm -r neovim
+            bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/rolling/utils/installer/install.sh)
+            if [ ! -f ~/bin/lvim ]; then
+                ln -s ~/.local/bin/lvim ~/bin/lvim
+                echo "Added symlink to lvim"
+            fi
+            ;;
+        b)
+            brew update
+            brew upgrade
+            brew cleanup
+            brew doctor
+            ;;
+        d)
+            cd ~
+            sudo rm -r neovim
+            git clone https://github.com/neovim/neovim
+            cd neovim
+            sudo make CMAKE_BUILD_TYPE=Release install
+            cd ~
+            sudo rm -r neovim
+            ;;
+        r)
+            bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/rolling/utils/installer/install-neovim-from-release)
+            ;;
+        l)
+            bash <(curl -s https://raw.githubusercontent.com/lunarvim/lunarvim/rolling/utils/installer/install.sh)
+            if [ ! -f ~/bin/lvim ]; then
+                ln -s ~/.local/bin/lvim ~/bin/lvim
+                echo "Added symlink to lvim"
+            fi
+            ;;
+        h)
+            usage
+            exit 0
+            ;;
+        :)
+            error "Error: -$OPTION requires an argument" noexit
+            usage
+            exit 1
+            ;;
+        \?)
+            error "Error: unknown option -$OPTION" noexit
+            usage
+            exit 1
+            ;;
+        *)
+            [[ "$OPTARG" == "" ]] && OPTARG='"-'$OPTION' 1"'
+            OPTION="OPT_$OPTION"
+            eval ${OPTION}=$OPTARG
+            ;;
+    esac
+done
+echo Install complete
