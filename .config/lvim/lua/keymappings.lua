@@ -11,9 +11,11 @@ vim.cmd([[
     set pt=<F4>
     vmap <f5> gc
     map <f7> <C-W>w
+    nmap <f9> :set list! list? <CR>
     nmap <leader>ws :below new<cr>
     nmap <leader>c :clo<cr>
     nmap <leader>w <C-w>w
+    nmap <leader>li :set list! list? <cr>
     nnoremap <silent> <leader><space> :noh<cr>
     imap ii <Esc>
     noremap <leader>h :<C-u>split<CR>

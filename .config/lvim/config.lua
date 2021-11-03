@@ -11,10 +11,21 @@ lvim.log.level = 'warn'
 lvim.format_on_save = false
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = 'left'
-lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.bufferline.active = false
-lvim.builtin.lualine.style = "lvim"
+lvim.builtin.lualine.style = 'lvim'
+lvim.builtin.project.active = false
+
+-- nvim-tree
+vim.g.netrw_banner = false
+lvim.builtin.nvimtree.active = true
+lvim.builtin.nvimtree.show_icons.git = true
+lvim.builtin.nvimtree.setup.view.side = 'left'
+lvim.builtin.nvimtree.setup.disable_netrw = false
+lvim.builtin.nvimtree.setup.hijack_netrw = false
+lvim.builtin.nvimtree.setup.update_to_buf_dir = {
+    enable=false,
+    auto_open=false
+}
 
 -- treesitter
 lvim.builtin.treesitter.ensure_installed = {

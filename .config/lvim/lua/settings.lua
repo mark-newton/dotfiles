@@ -119,6 +119,8 @@ vim.cmd([[
         let g:dnum=1
       endif
     endfunc
+    nmap <f10> :call ToggleNumbers()<cr>
+    nmap <leader>ln :call ToggleNumbers()<cr>
 
     if has('macunix')
       set clipboard=unnamed,unnamedplus
@@ -141,5 +143,5 @@ vim.cmd([[
       endif
     endfun
     autocmd BufWrite * ks|call LastMod()|'s
-    map <leader>mod :call LastMod()<cr>
+    nmap <leader>mod :call LastMod()<cr>
 ]])
