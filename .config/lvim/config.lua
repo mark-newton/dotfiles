@@ -12,8 +12,8 @@ lvim.format_on_save = false
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.bufferline.active = false
-lvim.builtin.lualine.style = 'lvim'
-lvim.builtin.project.active = false
+lvim.builtin.project.active = true
+lvim.builtin.project.manual_mode = true
 
 -- nvim-tree
 vim.g.netrw_banner = false
@@ -47,14 +47,13 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- plugins
 lvim.plugins = {
+    {"folke/tokyonight.nvim"},
+    {"tpope/vim-surround"},
     {
         "ray-x/lsp_signature.nvim",
         config = function()
             require "lsp_signature".setup()
         end
-    },
-    {
-        "tpope/vim-surround",
     },
     {
         "karb94/neoscroll.nvim",
@@ -77,8 +76,23 @@ lvim.plugins = {
 }
 
 -- colours
-lvim.colorscheme = "codecourse"
-lvim.builtin.lualine.options.theme = "ayu_mirage"
+lvim.colorscheme = "tokyonight"
+vim.g.tokyonight_style = "night"
+vim.g.tokyonight_transparent_sidebar = true
+vim.g.tokyonight_italic_comments = true
+vim.g.tokyonight_colors = {
+    fg_gutter = 'bg_dark',
+    bg_highlight = '#1D1F2D'
+}
+
+-- lualine
+-- lvim.builtin.lualine.options.theme = "ayu_mirage"
+lvim.builtin.lualine.options.theme = "tokyonight"
+lvim.builtin.lualine.style = 'lvim'
+local components = require("lvim.core.lualine.components")
+lvim.builtin.lualine.sections.lualine_y = {
+  components.location,
+}
 
 -- includes
 require('settings')

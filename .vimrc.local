@@ -5,7 +5,7 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
 colorscheme codecourse
-hi! Normal guibg=#14181D
+hi! Normal guibg=#1a1b26
 
 "*** Settings
 set list
@@ -147,7 +147,7 @@ autocmd FileType php setlocal shiftwidth=4 softtabstop=4 expandtab foldmethod=in
 " let php_folding=0
 " set foldnestmax=1
 " noremap <space> za
-" set nofoldenable  "*** disable folding on load - use zi command to toggle
+set nofoldenable  "*** disable folding on load - use zi command to toggle
 " au FileType php setl nofen
 let g:foldstate=0
 func! DoFold()
@@ -170,7 +170,7 @@ let g:airline_exclude_preview = 1
 let g:airline_powerline_fonts = 1
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_theme = 'minimalist'
+let g:airline_theme = 'zenburn'
 let g:airline#extensions#hunks#enabled=0
 
 "*** gitgutter

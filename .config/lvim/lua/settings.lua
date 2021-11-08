@@ -24,10 +24,10 @@ vim.opt.laststatus = 2
 vim.opt.list = true
 vim.opt.modelines = 5
 vim.opt.mouse = "a"
-vim.opt.number = true
+vim.opt.number = false
 vim.opt.numberwidth = 4
 vim.opt.pumheight = 10
-vim.opt.relativenumber = true
+vim.opt.relativenumber = false
 vim.opt.scrolloff = 8
 vim.opt.shiftwidth = 4
 vim.opt.showmode = false
@@ -109,7 +109,7 @@ vim.cmd([[
     set foldnestmax=2
     set foldtext=CustomFoldText()
 
-    let g:dnum=1
+    let g:dnum=0
     func! ToggleNumbers()
       if (g:dnum)
         set number! relativenumber!
