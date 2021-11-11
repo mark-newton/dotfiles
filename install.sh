@@ -18,6 +18,12 @@ if [[ $REPLY =~ ^[Yy]$ ]] ; then
   printf "${HILITE}OK${NC}\n"
 fi
 
+if ! command -v starship &> /dev/null
+then
+    printf "Starship prompt needs to be installed...\n"
+    sh -c "$(curl -fsSL https://starship.rs/install.sh)"
+fi
+
 BACKUP_DIR=$(pwd)/$BACKUP_DIR
 [ ! -d "$BACKUP_DIR" ] && mkdir "$BACKUP_DIR"
 

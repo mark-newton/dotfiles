@@ -13,7 +13,7 @@ error_symbol = "[➜](red)"
 min_time = 1000
 show_milliseconds = false
 format = '[$duration]($style) '
-style = 'purple'
+style = 'fg:#84A2F1 bg:#202334'
 
 [directory]
 truncation_length = 2
@@ -51,8 +51,8 @@ style = 'bright-black'
 
 [username]
 show_always = false
-style_user = 'cyan'
-style_root = 'fg:#db4b4b bg:#2B2129'
+style_user = 'fg:#5AB6D3 bg:#1E2B37'
+style_root = 'fg:#C85550 bg:#2B2129'
 format = '[$user]($style)'
 
 [custom.hostname]
