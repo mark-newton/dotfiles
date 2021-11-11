@@ -1,0 +1,61 @@
+add_newline = false
+format = """
+$time $username@${custom.hostname}$directory\
+$git_branch$git_status\
+$line_break$cmd_duration$character
+"""
+
+[character]
+success_symbol = "[➜](green)"
+error_symbol = "[➜](red)"
+
+[cmd_duration]
+min_time = 1000
+show_milliseconds = false
+format = '[$duration]($style) '
+style = 'purple'
+
+[directory]
+truncation_length = 2
+truncation_symbol = "…/"
+style = 'blue'
+
+[git_branch]
+format = '\[[$branch]($style)'
+style = 'bright-white'
+
+[git_status]
+format = '([$all_status$ahead_behind\]]($style)) '
+ahead = "[↑](cyan)"
+behind = "[⇣](red)"
+conflicted = '[✖](red)'
+deleted = '[✖](green)'
+modified = '[●](red)'
+staged = '[●](green)'
+stashed = '[⚑](yellow)'
+untracked = '[●](blue)'
+up_to_date = "[✔](green)"
+style = 'bright-white'
+
+[line_break]
+disabled = true
+
+[package]
+disabled = true
+
+[time]
+disabled = false
+format = '[$time]($style)'
+time_format = "%T"
+style = 'bright-black'
+
+[username]
+show_always = false
+style_user = 'cyan'
+style_root = 'fg:#db4b4b bg:#2B2129'
+format = '[$user]($style)'
+
+[custom.hostname]
+command = 'echo "$HOSTCOL$HN"'
+when = 'true'
+style = ''

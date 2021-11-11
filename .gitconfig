@@ -75,7 +75,7 @@
   autosetuprebase = local
 
 [branch "master"]
-  rebase = true
+  rebase = false
 
 [color]
   ui = auto
