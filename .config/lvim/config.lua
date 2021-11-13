@@ -47,17 +47,18 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- plugins
 lvim.plugins = {
-    {"folke/tokyonight.nvim"},
-    {"tpope/vim-surround"},
+    {'folke/tokyonight.nvim'},
+    {'tpope/vim-surround'},
+    {'cwebster2/color-overrides.nvim'},
     {
-        "ray-x/lsp_signature.nvim",
+        'ray-x/lsp_signature.nvim',
         config = function()
             require "lsp_signature".setup()
         end
     },
     {
-        "karb94/neoscroll.nvim",
-        event = "WinScrolled",
+        'karb94/neoscroll.nvim',
+        event = 'WinScrolled',
         config = function()
         require('neoscroll').setup({
             -- All these keys will be mapped to their corresponding default scrolling animation
@@ -79,14 +80,16 @@ lvim.plugins = {
 lvim.colorscheme = "tokyonight"
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_transparent_sidebar = true
-vim.g.tokyonight_italic_comments = true
 vim.g.tokyonight_colors = {
-    fg_gutter = 'bg_dark',
-    bg_highlight = '#1D1F2D'
+     bg_highlight = '#1D1F2D'
 }
+local override_reset = {'Folded'}
+local override_set = {
+  Folded = {ctermbg='NONE', ctermfg='blue', guibg='NONE', guifg='#7aa2f7'},
+}
+require'color-overrides'.set_overrides(override_reset, override_set)
 
 -- lualine
--- lvim.builtin.lualine.options.theme = "ayu_mirage"
 lvim.builtin.lualine.options.theme = "tokyonight"
 lvim.builtin.lualine.style = 'lvim'
 local components = require("lvim.core.lualine.components")

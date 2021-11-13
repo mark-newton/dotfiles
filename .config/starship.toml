@@ -27,9 +27,9 @@ style = 'bright-white'
 [git_status]
 format = '([$all_status$ahead_behind\]]($style)) '
 ahead = "[↑](cyan)"
-behind = "[⇣](red)"
-conflicted = '[✖](red)'
-deleted = '[✖](green)'
+behind = "[↓](red)"
+conflicted = '[✖](fg:red bg:#2B2129)'
+deleted = '[✖](purple)'
 modified = '[●](red)'
 staged = '[●](green)'
 stashed = '[⚑](yellow)'
