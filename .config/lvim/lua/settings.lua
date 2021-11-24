@@ -72,6 +72,9 @@ vim.opt.listchars = {
 
 -- legacy vimscript
 vim.cmd([[
+    let &t_8f="\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b="\<Esc>[48;2;%lu;%lu;%lum"
+
     filetype on
     au BufNewFile,BufRead *.ihtml set filetype=php
     au BufNewFile,BufRead *.volt set filetype=html

@@ -1,13 +1,6 @@
 # .bashrc
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-case "$TERM" in
-  xterm*|rxvt*|screen*)
-    bind '"\e[A"':history-search-backward
-    bind '"\e[B"':history-search-forward
-  ;;
-esac
-
 if [ -f $HOME/.fzf.bash ];  then
   . $HOME/.fzf.bash
 fi
@@ -63,6 +56,13 @@ export EDITOR=vim
 if [ -t 0 ];then
   echo -ne "\033]0;"$HN"\007"
 fi
+
+case "$TERM" in
+  xterm*|rxvt*|screen*)
+    bind '"\e[A"':history-search-backward
+    bind '"\e[B"':history-search-forward
+  ;;
+esac
 
 # Starship prompt
 eval "$(starship init bash)"
