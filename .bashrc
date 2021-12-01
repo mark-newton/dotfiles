@@ -58,7 +58,7 @@ if [ -t 0 ];then
 fi
 
 case "$TERM" in
-  xterm*|rxvt*|screen*)
+  xterm*|rxvt*|screen*|tmux*)
     bind '"\e[A"':history-search-backward
     bind '"\e[B"':history-search-forward
   ;;
