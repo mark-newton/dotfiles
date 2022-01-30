@@ -27,3 +27,4 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'gorodinskiy/vim-coloresque',{'on':[]}
 Plug 'bronson/vim-trailing-whitespace',{'on':[]}
 Plug 'dense-analysis/ale',{'on':[]}
+Plug 'SirVer/ultisnips',{'on':[]}
