@@ -1,7 +1,7 @@
 -- Whickkey overrides
-lvim.builtin.which_key.mappings["w"] = {"<C-w>w", "Swap window"}
-lvim.builtin.which_key.mappings["v"] = {"<cmd>:vsplit<cr>", "VSplit"}
-lvim.builtin.which_key.mappings["h"] = {"<cmd>:split<cr>", "HSplit"}
+lvim.builtin.which_key.mappings["w"] = { "<C-w>w", "Swap window" }
+lvim.builtin.which_key.mappings["v"] = { "<cmd>:vsplit<cr>", "VSplit" }
+lvim.builtin.which_key.mappings["h"] = { "<cmd>:split<cr>", "HSplit" }
 
 -- My extras
 lvim.keys.normal_mode["<f1>"] = ":lua vim.lsp.buf.hover()<CR>"
@@ -17,7 +17,6 @@ vim.cmd([[
     nmap <leader>w <C-w>w
     nmap <leader>li :set list! list? <cr>
     nnoremap <silent> <leader><space> :noh<cr>
-    imap ii <Esc>
     noremap <leader>h :<C-u>split<CR>
     noremap <leader>v :<C-u>vsplit<CR>
     noremap <C-j> <C-w>j

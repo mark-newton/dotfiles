@@ -20,14 +20,14 @@ vim.opt.hlsearch = true
 vim.opt.ignorecase = true
 vim.opt.inccommand = 'split'
 vim.opt.joinspaces = false
-vim.opt.laststatus = 2
+vim.opt.laststatus = 3
 vim.opt.list = true
 vim.opt.modelines = 5
 vim.opt.mouse = "a"
 vim.opt.number = false
 vim.opt.numberwidth = 4
 vim.opt.pumheight = 10
-vim.opt.relativenumber = false
+vim.opt.relativenumber = true
 vim.opt.scrolloff = 8
 vim.opt.shiftwidth = 4
 vim.opt.showmode = false
@@ -101,18 +101,22 @@ vim.cmd([[
         let endLineText = trim(getline(v:foldend))
         let indentation = GetSpaces(foldlevel("."))
         let spaces = repeat(" ", 400)
-        let str = indentation . startLineText . " " . s:middot . s:middot . l:lines . s:middot . s:middot . " " . endLineText . spaces
+        "let str = indentation . startLineText . " " . s:middot . s:middot . l:lines . s:middot . s:middot . " " . endLineText . spaces
+        let str = indentation . " " . s:middot . s:middot . s:middot . l:lines . s:middot . s:middot . s:middot . spaces
         return str
     endfunction
+    set nofoldenable
     " set foldmethod=expr
     " set foldexpr=nvim_treesitter#foldexpr()
-    autocmd FileType php set foldmethod=expr foldexpr=nvim_treesitter#foldexpr() "PHP Folding only
+    " autocmd FileType php set foldmethod=expr foldexpr=nvim_treesitter#foldexpr() "PHP Folding only
+    "*** neovim treesitter expr not working well - switched to indent
+    autocmd FileType php set foldmethod=indent foldexpr=nvim_treesitter#foldexpr() "PHP Folding only
     set foldlevel=1
     set foldlevelstart=1
     set foldnestmax=2
     set foldtext=CustomFoldText()
 
-    let g:dnum=0
+    let g:dnum=1
     func! ToggleNumbers()
       if (g:dnum)
         set number! relativenumber!

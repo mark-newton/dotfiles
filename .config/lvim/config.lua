@@ -9,19 +9,21 @@
 lvim.leader = ','
 lvim.log.level = 'warn'
 lvim.format_on_save = false
-lvim.builtin.dashboard.active = true
+lvim.builtin.alpha.active = true
+lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.terminal.active = true
 lvim.builtin.bufferline.active = false
 lvim.builtin.project.active = true
 lvim.builtin.project.manual_mode = true
+lvim.builtin.indentlines.active = false
 
 -- nvim-tree
 vim.g.netrw_banner = false
 lvim.builtin.nvimtree.active = true
-lvim.builtin.nvimtree.show_icons.git = true
-lvim.builtin.nvimtree.setup.view.side = 'left'
 lvim.builtin.nvimtree.setup.disable_netrw = false
 lvim.builtin.nvimtree.setup.hijack_netrw = false
+lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.update_to_buf_dir = {
     enable=false,
     auto_open=false
@@ -44,12 +46,14 @@ lvim.builtin.treesitter.ensure_installed = {
 }
 lvim.builtin.treesitter.ignore_install = { 'haskell' }
 lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "php" }
+lvim.builtin.treesitter.indent = { enable = true, disable = { "yaml", "python", "php" } }
 
 -- plugins
 lvim.plugins = {
-    {'folke/tokyonight.nvim'},
     {'tpope/vim-surround'},
     {'cwebster2/color-overrides.nvim'},
+    {'ThePrimeagen/vim-be-good'},
     {
         'ray-x/lsp_signature.nvim',
         config = function()
@@ -77,7 +81,8 @@ lvim.plugins = {
 }
 
 -- colours
-lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "lunar"
+--lvim.colorscheme = "tokyonight"
 vim.g.tokyonight_style = "night"
 vim.g.tokyonight_transparent_sidebar = true
 vim.g.tokyonight_colors = {
