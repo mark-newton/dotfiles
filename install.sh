@@ -51,10 +51,10 @@ if [[ ! -f "$HOST_FILE" ]] ; then
   printf "Enter host colour for prompt: "
   read pcol
   printf '%-40s' "Host file created:"
-  printf "HN=\"${phost}\"\n" > "$HOST_FILE"
+  printf "export HN=\"${phost%}\"\n" > "$HOST_FILE"
   printf "${HILITE}OK${NC}\n"
   printf '%-40s' "Starship config updated:"
-  sed -i "/^\[env_var\.HN\]$/!b;n;s/style = .*/style = \"$pcol\"/" "$STARSHIP_FILE"
+  sed -i -e "/^\[custom\.hostname\]$/ { n; s/^format *=.*/format = '[${phost}](${pcol})'/; }" "$STARSHIP_FILE"
   printf "${HILITE}OK${NC}\n"
 fi
 

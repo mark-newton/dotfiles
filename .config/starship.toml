@@ -1,6 +1,6 @@
 add_newline = false
 format = """
-$time $username@${env_var.HN}$directory\
+$time $username@${custom.hostname}$directory\
 $git_branch$git_status\
 $line_break$cmd_duration$character
 """
@@ -55,7 +55,6 @@ style_user = 'fg:#5AB6D3 bg:#1E2B37'
 style_root = 'fg:#C85550 bg:#2B2129'
 format = '[$user]($style)'
 
-[env_var.HN]
-style = 'fg:#C85550 bg:#2B2129'
-variable = 'HN'
-format = '[$env_value]($style)'
+[custom.hostname]
+format = '[HOST](red)'
+when = 'true'
