@@ -4,6 +4,7 @@ GITUSER_FILE=".gitconfig.user"
 HOST_FILE=".host"
 HILITE="\e[38;5;34m"
 NC="\e[0m"
+STARSHIP_FILE=".config/starship.toml"
 
 cd "$(dirname "${BASH_SOURCE}")";
 
@@ -46,11 +47,14 @@ if [[ ! -f "$HOST_FILE" ]] ; then
   printf "Creating host settings...\n"
   printf "Enter hostname for prompt: "
   read phost
-  printf "Avail colours: RED/GREEN/YELLOW/BLUE/PURPLE/CYAN/OWHITE/L*/GRAY/BRED/BGREEN/BORANGE\n"
+  printf "Avail styles: black, red, green, blue, yellow, purple, cyan, white, bright-*\n"
   printf "Enter host colour for prompt: "
   read pcol
-  printf "HN=\"${phost}\"\nHOSTCOL=\$${pcol}\n" > "$HOST_FILE"
   printf '%-40s' "Host file created:"
+  printf "HN=\"${phost}\"\n" > "$HOST_FILE"
+  printf "${HILITE}OK${NC}\n"
+  printf '%-40s' "Starship config updated:"
+  sed -i "/^\[env_var\.HN\]$/!b;n;s/style = .*/style = \"$pcol\"/" "$STARSHIP_FILE"
   printf "${HILITE}OK${NC}\n"
 fi
 
