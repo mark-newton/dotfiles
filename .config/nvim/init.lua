@@ -209,30 +209,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 -- TODO: move these into lua
 vim.cmd([[
 
-  " Custom fold text
-  let s:middot='·'
-  let s:raquo='»'
-  function! GetSpaces(foldLevel)
-    if &expandtab == 1
-      " Indenting with spaces
-      let str = repeat(" ", a:foldLevel / (&shiftwidth + 1) - 1)
-      return str
-    elseif &expandtab == 0
-      " Indenting with tabs
-      return repeat(" ", indent(v:foldstart) - (indent(v:foldstart) / &shiftwidth))
-    endif
-  endfunction
-  function! CustomFoldText() abort
-    let l:lines='[' . (v:foldend - v:foldstart + 1) . ' lines' . ']'
-    let startLineText = getline(v:foldstart)
-    let endLineText = trim(getline(v:foldend))
-    let indentation = GetSpaces(foldlevel("."))
-    let spaces = repeat(" ", 400)
-    let str = indentation . startLineText . " " . s:middot . s:middot . l:lines . s:middot . s:middot . " " . endLineText . spaces
-    return str
-  endfunction
-  set foldtext=CustomFoldText()
-
   " Update last modified date
   function! LastMod()
     if line("$") > 20
@@ -737,6 +713,26 @@ require("lazy").setup(
           ] @fold
         ]])
       end,
+    },
+    --}}}
+
+    -- pretty folding {{{
+    {
+      "anuvyklack/pretty-fold.nvim",
+      config = function()
+        require("pretty-fold").setup({
+          sections = {
+            left = {
+              'content',
+            },
+            right = {
+              ' ', 'number_of_folded_lines', ' ',
+              function(config) return config.fill_char:rep(3) end
+            },
+          },
+          fill_char = '·'
+        })
+      end
     },
     --}}}
 
