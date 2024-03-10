@@ -36,29 +36,29 @@ vim.opt.timeoutlen = 300
 vim.opt.undofile = true
 vim.opt.updatetime = 250
 vim.opt.wrap = false
-vim.opt.foldcolumn = "0" -- set to 1 to show the foldcolumn
 
 vim.opt.fillchars = {
-    diff = "·", -- MIDDLE DOT (U+00B7, UTF-8: C2 B7)
-    eob = " ", -- NO-BREAK SPACE (U+00A0, UTF-8: C2 A0) to suppress ~ at EndOfBuffer
-    vert = "│", -- BOX DRAWINGS THIN VERTICAL (U+2502), same as tmux
-    fold = " ",
-    foldsep = " ",
-    foldopen = "",
-    foldclose = "",
+  diff = "·", -- MIDDLE DOT (U+00B7, UTF-8: C2 B7)
+  eob = " ", -- NO-BREAK SPACE (U+00A0, UTF-8: C2 A0) to suppress ~ at EndOfBuffer
+  vert = "│", -- BOX DRAWINGS THIN VERTICAL (U+2502), same as tmux
+  fold = " ",
+  foldsep = " ",
+  foldopen = "",
+  foldclose = "",
 }
 vim.opt.listchars = {
-    nbsp = "⦸", -- CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
-    extends = "»", -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
-    precedes = "«", -- LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
-    tab = "▷⋯", -- WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7) + MIDLINE HORIZONTAL ELLIPSIS (U+22EF, UTF-8: E2 8B AF)
-    trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
+  nbsp = "⦸", -- CIRCLED REVERSE SOLIDUS (U+29B8, UTF-8: E2 A6 B8)
+  extends = "»", -- RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00BB, UTF-8: C2 BB)
+  precedes = "«", -- LEFT-POINTING DOUBLE ANGLE QUOTATION MARK (U+00AB, UTF-8: C2 AB)
+  tab = "▷⋯", -- WHITE RIGHT-POINTING TRIANGLE (U+25B7, UTF-8: E2 96 B7) + MIDLINE HORIZONTAL ELLIPSIS (U+22EF, UTF-8: E2 8B AF)
+  trail = "•", -- BULLET (U+2022, UTF-8: E2 80 A2)
 }
 
 -- code folding
 vim.opt.foldenable = false  -- turn off by default (turn on by filetype)
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldcolumn = "0" -- set to 1 to show the foldcolumn
 --vim.opt.foldtext = "nvim_treesitter#foldtext()"
 --}}}
 
@@ -91,7 +91,7 @@ vim.keymap.set("n", "N", "Nzzzv")
 -- Diagnostic keymaps
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Go to previous [D]iagnostic message" })
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Go to next [D]iagnostic message" })
-vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { desc = "Show diagnostic [E]rror messages" })
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, { desc = "Show [D]iagnostic message" })
 vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
 
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
@@ -121,8 +121,58 @@ vim.keymap.set("n", "<f9>", ":set list! list? <CR>") -- toggle
 
 --}}}
 
+-- AUTOCMDS {{{
+vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"},{
+  pattern = "*.volt",
+  callback = function()
+    vim.opt.filetype = "html"
+  end
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "lua",
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+    vim.opt.foldenable = true
+    vim.opt.foldmethod = "marker"
+  end
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "php",
+  callback = function()
+    vim.opt_local.shiftwidth = 4
+    vim.opt_local.tabstop = 4
+    vim.opt_local.softtabstop = 4
+    vim.opt_local.expandtab = true
+    vim.opt.kp = ":help"
+    vim.opt.foldenable = true
+  end
+})
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = {"html", "coffee"},
+  callback = function()
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.tabstop = 2
+    vim.opt_local.softtabstop = 2
+    vim.opt_local.expandtab = true
+  end
+})
+
+-- Show cursor line on active window only
+local cursorGrp = vim.api.nvim_create_augroup("CursorLine", { clear = true })
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, {
+  pattern = "*", command = "set cursorline", group = cursorGrp
+})
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
+  pattern = "*", command = "set nocursorline", group = cursorGrp
+})
+--}}}
+
 -- LUA FUNCTIONS {{{
--- decorations
+
+-- Add float borders
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 vim.diagnostic.config({
@@ -130,6 +180,8 @@ vim.diagnostic.config({
     border = "rounded",
   },
 })
+
+-- Diagnostic signs
 local function sign_define(args)
   vim.fn.sign_define(args.name, {
     texthl = args.name,
@@ -150,46 +202,38 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+
 --}}}
 
 -- LEGACY VIMSCRIPT {{{
--- TODO: move these into lua functions
+-- TODO: move these into lua
 vim.cmd([[
-  filetype on
-  au BufNewFile,BufRead *.ihtml set filetype=php
-  au BufNewFile,BufRead *.volt set filetype=html
-  autocmd FileType coffee setlocal shiftwidth=2 softtabstop=2 expandtab
-  autocmd FileType html setlocal shiftwidth=2 softtabstop=2 expandtab
-  autocmd FileType php setlocal shiftwidth=4 softtabstop=4 expandtab
-  autocmd FileType php set kp=:help
-  autocmd FileType php set foldenable
-  autocmd FileType lua set foldenable
-  autocmd FileType lua set foldmethod=marker
 
+  " Custom fold text
   let s:middot='·'
   let s:raquo='»'
-  let s:small_l='ℓ'
   function! GetSpaces(foldLevel)
-      if &expandtab == 1
-          " Indenting with spaces
-          let str = repeat(" ", a:foldLevel / (&shiftwidth + 1) - 1)
-          return str
-      elseif &expandtab == 0
-          " Indenting with tabs
-          return repeat(" ", indent(v:foldstart) - (indent(v:foldstart) / &shiftwidth))
-      endif
+    if &expandtab == 1
+      " Indenting with spaces
+      let str = repeat(" ", a:foldLevel / (&shiftwidth + 1) - 1)
+      return str
+    elseif &expandtab == 0
+      " Indenting with tabs
+      return repeat(" ", indent(v:foldstart) - (indent(v:foldstart) / &shiftwidth))
+    endif
   endfunction
   function! CustomFoldText() abort
-      let l:lines='[' . (v:foldend - v:foldstart + 1) . ' lines' . ']'
-      let startLineText = getline(v:foldstart)
-      let endLineText = trim(getline(v:foldend))
-      let indentation = GetSpaces(foldlevel("."))
-      let spaces = repeat(" ", 400)
-      let str = indentation . startLineText . " " . s:middot . s:middot . l:lines . s:middot . s:middot . " " . endLineText . spaces
-      return str
+    let l:lines='[' . (v:foldend - v:foldstart + 1) . ' lines' . ']'
+    let startLineText = getline(v:foldstart)
+    let endLineText = trim(getline(v:foldend))
+    let indentation = GetSpaces(foldlevel("."))
+    let spaces = repeat(" ", 400)
+    let str = indentation . startLineText . " " . s:middot . s:middot . l:lines . s:middot . s:middot . " " . endLineText . spaces
+    return str
   endfunction
   set foldtext=CustomFoldText()
 
+  " Update last modified date
   function! LastMod()
     if line("$") > 20
       let l = 20
@@ -203,6 +247,7 @@ vim.cmd([[
   endfun
   autocmd BufWrite * ks|call LastMod()|'s
   nmap <leader>mod :call LastMod()<cr>
+
 ]])
 --}}}
 
@@ -378,7 +423,7 @@ require("lazy").setup(
             map("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
             map("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
             map("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")
-            map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
+            -- map("<leader>ds", require("telescope.builtin").lsp_document_symbols, "[D]ocument [S]ymbols")
             map(
               "<leader>ws",
               require("telescope.builtin").lsp_dynamic_workspace_symbols,
@@ -685,7 +730,6 @@ require("lazy").setup(
         require("vim.treesitter.query").set("php", "folds", [[
           [
             (function_definition)
-            (class_declaration)
             (interface_declaration)
             (trait_declaration)
             (function_static_declaration)
@@ -800,5 +844,3 @@ require("lazy").setup(
   lazyOpts
 )
 --}}}
-
--- vim: ts=2 sts=2 sw=2 et
