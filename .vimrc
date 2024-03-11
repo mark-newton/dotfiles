@@ -84,12 +84,9 @@ set showcmd
 set smartcase
 set smartindent
 set smarttab
-set switchbuf=uselast
 set tabstop=4
 set timeoutlen=300
 set ttyfast
-set wildmenu
-set wildoptions=pum,tagfile
 
 " Colours
 syntax on
