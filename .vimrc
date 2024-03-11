@@ -58,7 +58,7 @@ set backspace=indent,eol,start
 set belloff=all
 set breakindent
 set cin
-set clipboard=unnamedplus
+"set clipboard=unnamedplus
 set completeopt=menuone,noselect
 set display=lastline
 set encoding=utf-8
@@ -74,7 +74,7 @@ set laststatus=2
 set listchars=tab:▷⋅,trail:⋅,nbsp:⋅
 set modeline
 set modelines=10
-set mouse=a
+"set mouse=a
 set nojoinspaces
 set nonumber
 set noshowmode
@@ -96,6 +96,15 @@ set termguicolors
 set background=dark
 colorscheme codecourse
 hi! Normal guibg=#1b1e28
+
+set mousemodel=popup
+set t_Co=256
+set guioptions=egmrti
+if has('macunix')
+  " pbcopy for OSX copy/paste
+  vmap <C-x> :!pbcopy<CR>
+  vmap <C-c> :w !pbcopy<CR><CR>
+endif
 
 " Speed improvements
 set redrawtime=5000

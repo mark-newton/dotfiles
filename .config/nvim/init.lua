@@ -5,7 +5,7 @@ vim.g.maplocalleader = ","
 vim.opt.autoindent = true
 vim.opt.backspace = "indent,eol,start"
 vim.opt.breakindent = true
-vim.opt.clipboard = "unnamed,unnamedplus"
+-- vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.cmdheight = 1
 vim.opt.cursorline = true
 vim.opt.expandtab = true
@@ -59,7 +59,11 @@ vim.opt.foldenable = false  -- turn off by default (turn on by filetype)
 vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldcolumn = "0" -- set to 1 to show the foldcolumn
---vim.opt.foldtext = "nvim_treesitter#foldtext()"
+
+-- netrw settings
+vim.g.netrw_banner = 0
+vim.g.netrw_browse_split = 0
+vim.g.netrw_winsize = 25
 --}}}
 
 -- KEYMAPS {{{
@@ -67,16 +71,15 @@ vim.opt.foldcolumn = "0" -- set to 1 to show the foldcolumn
 vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 
 -- delete/copy/paste smarts (the _ prefix stops copying into register)
+-- NOTE: these mappings assume you don't set clipboard to the system one (use leader y to copy to system)
 vim.keymap.set("n", "x", '"_x')
 vim.keymap.set("n", "Y", "yg$")
 vim.keymap.set("n", "<leader>a", "<cmd>%y+<cr>")
-vim.keymap.set("n", "<leader>y", '"+y')
-vim.keymap.set("v", "<leader>y", '"+y')
-vim.keymap.set("n", "<leader>d", '"_d')
-vim.keymap.set("v", "<leader>d", '"_d')
-vim.keymap.set("n", "<leader>c", '"_c')
-vim.keymap.set("v", "<leader>c", '"_c')
-vim.keymap.set("x", "<leader>p", '"_dP')
+vim.keymap.set("x", "<leader>p", [["_dP]])
+vim.keymap.set({"n", "v"}, "<leader>d", '"_d')
+vim.keymap.set({"n", "v"}, "<leader>y", [["+y]])
+vim.keymap.set({"n", "v"}, "<leader>Y", [["+Y]])
+vim.keymap.set({"n", "v"}, "<leader>d", [["_d]])
 
 -- folding
 vim.keymap.set("n", "<space>", "za")
@@ -129,7 +132,7 @@ vim.api.nvim_create_autocmd({"BufNewFile", "BufRead"},{
   end
 })
 vim.api.nvim_create_autocmd("FileType", {
-  pattern = "lua",
+  pattern = {"lua","vim"},
   callback = function()
     vim.opt_local.shiftwidth = 2
     vim.opt_local.tabstop = 2
@@ -260,6 +263,7 @@ require("lazy").setup(
       event = "VimEnter",
       config = function()
         require("gitsigns").setup({
+          preview_config = { border = "rounded" },
           on_attach = function(bufnr)
             local gs = package.loaded.gitsigns
 
@@ -283,6 +287,8 @@ require("lazy").setup(
             end, {expr=true, desc = "Go to prev [C]hange" })
 
             map('n', '<leader>gd', gs.diffthis, { desc = "[G]it [D]iff" })
+            map('n', '<leader>gp', gs.preview_hunk, { desc = "[G]it [P]review hunk" })
+            map('n', '<leader>gr', gs.reset_hunk, { desc = "[G]it [R]eset hunk" })
           end
         })
       end
@@ -352,8 +358,7 @@ require("lazy").setup(
         vim.keymap.set("n", "<leader><leader>", builtin.buffers, { desc = "[ ] Find existing buffers" })
         vim.keymap.set("n", "<leader>gs", "<cmd>Telescope git_status<cr>", { desc = "[G]it [S]tatus" })
         vim.keymap.set("n", "<leader>gc", "<cmd>Telescope git_commits<cr>", { desc = "[G]it [C]ommits" })
-        vim.keymap.set("n", "<leader>gfc", "<cmd>Telescope git_bcommits<cr>", { desc = "[G]it [F]ile [C]ommits" })
-        vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_branches<cr>", { desc = "[G]it [B]ranches" })
+        vim.keymap.set("n", "<leader>gb", "<cmd>Telescope git_bcommits<cr>", { desc = "[G]it [B]uffer commits" })
 
         vim.keymap.set("n", "<leader>/", function()
           builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown({
@@ -807,21 +812,24 @@ require("lazy").setup(
     -- color-overrides {{{
     { -- NOTE: need this when the colorscheme doesn't support overrides (tokyo does)
       "cwebster2/color-overrides.nvim",
-      lazy = false, 
+      lazy = false,
       priority = 1000,
       config = function()
         local override_reset = {
           "DiffAdd",
-          "DiffChange",
           "DiffDelete",
+          "DiffChange",
           "DiffText",
           "Folded",
         }
         local override_set = {
-          DiffAdd = { guibg = "#608b4e", guifg = "#1e1e1e" },
-          DiffChange = { guibg = "none", guifg = "#dcdcaa" },
-          DiffDelete = { guibg = "#d16969", guifg = "#1e1e1e" },
-          DiffText = { guibg = "#77aee9", guifg = "#1e1e1e" },
+          -- DiffAdd = { guibg = "#608b4e", guifg = "#e4f0fb" }, -- green bg, dark text (the line)
+          -- DiffDelete = { guibg = "#d16969", guifg = "#e4f0fb" }, -- red bg, dark text (the line)
+          -- DiffText = { guibg = "#8dddff", guifg = "#1e1e1e" }, -- blue bg, dark text (the actual change)
+          DiffAdd = { guibg = "#1e2b31", guifg = "#65e4c7" }, -- green bg/text (line)
+          DiffDelete = { guibg = "#2b2129", guifg = "#c85550" }, -- red bg/text (line)
+          DiffChange = { guibg = "none", guifg = "#fffac2" }, -- no bg, yellow text (the line of the change)
+          DiffText = { guibg = "#002b3d", guifg = "#90ddff" }, -- blue bg, dark text (the actual change)
           FloatBorder = { guibg = "NONE", guifg = "#9fdbfb" },
           Folded = { guibg = "NONE", guifg = "#7A8EA9" },
           MatchParen = { guibg = "NONE", guifg = "pink1" },
