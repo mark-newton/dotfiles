@@ -51,12 +51,14 @@ if [[ ! -f "$HOST_FILE" ]] ; then
   printf "Enter host colour for prompt: "
   read pcol
   printf '%-40s' "Host file created:"
-  printf "export HN=\"${phost%}\"\n" > "$HOST_FILE"
-  printf "${HILITE}OK${NC}\n"
-  printf '%-40s' "Starship config updated:"
-  sed -i -e "/^\[custom\.hostname\]$/ { n; s/^format *=.*/format = '[${phost}](${pcol})'/; }" "$STARSHIP_FILE"
+  export HN="$phost"
+  export HCOL="$pcol"
+  printf "export HN=\"${phost%}\"\nexport HCOL=\"${pcol%}\"\n" > "$HOST_FILE"
   printf "${HILITE}OK${NC}\n"
 fi
+printf '%-40s' "Starship config updated:"
+sed -i -e "/^\[custom\.hostname\]$/ { n; s/^format *=.*/format = '[${HN}](${HCOL})'/; }" "$STARSHIP_FILE"
+printf "${HILITE}OK${NC}\n"
 
 if [[ ! -f "$GITUSER_FILE" ]] ; then
   printf "Creating git config user settings...\n"
