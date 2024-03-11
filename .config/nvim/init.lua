@@ -149,6 +149,10 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.tabstop = 4
     vim.opt_local.softtabstop = 4
     vim.opt_local.expandtab = true
+    vim.opt_local.autoindent = true
+    vim.opt_local.smartindent = true
+    vim.opt_local.cindent = true
+    vim.opt_local.indentexpr = ''
     vim.opt.kp = ":help"
     vim.opt.foldenable = true
   end
@@ -700,8 +704,7 @@ require("lazy").setup(
             enable = true,
           },
           indent = {
-            enable = true,
-            disable = { "yaml", "python" },
+            enable = false, -- indent is buggy
           },
           matchup = {
             enable = true,
