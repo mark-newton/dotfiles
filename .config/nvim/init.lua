@@ -322,6 +322,20 @@ require("lazy").setup(
     },
     --}}}
 
+    -- codeium AI {{{
+    {
+      "Exafunction/codeium.nvim",
+      dependencies = {
+        "nvim-lua/plenary.nvim",
+        "hrsh7th/nvim-cmp",
+      },
+      config = function()
+        require("codeium").setup({
+        })
+      end
+    },
+    --}}}
+
     -- telescope {{{
     {
       "nvim-telescope/telescope.nvim",
@@ -625,6 +639,9 @@ require("lazy").setup(
             { name = "buffer" },
             { name = "path" },
           }),
+          experimental = {
+            ghost_text = true
+          },
           window = {
             completion = cmp.config.window.bordered(),
             documentation = cmp.config.window.bordered(),
@@ -741,13 +758,6 @@ require("lazy").setup(
           fill_char = '·'
         })
       end
-    },
-    --}}}
-
-    -- codeium AI {{{
-    {
-      "Exafunction/codeium.vim",
-      event = "BufEnter",
     },
     --}}}
 
