@@ -77,7 +77,7 @@ vim.keymap.set("n", "<Esc>", "<cmd>nohlsearch<CR>")
 -- NOTE: these mappings assume you don't set clipboard to the system one (use leader y to copy to system)
 vim.keymap.set("n", "x", '"_x')
 vim.keymap.set("n", "Y", "yg$")
-vim.keymap.set("n", "<leader>a", "<cmd>%y+<cr>")
+--vim.keymap.set("n", "<leader>a", "<cmd>%y+<cr>") -- remapping leader-a to ai keymaps
 vim.keymap.set("x", "<leader>p", [["_dP]])
 vim.keymap.set({ "n", "v" }, "<leader>d", '"_d')
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
@@ -184,7 +184,7 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 })
 --}}}
 
--- LUA FUNCTIONS {{{
+-- FUNCTIONS {{{
 
 -- Add float borders
 vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
@@ -208,6 +208,26 @@ sign_define({ name = "DiagnosticSignWarn", text = "▲" })
 sign_define({ name = "DiagnosticSignHint", text = "⚑" })
 sign_define({ name = "DiagnosticSignInfo", text = "»" })
 
+-- Update last modified date
+function LastMod()
+  local save_cursor = vim.fn.getpos('.')
+  local l
+  if vim.fn.line("$") > 20 then
+    l = 20
+  else
+    l = vim.fn.line("$")
+  end
+  vim.fn.cursor(1, 1)
+  if vim.fn.search("@modified", 'W', l) > 0 then
+    vim.cmd("1," .. l .. "g/@modified /s/@modified .*/@modified " .. os.date("%d-%b-%Y"))
+  end
+  vim.fn.setpos('.', save_cursor)
+end
+vim.cmd([[
+  autocmd BufWrite * :lua LastMod()
+]])
+vim.api.nvim_set_keymap('n', '<leader>mod', ':lua LastMod()<CR>', { noremap = true, silent = true })
+
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
   desc = "Highlight when yanking (copying) text",
@@ -217,28 +237,6 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   end,
 })
 
---}}}
-
--- LEGACY VIMSCRIPT {{{
--- TODO: move these into lua
-vim.cmd([[
-
-  " Update last modified date
-  function! LastMod()
-    if line("$") > 20
-      let l = 20
-    else
-      let l = line("$")
-    endif
-    call cursor(1, 1)
-    if search("@modified", 'W', l) > 0
-      exe "1," . l . "g/@modified /s/@modified .*/@modified " . strftime("%d-%b-%Y")
-    endif
-  endfun
-  autocmd BufWrite * ks|call LastMod()|'s
-  nmap <leader>mod :call LastMod()<cr>
-
-]])
 --}}}
 
 -- PLUGINS {{{
@@ -272,8 +270,9 @@ require("lazy").setup({
 
       -- Document existing key chains
       require("which-key").register({
+        ["<leader>a"] = { name = "[A]i", _ = "which_key_ignore" },
         ["<leader>c"] = { name = "[C]ode", _ = "which_key_ignore" },
-        ["<leader>d"] = { name = "[D]ocument", _ = "which_key_ignore" },
+        ["<leader>g"] = { name = "[G]it", _ = "which_key_ignore" },
         ["<leader>r"] = { name = "[R]ename", _ = "which_key_ignore" },
         ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
         ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
@@ -282,15 +281,33 @@ require("lazy").setup({
   },
   --}}}
 
-  -- codeium AI {{{
+  -- AI plugins {{{
+  -- NOTE: the chatgpt plugins require $OPENAI_API_KEY is set
   {
     "Exafunction/codeium.nvim",
+    event = "VeryLazy",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "hrsh7th/nvim-cmp",
     },
     config = function()
       require("codeium").setup({})
+    end,
+  },
+
+  {
+    "robitx/gp.nvim",
+    config = function()
+      require("gp").setup()
+
+      vim.keymap.set("n", "<leader>an", "<cmd>GpChatNew vsplit<cr>", { desc = "[A]i [N]ew chat" })
+      vim.keymap.set("n", "<leader>at", "<cmd>GpChatToggle vsplit<cr>", { desc = "[A]i [T]oggle chat" })
+      vim.keymap.set("v", "<leader>ap", ":<C-u>'<,'>GpChatPaste vsplit<cr>", { desc = "[A]i [P]aste into chat" })
+
+      vim.keymap.set("n", "<leader>a4", "<cmd>GpAgent CodeGPT4<cr>", { desc = "[A]i agent gpt[4]" })
+      vim.keymap.set("n", "<leader>a3", "<cmd>GpAgent CodeGPT3-5<cr>", { desc = "[A]i agent gpt[3].5" })
+      vim.keymap.set("n", "<leader>as", "<cmd>GpChatFinder<cr>", { desc = "[A]i [S]earch chats" })
+      vim.keymap.set("n", "<leader>sa", "<cmd>GpChatFinder<cr>", { desc = "[S]earch [A]i chats" })
     end,
   },
   --}}}
@@ -393,6 +410,7 @@ require("lazy").setup({
               },
               -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
               -- diagnostics = { disable = { 'missing-fields' } },
+              -- diagnostics = { enable = false },
             },
           },
         },
@@ -583,7 +601,6 @@ require("lazy").setup({
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
-      "hrsh7th/cmp-cmdline",
 
       -- If you want to add a bunch of pre-configured snippets, use this plugin
       -- 'rafamadriz/friendly-snippets',
@@ -612,7 +629,7 @@ require("lazy").setup({
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
           ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-          ["<CR>"] = cmp.mapping.confirm({ select = true }),
+          ["<CR>"] = cmp.mapping.confirm({ select = false }),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -620,7 +637,7 @@ require("lazy").setup({
           ["<C-Space>"] = cmp.mapping.complete({}),
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
-          --  So if you have a snippet that's like:
+          --  Example:
           --  function $name($args)
           --    $body
           --  end
@@ -653,35 +670,6 @@ require("lazy").setup({
           documentation = cmp.config.window.bordered(),
         },
       })
-
-      cmp.setup.cmdline("/", {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = "buffer" },
-        },
-      })
-
-      cmp.setup.cmdline(":", {
-        mapping = cmp.mapping.preset.cmdline({
-          ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
-          ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
-        }),
-        sources = cmp.config.sources({
-          {
-            name = "path",
-            option = {
-              label_trailing_slash = false
-            }
-          },
-        },{
-          {
-            name = "cmdline",
-            option = {
-              ignore_cmds = { "Man", "!" },
-            }
-          }
-        }),
-      })
     end,
   },
   --}}}
@@ -695,36 +683,24 @@ require("lazy").setup({
         backend = "nui", -- nui|cmp
       },
       message = {
-        view = "mini", -- notify|mini
-      },
-      routes = {
-        filter = { event = "notify", find = "No information available" },
-        opts = { skip = true },
+        view = "mini", -- notify|mini  NOTE: notify requires the nvim-notify plugin
       },
       presets = {
         lsp_doc_border = true,
       },
       views = {
         cmdline_popup = {
-          size = {
-            width = "50%",
-          },
+          size = { width = "50%" },
           win_options = {
             winhighlight = { Normal = "TelescopePromptNormal", FloatBorder = "DiagnosticInfo" },
           },
         },
-        split = {
-          enter = true,
-        },
+        split = { enter = true },
         mini = {
-          win_options = {
-            winblend = 0,
-          }
+          win_options = { winblend = 0 }
         },
         popupmenu = {
-          size = {
-            height = 10,
-          },
+          size = { height = 10 },
           win_options = {
             winhighlight = { Normal = "TelescopePromptNormal", FloatBorder = "DiagnosticInfo" },
           },
@@ -733,7 +709,7 @@ require("lazy").setup({
     },
     dependencies = {
       "MunifTanjim/nui.nvim",
-      --"rcarriga/nvim-notify", uses mini
+      --"rcarriga/nvim-notify", -- optional floating notifications
     },
   },
   --}}}
@@ -755,14 +731,6 @@ require("lazy").setup({
       -- - sd'   - [S]urround [D]elete [']quotes
       -- - sr)'  - [S]urround [R]eplace [)] [']
       require("mini.surround").setup()
-
-      -- Notify replacement
-      require("mini.notify").setup({
-        window = {
-          config = { border = "rounded" },
-          winblend = 0,
-        },
-      })
 
       --  Check out: https://github.com/echasnovski/mini.nvim for more
     end,
@@ -952,6 +920,10 @@ require("lazy").setup({
         DiffDelete = { guibg = "#713431", guifg = "#ffffff" }, -- del line
         DiffText = { guibg = "#29416f", guifg = "#ffffff" }, -- change text
         DiffChange = { guibg = "NONE", guifg = "#afd7ff" }, -- change line
+        DiagnosticVirtualTextError = { guibg = "#2d202a", guifg = "#db4b4b" },
+        DiagnosticVirtualTextHint = { guibg = "#1a2b32", guifg = "#1abc9c" },
+        DiagnosticVirtualTextInfo = { guibg = "#192b38", guifg = "#0db9d7" },
+        DiagnosticVirtualTextWarn = { guibg = "#2e2a2d", guifg = "#e0af68" },
         FloatBorder = { guibg = "NONE", guifg = "#9fdbfb" },
         Folded = { guibg = "NONE", guifg = "#7A8EA9" },
         MatchParen = { guibg = "NONE", guifg = "pink1" },
