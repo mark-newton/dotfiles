@@ -186,15 +186,6 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
 
 -- FUNCTIONS {{{
 
--- Add float borders
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
-vim.diagnostic.config({
-  float = {
-    border = "rounded",
-  },
-})
-
 -- Diagnostic signs
 local function sign_define(args)
   vim.fn.sign_define(args.name, {
@@ -210,7 +201,7 @@ sign_define({ name = "DiagnosticSignInfo", text = "»" })
 
 -- Update last modified date
 function LastMod()
-  local save_cursor = vim.fn.getpos('.')
+  local save_cursor = vim.fn.getpos(".")
   local l
   if vim.fn.line("$") > 20 then
     l = 20
@@ -218,15 +209,15 @@ function LastMod()
     l = vim.fn.line("$")
   end
   vim.fn.cursor(1, 1)
-  if vim.fn.search("@modified", 'W', l) > 0 then
+  if vim.fn.search("@modified", "W", l) > 0 then
     vim.cmd("1," .. l .. "g/@modified /s/@modified .*/@modified " .. os.date("%d-%b-%Y"))
   end
-  vim.fn.setpos('.', save_cursor)
+  vim.fn.setpos(".", save_cursor)
 end
 vim.cmd([[
   autocmd BufWrite * :lua LastMod()
 ]])
-vim.api.nvim_set_keymap('n', '<leader>mod', ':lua LastMod()<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>mod", ":lua LastMod()<CR>", { noremap = true, silent = true })
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd("TextYankPost", {
@@ -298,14 +289,17 @@ require("lazy").setup({
   {
     "robitx/gp.nvim",
     config = function()
-      require("gp").setup()
+      require("gp").setup({
+        toggle_target = "vsplit",
+        style_chat_finder_border = "rounded",
+        style_popup_border = "rounded",
+      })
 
-      vim.keymap.set("n", "<leader>an", "<cmd>GpChatNew vsplit<cr>", { desc = "[A]i [N]ew chat" })
-      vim.keymap.set("n", "<leader>at", "<cmd>GpChatToggle vsplit<cr>", { desc = "[A]i [T]oggle chat" })
-      vim.keymap.set("v", "<leader>ap", ":<C-u>'<,'>GpChatPaste vsplit<cr>", { desc = "[A]i [P]aste into chat" })
-
-      vim.keymap.set("n", "<leader>a4", "<cmd>GpAgent CodeGPT4<cr>", { desc = "[A]i agent gpt[4]" })
-      vim.keymap.set("n", "<leader>a3", "<cmd>GpAgent CodeGPT3-5<cr>", { desc = "[A]i agent gpt[3].5" })
+      vim.keymap.set("n", "<leader>an", "<cmd>GpChatNew<cr>", { desc = "[A]i [N]ew chat" })
+      vim.keymap.set("n", "<leader>at", "<cmd>GpChatToggle<cr>", { desc = "[A]i [T]oggle chat" })
+      vim.keymap.set("v", "<leader>ap", ":<C-u>'<,'>GpChatPaste<cr>", { desc = "[A]i [P]aste into chat" })
+      vim.keymap.set("n", "<leader>a4", "<cmd>GpAgent ChatGPT4<cr>", { desc = "[A]i chat agent gpt[4]" })
+      vim.keymap.set("n", "<leader>a3", "<cmd>GpAgent ChatGPT3-5<cr>", { desc = "[A]i chat agent gpt[3].5" })
       vim.keymap.set("n", "<leader>as", "<cmd>GpChatFinder<cr>", { desc = "[A]i [S]earch chats" })
       vim.keymap.set("n", "<leader>sa", "<cmd>GpChatFinder<cr>", { desc = "[S]earch [A]i chats" })
     end,
@@ -347,19 +341,22 @@ require("lazy").setup({
           map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
 
           -- The following two autocommands are used to highlight references of the word under the cursor
-          -- local client = vim.lsp.get_client_by_id(event.data.client_id)
-          -- if client and client.server_capabilities.documentHighlightProvider then
-          --   vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-          --     buffer = event.buf,
-          --     callback = vim.lsp.buf.document_highlight,
-          --   })
-          --   vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
-          --     buffer = event.buf,
-          --     callback = vim.lsp.buf.clear_references,
-          --   })
-          -- end
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
+          if client and client.server_capabilities.documentHighlightProvider then
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+              buffer = event.buf,
+              callback = vim.lsp.buf.document_highlight,
+            })
+            vim.api.nvim_create_autocmd({ "CursorMoved", "CursorMovedI" }, {
+              buffer = event.buf,
+              callback = vim.lsp.buf.clear_references,
+            })
+          end
         end,
       })
+
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, { border = "rounded" })
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded" })
 
       vim.diagnostic.config({
         update_in_insert = false,
@@ -674,46 +671,6 @@ require("lazy").setup({
   },
   --}}}
 
-  -- noice {{{
-  {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      popupmenu = {
-        backend = "nui", -- nui|cmp
-      },
-      message = {
-        view = "mini", -- notify|mini  NOTE: notify requires the nvim-notify plugin
-      },
-      presets = {
-        lsp_doc_border = true,
-      },
-      views = {
-        cmdline_popup = {
-          size = { width = "50%" },
-          win_options = {
-            winhighlight = { Normal = "TelescopePromptNormal", FloatBorder = "DiagnosticInfo" },
-          },
-        },
-        split = { enter = true },
-        mini = {
-          win_options = { winblend = 0 }
-        },
-        popupmenu = {
-          size = { height = 10 },
-          win_options = {
-            winhighlight = { Normal = "TelescopePromptNormal", FloatBorder = "DiagnosticInfo" },
-          },
-        },
-      },
-    },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      --"rcarriga/nvim-notify", -- optional floating notifications
-    },
-  },
-  --}}}
-
   -- mini plugins {{{
   {
     "echasnovski/mini.nvim",
@@ -807,10 +764,22 @@ require("lazy").setup({
     config = function()
       require("lualine").setup({
         options = {
-          theme = "poimandres",
+          theme = "auto",
           component_separators = "",
           section_separators = "",
           globalstatus = true,
+        },
+        sections = {
+          lualine_x = {'encoding', 'filetype'},
+          lualine_y = {
+            { "progress", separator = " ", padding = { left = 1, right = 0 } },
+            { "location", padding = { left = 0, right = 1 } },
+          },
+          lualine_z = {
+            function()
+              return " " .. os.date("%d-%b %R")
+            end,
+          },
         },
       })
     end,
@@ -838,6 +807,64 @@ require("lazy").setup({
         fill_char = "·",
       })
     end,
+  },
+  --}}}
+
+  -- noice {{{
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {
+      views = {
+        cmdline_popup = {
+          position = {
+            row = 11,
+            col = "50%",
+          },
+          size = {
+            width = 60,
+            height = "auto",
+          },
+          win_options = {
+            winhighlight = { NormalFloat = "NormalFloat", FloatBorder = "FloatBorder" },
+          },
+        },
+        hover = {
+          border = {
+            style = "rounded",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
+          },
+        },
+        popupmenu = {
+          relative = "editor",
+          position = {
+            row = 14,
+            col = "50%",
+          },
+          size = {
+            width = 60,
+            height = 10,
+          },
+          border = {
+            style = "rounded",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
+          },
+        },
+      },
+      presets = {
+        bottom_search = true,
+        long_message_to_split = true,
+      },
+    },
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+    }
   },
   --}}}
 
@@ -924,14 +951,20 @@ require("lazy").setup({
         DiagnosticVirtualTextHint = { guibg = "#1a2b32", guifg = "#1abc9c" },
         DiagnosticVirtualTextInfo = { guibg = "#192b38", guifg = "#0db9d7" },
         DiagnosticVirtualTextWarn = { guibg = "#2e2a2d", guifg = "#e0af68" },
-        FloatBorder = { guibg = "NONE", guifg = "#9fdbfb" },
+        FloatBorder = { guibg = "NONE", guifg = "#5c9fd7" },
         Folded = { guibg = "NONE", guifg = "#7A8EA9" },
         MatchParen = { guibg = "NONE", guifg = "pink1" },
         NormalFloat = { guibg = "NONE" },
-        TelescopePreviewBorder = { guibg = "NONE", guifg = "#9FDBFB" },
-        TelescopePromptBorder = { guibg = "NONE", guifg = "#9FDBFB" },
-        TelescopeResultsBorder = { guibg = "NONE", guifg = "#9FDBFB" },
+        TelescopePreviewBorder = { guibg = "NONE", guifg = "#5c9fd7" },
+        TelescopePromptBorder = { guibg = "NONE", guifg = "#5c9fd7" },
+        TelescopeResultsBorder = { guibg = "NONE", guifg = "#5c9fd7" },
         VertSplit = { guibg = "NONE", guifg = "#9FDBFB" },
+        Search = { guibg = "#62ddc1", guifg = "#1b1e28"}, -- search matches
+        IncSearch = { guibg = "#d9d5a5", guifg = "#1b1e28"}, -- current search
+        LspReferenceText = { guibg = "#3b3e4e" }, -- hover highlights
+        LspReferenceWrite = { guibg = "#3b3e4e" }, -- hover highlight refs
+        LspReferenceRead = { guibg = "#3b3e4e" }, -- hover highlight active
+        CursorLine = { guibg = "#212431" },
       }
       require("color-overrides").set_overrides(override_reset, override_set)
     end,
