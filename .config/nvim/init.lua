@@ -1,6 +1,7 @@
 -- OPTIONS {{{
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
+vim.g.have_nerd_font = true
 
 vim.opt.autoindent = true
 vim.opt.backspace = "indent,eol,start"
@@ -242,7 +243,24 @@ vim.opt.rtp:prepend(lazypath)
 
 -- Lazy options (added to end of the setup section)
 local lazyOpts = {
-  ui = { border = "rounded" },
+  ui = {
+    border = "rounded",
+    icons = vim.g.have_nerd_font and {} or {
+      cmd = '⌘',
+      config = '🛠',
+      event = '📅',
+      ft = '📂',
+      init = '⚙',
+      keys = '🗝',
+      plugin = '🔌',
+      runtime = '💻',
+      require = '🌙',
+      source = '📄',
+      start = '🚀',
+      task = '📌',
+      lazy = '💤 ',
+    },
+  },
 }
 --}}}
 
@@ -273,7 +291,7 @@ require("lazy").setup({
   --}}}
 
   -- AI plugins {{{
-  -- NOTE: the chatgpt plugins require $OPENAI_API_KEY is set
+  -- NOTE: the chatgpt plugins require $OPENAI_API_KEY to be set
   {
     "Exafunction/codeium.nvim",
     event = "VeryLazy",
@@ -307,6 +325,8 @@ require("lazy").setup({
   --}}}
 
   -- LSP {{{
+  -- neodev provides lua libs
+  { 'folke/neodev.nvim', opts = {} },
   {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -394,14 +414,6 @@ require("lazy").setup({
         lua_ls = {
           settings = {
             Lua = {
-              runtime = { version = "LuaJIT" },
-              workspace = {
-                checkThirdParty = false,
-                library = {
-                  "${3rd}/luv/library",
-                  unpack(vim.api.nvim_get_runtime_file("", true)),
-                },
-              },
               completion = {
                 callSnippet = "Replace",
               },
@@ -453,7 +465,7 @@ require("lazy").setup({
         end,
       },
       { "nvim-telescope/telescope-ui-select.nvim" },
-      { "nvim-tree/nvim-web-devicons" },
+      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
     },
     config = function()
       require("telescope").setup({
@@ -598,6 +610,7 @@ require("lazy").setup({
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
 
       -- If you want to add a bunch of pre-configured snippets, use this plugin
       -- 'rafamadriz/friendly-snippets',
@@ -613,7 +626,7 @@ require("lazy").setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = "menu,menuone,noinsert" },
+        completion = { completeopt = "menu,menuone,noselect,noinsert" },
 
         -- For an understanding of why these mappings read `:help ins-completion`
         mapping = cmp.mapping.preset.insert({
@@ -623,10 +636,10 @@ require("lazy").setup({
           ["<C-p>"] = cmp.mapping.select_prev_item(),
 
           -- Accept ([y]es) the completion.
-          --  This will auto-import if your LSP supports it.
-          --  This will expand snippets if the LSP sent a snippet.
+          --  This will auto-import when your LSP supports it.
+          --  This will expand snippets when the LSP sent a snippet.
           ["<C-y>"] = cmp.mapping.confirm({ select = true }),
-          ["<CR>"] = cmp.mapping.confirm({ select = false }),
+          ["<CR>"] = cmp.mapping.confirm({ select = true }),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
@@ -667,6 +680,35 @@ require("lazy").setup({
           documentation = cmp.config.window.bordered(),
         },
       })
+
+      cmp.setup.cmdline("/", {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+
+      cmp.setup.cmdline(":", {
+        mapping = cmp.mapping.preset.cmdline({
+          ['<Down>'] = { c = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }) },
+          ['<Up>'] = { c = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }) },
+        }),
+        sources = cmp.config.sources({
+          {
+            name = "path",
+            option = {
+              trailing_slash = true
+            }
+          },
+        },{
+          {
+            name = "cmdline",
+            option = {
+              ignore_cmds = { "Man", "!" },
+            }
+          }
+        }),
+      })
     end,
   },
   --}}}
@@ -677,6 +719,8 @@ require("lazy").setup({
     config = function()
       -- Better Around/Inside textobjects
       -- Examples:
+      --  - yaf  - [Y]ank [A]round [F]unction
+      --  - ya)  - [Y]ank [A]round [)]paren
       --  - va)  - [V]isually select [A]round [)]paren
       --  - yinq - [Y]ank [I]nside [N]ext [']quote
       --  - ci'  - [C]hange [I]nside [']quote
@@ -818,7 +862,7 @@ require("lazy").setup({
       views = {
         cmdline_popup = {
           position = {
-            row = 11,
+            -- row = 11,
             col = "50%",
           },
           size = {
@@ -841,7 +885,7 @@ require("lazy").setup({
         popupmenu = {
           relative = "editor",
           position = {
-            row = 14,
+            -- row = 14,
             col = "50%",
           },
           size = {
@@ -871,8 +915,9 @@ require("lazy").setup({
   -- colorscheme tokyonight {{{
   {
     "folke/tokyonight.nvim",
-    -- lazy = false,
-    -- priority = 1000,
+    event = "VeryLazy", -- uncomment when NOT using Tokyo
+    -- lazy = false,    -- uncomment when using Tokyo
+    -- priority = 1000, -- uncomment when using Tokyo
     config = function()
       require("tokyonight").setup({
         style = "night",
@@ -903,8 +948,8 @@ require("lazy").setup({
       })
     end,
     init = function()
-      -- vim.cmd.colorscheme 'tokyonight'
-      vim.cmd.hi("Comment gui=none")
+      -- vim.cmd.colorscheme 'tokyonight' -- uncomment when using Tokyo
+      -- vim.cmd.hi("Comment gui=none")   -- uncomment when using Tokyo
     end,
   },
   --}}}

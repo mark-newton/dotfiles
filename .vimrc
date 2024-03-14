@@ -21,9 +21,6 @@ Plug 'tpope/vim-rhubarb'
 " Detect tabstop and shiftwidth automatically
 Plug 'tpope/vim-sleuth'
 
-" Useful plugin to show you pending keybinds.
-Plug 'liuchengxu/vim-which-key'
-
 " Adds git related signs to the gutter
 Plug 'airblade/vim-gitgutter'
 
@@ -75,6 +72,9 @@ set listchars=tab:▷⋅,trail:⋅,nbsp:⋅
 set modeline
 set modelines=10
 "set mouse=a
+let netrw_banner=0
+let netrw_browse_split=0
+let netrw_winsize=25
 set nojoinspaces
 set nonumber
 set noshowmode
@@ -217,41 +217,6 @@ map <leader>mod :call LastMod()<cr>
 "}}}
 
 "-- PLUGINS CONFIG {{{
-
-" which-key {{{
-" [[ Configure vim-which-key ]]
-call which_key#register('<Space>', "g:which_key_map")
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  '<Space>'<CR>
-
-" document key chains
-let g:which_key_map =  {}
-let g:which_key_map.c = { 'name' : '[C]ode' }
-let g:which_key_map.d = { 'name' : '[D]ocument' }
-let g:which_key_map.g = { 'name' : '[G]it' }
-" See `:help gitgutter-mappings`
-let g:which_key_map.h = {
-      \ 'name' : 'More git',
-      \ 'p' : 'Preview git hunk',
-      \}
-let g:which_key_map.r = { 'name' : '[R]ename' }
-let g:which_key_map.s = { 'name' : '[S]earch' }
-let g:which_key_map.w = { 'name' : '[W]orkspace' }
-
-nmap <leader>? :History<CR>
-let g:which_key_map['?'] = '[?] Find recently opened files'
-nmap <leader><space> :Buffers<CR>
-let g:which_key_map[' '] = '[ ] Find existing buffers'
-nmap <leader>/ :BLines<CR>
-let g:which_key_map['/'] = '[/] Fuzzily search in current buffer'
-
-nmap <leader>gf :GFiles<CR>
-let g:which_key_map.g.f = 'Search [G]it [F]iles'
-nmap <leader>sf :Files<CR>
-let g:which_key_map.s.f = '[S]earch [F]iles'
-nmap <leader>sh :Helptags<CR>
-let g:which_key_map.s.h = '[S]earch [H]elp'
-"}}}
 
 " airline {{{
 let g:airline_theme = 'zenburn'
