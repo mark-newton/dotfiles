@@ -8,6 +8,7 @@ vim.opt.backspace = "indent,eol,start"
 vim.opt.breakindent = true
 -- vim.opt.clipboard = "unnamed,unnamedplus"
 vim.opt.cmdheight = 1
+vim.opt.completeopt = { "menuone", "noselect" }
 vim.opt.cursorline = true
 vim.opt.expandtab = true
 vim.opt.hidden = true
@@ -617,6 +618,11 @@ require("lazy").setup({
       luasnip.config.setup({})
       require("luasnip.loaders.from_vscode").lazy_load()
 
+      local check_backspace = function()
+        local col = vim.fn.col "." - 1
+        return col == 0 or vim.fn.getline("."):sub(col, col):match "%s"
+      end
+
       cmp.setup({
         snippet = {
           expand = function(args)
@@ -627,16 +633,41 @@ require("lazy").setup({
           completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
-        completion = { completeopt = "menu,menuone,noselect,noinsert" },
+        -- completion = { completeopt = "menu,menuone,noselect,noinsert" },
         mapping = cmp.mapping.preset.insert({
           ["<C-n>"] = cmp.mapping.select_next_item(),
           ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-f>"] = cmp.mapping.scroll_docs(4),
-          ["<C-e>"] = cmp.mapping.abort(),
+          ["<C-f>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
+          ["<C-b>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
+          ["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
+          ["<C-e>"] = cmp.mapping {
+            i = cmp.mapping.abort(),
+            c = cmp.mapping.close(),
+          },
           ["<C-y>"] = cmp.mapping.confirm({ select = true }),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
-          ["<C-Space>"] = cmp.mapping.complete({}),
+          ["<Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            elseif luasnip.expandable() then
+              luasnip.expand()
+            elseif luasnip.expand_or_jumpable() then
+              luasnip.expand_or_jump()
+            elseif check_backspace() then
+              fallback()
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+              cmp.select_prev_item()
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
+            else
+              fallback()
+            end
+          end, { "i", "s" }),
           -- <c-l> will move you to the right of each of the expansion locations.
           ["<C-l>"] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
@@ -657,6 +688,10 @@ require("lazy").setup({
           { name = "buffer" },
           { name = "path" },
         }),
+        confirm_opts = {
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = false,
+        },
         experimental = {
           ghost_text = true,
         },
@@ -888,6 +923,9 @@ require("lazy").setup({
     "folke/noice.nvim",
     event = "VeryLazy",
     opts = {
+      cmdline = {
+        view = "cmdline",
+      },
       views = {
         cmdline_popup = {
           position = {
