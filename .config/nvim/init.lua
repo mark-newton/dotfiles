@@ -195,10 +195,10 @@ local function sign_define(args)
     numhl = "",
   })
 end
-sign_define({ name = "DiagnosticSignError", text = "✘" })
-sign_define({ name = "DiagnosticSignWarn", text = "▲" })
-sign_define({ name = "DiagnosticSignHint", text = "⚑" })
-sign_define({ name = "DiagnosticSignInfo", text = "»" })
+sign_define({ name = "DiagnosticSignError", text = "" })
+sign_define({ name = "DiagnosticSignWarn", text = "" })
+sign_define({ name = "DiagnosticSignHint", text = "" })
+sign_define({ name = "DiagnosticSignInfo", text = "" })
 
 -- Update last modified date
 function LastMod()
@@ -333,7 +333,7 @@ require("lazy").setup({
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "WhoIsSethDaniel/mason-tool-installer.nvim",
-      { "j-hui/fidget.nvim", opts = {} },
+      -- { "j-hui/fidget.nvim", opts = {} }, -- enable if you want LSP diagnostics
     },
     config = function()
       vim.api.nvim_create_autocmd("LspAttach", {
@@ -417,9 +417,11 @@ require("lazy").setup({
               completion = {
                 callSnippet = "Replace",
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
-              -- diagnostics = { enable = false },
+              diagnostics = {
+                globals = {'vim'},
+                -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
+                disable = { 'missing-fields' }
+              },
             },
           },
         },
@@ -600,25 +602,20 @@ require("lazy").setup({
     dependencies = {
       {
         "L3MON4D3/LuaSnip",
-        build = (function()
-          if vim.fn.has("win32") == 1 or vim.fn.executable("make") == 0 then
-            return
-          end
-          return "make install_jsregexp"
-        end)(),
+        version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+        build = "make install_jsregexp"
       },
       "saadparwaiz1/cmp_luasnip",
+      "rafamadriz/friendly-snippets",
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-path",
       "hrsh7th/cmp-cmdline",
-
-      -- If you want to add a bunch of pre-configured snippets, use this plugin
-      -- 'rafamadriz/friendly-snippets',
     },
     config = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
       luasnip.config.setup({})
+      require("luasnip.loaders.from_vscode").lazy_load()
 
       cmp.setup({
         snippet = {
@@ -626,39 +623,27 @@ require("lazy").setup({
             luasnip.lsp_expand(args.body)
           end,
         },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
         completion = { completeopt = "menu,menuone,noselect,noinsert" },
-
-        -- For an understanding of why these mappings read `:help ins-completion`
         mapping = cmp.mapping.preset.insert({
-          -- Select the [n]ext item
           ["<C-n>"] = cmp.mapping.select_next_item(),
-          -- Select the [p]revious item
           ["<C-p>"] = cmp.mapping.select_prev_item(),
-
-          -- Accept ([y]es) the completion.
-          --  This will auto-import when your LSP supports it.
-          --  This will expand snippets when the LSP sent a snippet.
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-e>"] = cmp.mapping.abort(),
           ["<C-y>"] = cmp.mapping.confirm({ select = true }),
           ["<CR>"] = cmp.mapping.confirm({ select = true }),
-
-          -- Manually trigger a completion from nvim-cmp.
-          --  Generally you don't need this, because nvim-cmp will display
-          --  completions whenever it has completion options available.
           ["<C-Space>"] = cmp.mapping.complete({}),
-
-          -- Think of <c-l> as moving to the right of your snippet expansion.
-          --  Example:
-          --  function $name($args)
-          --    $body
-          --  end
-          --
           -- <c-l> will move you to the right of each of the expansion locations.
-          -- <c-h> is similar, except moving you backwards.
           ["<C-l>"] = cmp.mapping(function()
             if luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
             end
           end, { "i", "s" }),
+          -- <c-h> will move you to the left of each of the expansion locations.
           ["<C-h>"] = cmp.mapping(function()
             if luasnip.locally_jumpable(-1) then
               luasnip.jump(-1)
@@ -674,10 +659,6 @@ require("lazy").setup({
         }),
         experimental = {
           ghost_text = true,
-        },
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
         },
       })
 
@@ -814,10 +795,64 @@ require("lazy").setup({
           globalstatus = true,
         },
         sections = {
-          lualine_x = {'encoding', 'filetype'},
+          lualine_a = {'mode'},
+          lualine_b = {
+            {
+              'filetype',
+              icon_only = true,
+              padding = { left = 1, right = 0 },
+            },
+            {
+              'filename',
+              path = 4,
+              color = function()
+                return { fg = vim.bo.modified and 'orange' or 'white' }
+              end,
+              padding = { left = 0, right = 1 },
+            },
+            'diagnostics',
+          },
+          lualine_c = {
+            {
+              'branch',
+              icon = {''},
+            },
+            {
+              'diff',
+              symbols = { added = " ", modified = " ", removed = " ", },
+            },
+          },
+          lualine_x = {
+            {
+              function()
+                local msg = '[no lsp]'
+                local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
+                local clients = vim.lsp.get_active_clients()
+                if next(clients) == nil then
+                  return msg
+                end
+                for _, client in ipairs(clients) do
+                  local filetypes = client.config.filetypes
+                  if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+                    return '['..client.name..']'
+                  end
+                end
+                return msg
+              end,
+              padding = { left = 0, right = 1 },
+            },
+            'encoding',
+            'filesize'
+          },
           lualine_y = {
-            { "progress", separator = " ", padding = { left = 1, right = 0 } },
-            { "location", padding = { left = 0, right = 1 } },
+            { "location", separator = " ", padding = { left = 1, right = 0 } },
+            {
+              "progress",
+              fmt = function()
+                return "%P/%L"
+              end,
+              padding = { left = 0, right = 1 }
+            },
           },
           lualine_z = {
             function()
@@ -900,6 +935,16 @@ require("lazy").setup({
             winhighlight = { Normal = "Normal", FloatBorder = "FloatBorder" },
           },
         },
+        mini = {
+          timeout = 4000,
+          win_options = {
+            winblend = 0,
+          },
+        },
+      },
+      lsp = {
+        hover = { enabled = false },
+        signature = { enabled = false },
       },
       presets = {
         bottom_search = true,
@@ -1000,6 +1045,7 @@ require("lazy").setup({
         Folded = { guibg = "NONE", guifg = "#7A8EA9" },
         MatchParen = { guibg = "NONE", guifg = "pink1" },
         NormalFloat = { guibg = "NONE" },
+        WhichKeyFloat = { guibg = "NONE" },
         TelescopePreviewBorder = { guibg = "NONE", guifg = "#5c9fd7" },
         TelescopePromptBorder = { guibg = "NONE", guifg = "#5c9fd7" },
         TelescopeResultsBorder = { guibg = "NONE", guifg = "#5c9fd7" },
