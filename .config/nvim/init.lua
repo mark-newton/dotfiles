@@ -810,7 +810,6 @@ require("lazy").setup({
               end,
               padding = { left = 0, right = 1 },
             },
-            'diagnostics',
           },
           lualine_c = {
             {
@@ -841,18 +840,13 @@ require("lazy").setup({
               end,
               padding = { left = 0, right = 1 },
             },
+            { 'diagnostics', padding = { left = 0, right = 1 } },
             'encoding',
             'filesize'
           },
           lualine_y = {
-            { "location", separator = " ", padding = { left = 1, right = 0 } },
-            {
-              "progress",
-              fmt = function()
-                return "%P/%L"
-              end,
-              padding = { left = 0, right = 1 }
-            },
+            { "progress", separator = " ", padding = { left = 1, right = 0 } },
+            { "location", padding = { left = 0, right = 1 } },
           },
           lualine_z = {
             function()
