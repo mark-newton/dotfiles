@@ -1,0 +1,29 @@
+#!/bin/bash
+# ----------------------------------------------------------------------------
+# Update neovim
+# @modified 25-Mar-2024
+# ----------------------------------------------------------------------------
+
+OS=$(uname -s)
+
+case $OS in
+    Darwin)
+        brew update
+        brew upgrade neovim
+        ;;
+    Linux)
+        cd /tmp
+        curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
+        chmod +x nvim.appimage
+        sudo mv mvim.appimage /usr/bin/nvim
+        ;;
+    *)
+        echo "Unsupported OS: $OS"
+        ;;
+esac
+
+if command -v eza >/dev/null 2>&1; then
+    nvim --version
+else
+    echo "nvim not installed"
+fi
