@@ -24,11 +24,6 @@ if command -v bat >/dev/null 2>&1; then
     alias catp="bat -pp"
     export BAT_THEME="base16-256"
 fi
-if command -v nvim >/dev/null 2>&1; then
-    alias vi=nvim
-    alias vimdiff="nvim -d"
-    alias vdiff="nvim -d"
-fi
 
 alias cons='netstat -ant | grep ":80" | wc -l'
 alias sqldump="nice -n 19 /usr/bin/mysqldump --opt --lock-tables=false $0 > $0.sql"
