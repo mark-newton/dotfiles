@@ -16,6 +16,11 @@ case $OS in
         curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim.appimage
         chmod +x nvim.appimage
         sudo mv nvim.appimage /usr/bin/nvim
+        if ldconfig -p | grep -q libfuse.so.2; then
+            echo "Checking libfuse.so.2 installed: OK"
+        else
+            echo "WARNING: This version of nvim requires libfuse.so.2 which is not installed. Suggest running 'apt install libfuse2'."
+        fi
         ;;
     *)
         echo "Unsupported OS: $OS"
