@@ -1,8 +1,8 @@
 # .bashrc
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
-if [ -f $HOME/.fzf.bash ];  then
-  . $HOME/.fzf.bash
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --bash)"
 fi
 
 if [ -f $HOME/.aliases ];  then

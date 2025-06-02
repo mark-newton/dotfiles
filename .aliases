@@ -14,15 +14,21 @@ if command -v eza >/dev/null 2>&1; then
     alias ll="eza -hgalF --octal-permissions --git --time-style long-iso --icons=auto"
     alias la="eza -hgA --octal-permissions --git --time-style long-iso --icons=auto"
     alias lt="eza -hgAT --octal-permissions --git --time-style long-iso --icons=auto"
+    alias l2="eza -hgATL2 --octal-permissions --git --time-style long-iso --icons=auto"
 else
     alias ll='ls -alF'
     alias la='ls -A'
     alias l='ls -CF'
 fi
 if command -v bat >/dev/null 2>&1; then
-    alias cat=bat
+    alias cat="bat -P"
     alias catp="bat -pp"
-    export BAT_THEME="base16-256"
+    export BAT_THEME="base16"
+fi
+if command -v nvim >/dev/null 2>&1; then
+    alias vi=nvim
+    alias vimdiff="nvim -d"
+    alias vdiff="nvim -d"
 fi
 
 alias cons='netstat -ant | grep ":80" | wc -l'
