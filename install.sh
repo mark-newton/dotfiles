@@ -8,10 +8,19 @@ STARSHIP_FILE=".config/starship.toml"
 
 cd "$(dirname "${BASH_SOURCE}")";
 
+# Check if .gitmodules exists and nvim submodule directory is empty or missing
+if [ -f ".gitmodules" ]; then
+  if [ ! -d ".config/nvim/.git" ]; then
+    printf "Initialising submodules...\n"
+    git submodule update --init --recursive
+  fi
+fi
+
 read -p "Do you need to git pull latest? " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Yy]$ ]] ; then
   git pull origin master
+  git submodule update --remote --merge
   printf '%-40s' "Git pulled latest:"
   printf "${HILITE}OK${NC}\n"
   fixperms
