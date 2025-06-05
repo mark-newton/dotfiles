@@ -1,12 +1,7 @@
 # theme = "Kanagawa Wave"
 # theme = "Kanagawa Dragon"
 # theme = catppuccin-mocha
-# theme = "Later This Evening"
 # theme = tokyonight_night
-# theme = "Ayu Mirage"
-# theme = "solarized-osaka-night"
-# theme = "rose-pine"
-# theme = "Jellybeans"
 theme = "Oceanic-Next"
 # background = #1b1e28
 #background = #1e1e2d
@@ -24,20 +19,20 @@ adjust-cell-height = 50%
 
 copy-on-select = clipboard
 cursor-style = block
-cursor-color = #DCA561
+cursor-color = #e6e7a3
 cursor-style-blink = false
 macos-option-as-alt = left
 macos-titlebar-proxy-icon = hidden
 macos-titlebar-style = hidden
-#macos-titlebar-style = transparent
+# macos-titlebar-style=transparent
 mouse-hide-while-typing = true
-#mouse-scroll-multiplier = 2
+mouse-scroll-multiplier = 2
 shell-integration-features = no-cursor,sudo,no-title
 title = " "
 window-colorspace = "display-p3"
 window-padding-balance = true
 window-padding-x = 20
-window-padding-y = 0,20
+window-padding-y = 0,10
 window-save-state = always
 quick-terminal-position = top
 

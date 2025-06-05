@@ -54,10 +54,11 @@ zstyle ':completion:*' menu select
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+# Starship prompt
+eval "$(starship init zsh)"
+
 # Aliases
 [ -f $HOME/.aliases ] && source $HOME/.aliases
-[ -f $HOME/.bash_aliases ] && source $HOME/.bash_aliases
-[ -f $HOME/.bash_aliases.user ] && source $HOME/.bash_aliases.user
 [ -f $HOME/.host ] && source $HOME/.host
 
 # Shell integrations
@@ -72,9 +73,6 @@ if command -v zoxide >/dev/null 2>&1; then
 else
     echo "*** You need to install zoxide"
 fi
-
-# Starship prompt
-eval "$(starship init zsh)"
 
 # Init shell
 clear

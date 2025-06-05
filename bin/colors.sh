@@ -2,7 +2,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Display terminal colors
-# @modified 13-Mar-2019
+# @modified 05-Jun-2025
 # ----------------------------------------------------------------------------
 
 for fgbg in 38 48 ; do # Foreground / Background
@@ -39,4 +39,3 @@ printf "\033[0;96m14 Light cyan ${NC}\n"
 printf "\033[0;97m15 White ${NC}\n"
 
 printf "\n"
-exit
