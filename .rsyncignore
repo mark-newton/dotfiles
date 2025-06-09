@@ -1,0 +1,10 @@
+*.0
+*.swp
+.DS_Store
+.git
+.gitignore
+.gitmodules
+.rsyncignore
+.vim/plugged
+backups
+install.sh
