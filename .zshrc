@@ -63,12 +63,14 @@ zstyle ':completion:*' menu select
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 
 # Keybindings
-bindkey -e    # -e emacs, -v vim
+bindkey -v    # -e emacs, -v vim
 bindkey '^[[A' history-search-backward
 bindkey '^[[B' history-search-forward
 bindkey '^P' history-search-backward
 bindkey '^N' history-search-forward
 bindkey '^[w' kill-region
+bindkey '^A' beginning-of-line
+bindkey '^E' end-of-line
 
 # History
 HISTSIZE=20000

@@ -7,6 +7,13 @@ alias vdiff="vimdiff"
 alias findi='find . | grep -i'
 alias calc='bc -l'
 alias hf='history | grep $1'
+alias c=clear
+alias grep="grep --color=auto"
+alias mv="mv -i"
+alias rm="rm -Iv"
+alias p="ps aux | grep $1"
+alias psm="ps au -m | head -n20"
+alias psc="ps au -m | head -n20"
 
 if command -v eza >/dev/null 2>&1; then
     alias ls="eza -hg --octal-permissions --git --time-style long-iso --icons=auto"
@@ -15,15 +22,17 @@ if command -v eza >/dev/null 2>&1; then
     alias la="eza -hgA --octal-permissions --git --time-style long-iso --icons=auto"
     alias lt="eza -hgAT --octal-permissions --git --time-style long-iso --icons=auto"
     alias l2="eza -hgATL2 --octal-permissions --git --time-style long-iso --icons=auto"
+    alias lt2="eza -hgATL2 --octal-permissions --git --time-style long-iso --icons=auto"
+    alias l3="eza -hgATL3 --octal-permissions --git --time-style long-iso --icons=auto"
+    alias lt3="eza -hgATL3 --octal-permissions --git --time-style long-iso --icons=auto"
 else
     alias ll='ls -alF'
     alias la='ls -A'
     alias l='ls -CF'
 fi
 if command -v bat >/dev/null 2>&1; then
-    alias cat="bat -P"
+    alias cat="bat"
     alias catp="bat -pp"
-    export BAT_THEME="base16"
 fi
 if command -v nvim >/dev/null 2>&1; then
     alias vi=nvim
@@ -49,9 +58,20 @@ alias gl="git log --graph --pretty=format:'%Cred%h%Creset %an: %s - %Creset %C(y
 alias gs="git status -sb"
 alias gd="git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
 alias ga="git add -A"
-alias gp="git pull origin master"
+alias gp="git pull"
 alias gc="git commit -m"
 alias gmd="git merge --no-ff develop"
+
+if command -v docker-compose >/dev/null 2>&1; then
+    alias dc="docker-compose"
+elif command -v docker >/dev/null 2>&1; then
+    alias dc="docker compose"
+    alias docker-compose="docker compose"
+fi
+alias dcp="docker-compose ps"
+alias dcu="docker-compose up -d"
+alias dcd="docker-compose down"
+alias dcl="docker-compose logs -f"
 
 alias dotfiles="~/.dotfiles/install.sh && source ~/.bashrc"
 
