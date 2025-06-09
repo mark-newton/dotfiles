@@ -1,7 +1,7 @@
 #!/bin/bash
 # ----------------------------------------------------------------------------
 # Fix directory and file permissions
-# @modified 28-May-2020
+# @modified 09-Jun-2025
 # ----------------------------------------------------------------------------
 
 PDIR="755"
@@ -11,7 +11,11 @@ PEXE="755"
 DIR_PATH=$(pwd)
 OWNER=$(whoami)
 [[ "$OWNER" == "root" ]] && OWNER="www-data"
-GROUP=$OWNER
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  GROUP="staff"
+else
+  GROUP=$OWNER
+fi
 
 function usage()
 {
