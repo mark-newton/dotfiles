@@ -95,7 +95,8 @@ let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 set termguicolors
 set background=dark
 colorscheme codecourse
-hi! Normal guibg=#1b1e28
+"hi! Normal guibg=#1b1e28  "use this to set a specific bg color
+hi! Normal guibg=NONE "transparent bg"
 
 set mousemodel=popup
 set t_Co=256

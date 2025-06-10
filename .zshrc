@@ -21,6 +21,9 @@ else
     export EDITOR=vi
 fi
 
+# These doesn't seem to play nice with ghostty, leave it as default (xterm-ghostty)
+# The xterm-ghostty terminfo works fine in tmux/neovim with undercurls/colours
+# In the .host ssh aliases I put use a TERM prefix to resolve remote ssh terminfo issues
 # export TERM="tmux-256color"
 
 [ -f $HOME/.aliases ] && source $HOME/.aliases
