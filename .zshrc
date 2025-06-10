@@ -21,7 +21,7 @@ else
     export EDITOR=vi
 fi
 
-export TERM="tmux-256color"
+# export TERM="tmux-256color"
 
 [ -f $HOME/.aliases ] && source $HOME/.aliases
 [ -f $HOME/.host ] && source $HOME/.host
@@ -46,11 +46,6 @@ source "${ZINIT_HOME}/zinit.zsh"
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 zinit light Aloxaf/fzf-tab
-
-# Snippets (ie. Oh-my-zsh plugins)
-zinit snippet OMZL::git.zsh
-zinit snippet OMZP::git
-zinit snippet OMZP::sudo
 
 # Load completions
 autoload -Uz compinit && compinit
