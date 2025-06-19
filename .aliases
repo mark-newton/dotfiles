@@ -36,8 +36,10 @@ if command -v bat >/dev/null 2>&1; then
 fi
 if command -v nvim >/dev/null 2>&1; then
     alias vi=nvim
+    alias vc="cd $HOME/.config/nvim;nvim"
     alias vimdiff="nvim -d"
     alias vdiff="nvim -d"
+    alias vd="nvim -d"
 fi
 
 alias cons='netstat -ant | grep ":80" | wc -l'
