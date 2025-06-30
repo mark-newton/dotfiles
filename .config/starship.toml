@@ -2,9 +2,9 @@ add_newline = false
 format = """
 $os$time $username@${custom.hostname}$directory\
 $git_branch$git_status\
-$line_break$character
+$line_break$cmd_duration$character
 """
-right_format = """$cmd_duration"""
+#right_format = """$cmd_duration"""
 
 [os]
 format = '[$symbol](bold white) '   
@@ -23,7 +23,8 @@ error_symbol = "[➜](red)"
 [cmd_duration]
 min_time = 1000
 show_milliseconds = false
-format = '[ $duration]($style) '
+#format = '[ $duration]($style) '
+format = '[$duration]($style) '
 style = 'bright-black'
 
 [directory]
@@ -69,5 +70,5 @@ style_root = 'fg:#C85550 bg:#2B2129'
 format = '[$user]($style)'
 
 [custom.hostname]
-format = '[imac](bright-green)'
+format = '[host](bright-green)'
 when = 'true'

@@ -2,7 +2,20 @@
 export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 if command -v fzf >/dev/null 2>&1; then
+  export FZF_DEFAULT_OPTS="--style minimal --color 16 --layout=reverse --height 30% --preview='bat -p --color=always {}'"
+  export FZF_CTRL_R_OPTS="--style minimal --color 16 --info inline --no-sort --no-preview"
   eval "$(fzf --bash)"
+else
+  echo "*** You need to install fzf"
+fi
+
+# Env and path
+if command -v nvim >/dev/null 2>&1; then
+  export VISUAL=nvim
+  export EDITOR=nvim
+else
+  export VISUAL=vi
+  export EDITOR=vi
 fi
 
 if [ -f $HOME/.aliases ];  then
@@ -39,6 +52,13 @@ case "$TERM" in
     bind '"\e[B"':history-search-forward
   ;;
 esac
+
+HISTSIZE=20000
+HISTFILESIZE=20000
+HISTIGNORE=”ls:ll:exit:clear:cd:top:htop*:history*”
+HISTCONTROL=ignoreboth:erasedups 
+shopt -s histappend 
+shopt -s cmdhist
 
 # Starship prompt
 eval "$(starship init bash)"
